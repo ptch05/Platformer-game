@@ -103,8 +103,18 @@ public class InputHandler implements KeyListener {
                 player.idleRight();
                 keyDPressed = false;
                 break;
-        }
-        // If no keys are pressed and the player is not moving horizontally, you might want to set the idle animation based on the last direction the player was facing
+            case KeyEvent.VK_K:
+                player.endAttack();
+                if(keyDPressed){
+                    player.runRight();
+                }else if(keyAPressed){
+                    player.runLeft();
+                }
+                break;
+            
+
+        }   
+        // If no keys are pressed and the player is not moving horizontally, this sets idle animation based on the last direction the player was facing
         if (!keyAPressed && !keyDPressed) {
             if (player.isFacingRight()) {
                 player.idleRight();
@@ -113,4 +123,6 @@ public class InputHandler implements KeyListener {
             }
         }
     }
+
+
 }

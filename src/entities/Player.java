@@ -1,7 +1,4 @@
 package entities;
-
-import javax.swing.Timer;
-
 import org.jbox2d.common.Vec2;
 
 import city.cs.engine.*;
@@ -13,8 +10,8 @@ public class Player extends Walker {
     private static float xNum = 3;
     private static float yNum = (float)3.5;
     private static int playerSize = 7;
-    public static final float WALKING_SPEED = 12;
-    private static final float GRAVITY_FORCE = -20f;
+    public static final float WALKING_SPEED = 20;
+    private static final float GRAVITY_FORCE = -25f;
     private boolean facingRight = true; 
     private boolean inAir = false;
     private boolean isAttacking = false;
@@ -27,25 +24,24 @@ public class Player extends Walker {
     private static final BodyImage RUN_RIGHT = new BodyImage("assets/images/hero/hero-run-right.gif", playerSize);
     private static final BodyImage JUMP_RIGHT = new BodyImage("assets/images/hero/hero-jump-right.gif", playerSize);
     private static final BodyImage ATTACK_RIGHT = new BodyImage("assets/images/hero/hero-attack-right.gif", playerSize);
+    private static final BodyImage HURT_RIGHT = new BodyImage("assets/images/hero/hero-hurt-right.png", playerSize);
     private static final BodyImage IDLE_LEFT = new BodyImage("assets/images/hero/hero-idle-left.gif", playerSize);
     private static final BodyImage RUN_LEFT = new BodyImage("assets/images/hero/hero-run-left.gif", playerSize);
     private static final BodyImage JUMP_LEFT = new BodyImage("assets/images/hero/hero-jump-left.gif", playerSize);
     private static final BodyImage ATTACK_LEFT = new BodyImage("assets/images/hero/hero-attack-left.gif", playerSize);
+    private static final BodyImage HURT_LEFT = new BodyImage("assets/images/hero/hero-hurt-right.png", playerSize);
     
 
     private GameWorld world;
     private BodyImage currentImage;
     private InputHandler inputHandler;
 
-
-    public Player(GameWorld world) {
+    public Player(GameWorld world, InputHandler inputHandler) {
         super(world, characterShape);
         this.world = world;
         currentImage = IDLE_RIGHT;
         addImage(currentImage);
-    }
-
-    public void setInputHandler(InputHandler inputHandler) {
+        createPlayerFixtureWithFriction();
         this.inputHandler = inputHandler;
     }
 
@@ -107,19 +103,17 @@ public class Player extends Walker {
     }
     
     public void update() {
-        // If the player is in the air, don't interrupt the jump animation unless it's for an attack
-        if (inAir && !isAttacking) {
-            return;
-        }
+        // Simulate gravity by applying a force when the player is in the air.
         if (isInAir()) {
-            // Simulate gravity by applying a force when the player is in the air.
             this.applyForce(new Vec2(0, GRAVITY_FORCE));
         }
     
-        // Existing code for handling the end of an attack animation
-        if (isAttacking) {
-            if (System.currentTimeMillis() - attackStartTime > attackDuration) {
-                isAttacking = false;
+        // Handling the end of an attack animation
+        if (isAttacking && System.currentTimeMillis() - attackStartTime > attackDuration) {
+            isAttacking = false;
+            
+            // Check if inputHandler is not null before using it
+            if (inputHandler != null) {
                 if (!inputHandler.isKeyAPressed() && !inputHandler.isKeyDPressed()) {
                     if (facingRight) {
                         idleRight();
@@ -134,6 +128,7 @@ public class Player extends Walker {
                         runRight();
                     }
                 }
+        
                 // After attack, if inAir is still true, should go back to jump animation
                 if (inAir) {
                     if (facingRight) {
@@ -144,12 +139,14 @@ public class Player extends Walker {
                 }
             }
         }
-    
     }
     
-    
+
 public void attack() {
+    if (!isAttacking) {
         removeAllImages();
+        isAttacking = true;
+        attackStartTime = System.currentTimeMillis();
         if (facingRight) {
             currentImage = ATTACK_RIGHT;
         } else {
@@ -157,9 +154,24 @@ public void attack() {
         }
         addImage(currentImage);
     }
-
+}
+    
 public void adjustGravity(float newGravityScale) {
     this.setGravityScale(newGravityScale);
 }
 
+public void createPlayerFixtureWithFriction() {
+    SolidFixture fixture = new SolidFixture(this, characterShape);
+    fixture.setFriction(270f); 
 }
+
+public void endAttack() {
+    if (isAttacking = true){
+        isAttacking = false;
+        }
+    }
+
+}
+
+
+
