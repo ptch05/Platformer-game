@@ -20,7 +20,7 @@ public class GameView extends UserView {
   protected void paintBackground(Graphics2D g) {
     g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
     g.drawImage(mountains, 0, 100, getWidth(), getHeight()/11*10, this);
-    g.drawImage(graveyard, 0, 200, getWidth(), getHeight()/11*9, this);
+    g.drawImage(graveyard, 0, 250, getWidth(), getHeight()/11*9, this);
   }
 
   @Override

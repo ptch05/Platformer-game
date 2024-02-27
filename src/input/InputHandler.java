@@ -1,80 +1,116 @@
 package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import city.cs.engine.BodyImage;
 import entities.Player;
-import main.GameWorld;
 
-public class InputHandler implements KeyListener{
-  private boolean keyWPressed = false;
-  private boolean keyAPressed = false;
-  private boolean keySPressed = false;
-  private boolean keyDPressed = false;
-  
+public class InputHandler implements KeyListener {
+    private boolean keyWPressed = false;
+    private boolean keyAPressed = false;
+    private boolean keyDPressed = false;
+    private boolean isAnimating = false;
 
-  @Override
-  public void keyTyped(KeyEvent e) {
-    // N.A.
-  }
+    private Player player;
 
-  private Player player;
-  public InputHandler (Player player){
-    this.player = player;
-}
-
-  @Override
-  public void keyPressed(KeyEvent e) {
-    int code = e.getKeyCode();
-    switch (code) {
-      case KeyEvent.VK_W:
-      System.out.println("Pressed W");
-      break;
-
-      case KeyEvent.VK_A:
-      System.out.println("Pressed A");
-        
-      break;
-
-      case KeyEvent.VK_S:
-      System.out.println("Pressed S");
-
-
-      break;
-
-      case KeyEvent.VK_D:
-      System.out.println("Pressed D");
-        
-      break;
-        
+    public InputHandler(Player player) {
+        this.player = player;
     }
-  }
 
-  @Override
-  public void keyReleased(KeyEvent e) {
-    int code = e.getKeyCode();
-    switch (code) {
-      case KeyEvent.VK_W:
-      System.out.println("unPressed W");
-        
-      break;
-
-      case KeyEvent.VK_A:
-      System.out.println("unPressed A");
-        
-      break;
-
-      case KeyEvent.VK_S:
-      System.out.println("unPressed S");
-
-      break;
-
-      case KeyEvent.VK_D:
-      System.out.println("unPressed D");
-        
-      break;
-        
+    public boolean isKeyWPressed() {
+        return keyWPressed;
     }
-  }
-  
+
+    public boolean isKeyAPressed() {
+        return keyAPressed;
+    }
+
+    public boolean isKeyDPressed() {
+        return keyDPressed;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // N.A.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+        switch (code) {
+            case KeyEvent.VK_W:
+                // Check if not already in animation
+                if (!isAnimating) {
+                    // Set animation state to true
+                    isAnimating = true;
+
+                    // Perform jump and animation
+                    player.jump(20);
+                    player.adjustGravity(3.3f);
+                    if (player.isFacingRight()) {
+                        player.jumpRight();
+                    } else {
+                        player.jumpLeft();
+                    }
+
+                    // Schedule a task to reset animation state after animation duration
+                    Timer timer = new Timer();
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            // Reset animation state to false
+                            isAnimating = false;
+                            // Cancel this task
+                            timer.cancel();
+                        }
+                    }, 2);
+                }
+                break;
+
+            case KeyEvent.VK_A:
+                if (!keyDPressed) { // Don't start walking left if D is already pressed
+                    player.startWalking(-Player.WALKING_SPEED);
+                    player.runLeft();
+                }
+                keyAPressed = true;
+                break;
+            case KeyEvent.VK_D:
+                if (!keyAPressed) { // Don't start walking right if A is already pressed
+                    player.startWalking(Player.WALKING_SPEED);
+                    player.runRight();
+                }
+                keyDPressed = true;
+                break;
+
+            case KeyEvent.VK_K:
+                player.attack();
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        int code = e.getKeyCode();
+        switch (code) {
+            case KeyEvent.VK_A:
+                player.stopWalking();
+                player.idleLeft();
+                keyAPressed = false;
+                break;
+            case KeyEvent.VK_D:
+                player.stopWalking();
+                player.idleRight();
+                keyDPressed = false;
+                break;
+        }
+        // If no keys are pressed and the player is not moving horizontally, you might want to set the idle animation based on the last direction the player was facing
+        if (!keyAPressed && !keyDPressed) {
+            if (player.isFacingRight()) {
+                player.idleRight();
+            } else {
+                player.idleLeft();
+            }
+        }
+    }
 }
