@@ -123,6 +123,4 @@ public class InputHandler implements KeyListener {
             }
         }
     }
-
-
 }

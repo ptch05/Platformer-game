@@ -8,10 +8,10 @@ public class Game{
 	 /** The World in which the bodies move and interact. */
 	 private GameWorld world;
 
-	 /** A graphical display of the world (a specialised JPanel). */
+	 /* A graphical display of the world (a specialised JPanel). */
 	 private GameView view;
 
-	 /** Initialise a new test.Game. */
+	 /* Initialise a new test.Game. */
 	 public Game() {
 
 			 //make the world
@@ -42,7 +42,7 @@ public class Game{
 			 view.requestFocus();
 	 }
 
-	 /** Run the game. */
+	 /* Run the game. */
 	 public static void main(String[] args) {
 
 			 new Game();

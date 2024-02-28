@@ -3,11 +3,12 @@ import org.jbox2d.common.Vec2;
 
 import city.cs.engine.*;
 import main.GameWorld;
+import utilities.AudioHandler;
 import input.InputHandler;
 
 
 public class Player extends Walker {
-    private static float xNum = 3;
+    private static int xNum = 3;
     private static float yNum = (float)3.5;
     private static int playerSize = 7;
     public static final float WALKING_SPEED = 20;
@@ -17,6 +18,10 @@ public class Player extends Walker {
     private boolean isAttacking = false;
     private long attackStartTime;
     private long attackDuration = 1000;
+    private int health;
+    private int damageAmount = 40;
+    private long lastDamageTime;
+    private static final long DAMAGE_COOLDOWN = 1000;
 
     private static final Shape characterShape = new BoxShape(xNum, yNum);
 
@@ -24,12 +29,12 @@ public class Player extends Walker {
     private static final BodyImage RUN_RIGHT = new BodyImage("assets/images/hero/hero-run-right.gif", playerSize);
     private static final BodyImage JUMP_RIGHT = new BodyImage("assets/images/hero/hero-jump-right.gif", playerSize);
     private static final BodyImage ATTACK_RIGHT = new BodyImage("assets/images/hero/hero-attack-right.gif", playerSize);
-    private static final BodyImage HURT_RIGHT = new BodyImage("assets/images/hero/hero-hurt-right.png", playerSize);
+    private static final BodyImage HURT_RIGHT = new BodyImage("assets/images/hero/hero-hurt-right.png",(float) (playerSize*1.3));
     private static final BodyImage IDLE_LEFT = new BodyImage("assets/images/hero/hero-idle-left.gif", playerSize);
     private static final BodyImage RUN_LEFT = new BodyImage("assets/images/hero/hero-run-left.gif", playerSize);
     private static final BodyImage JUMP_LEFT = new BodyImage("assets/images/hero/hero-jump-left.gif", playerSize);
     private static final BodyImage ATTACK_LEFT = new BodyImage("assets/images/hero/hero-attack-left.gif", playerSize);
-    private static final BodyImage HURT_LEFT = new BodyImage("assets/images/hero/hero-hurt-right.png", playerSize);
+    private static final BodyImage HURT_LEFT = new BodyImage("assets/images/hero/hero-hurt-right.png",(float) (playerSize*1.3));
     
 
     private GameWorld world;
@@ -39,45 +44,43 @@ public class Player extends Walker {
     public Player(GameWorld world, InputHandler inputHandler) {
         super(world, characterShape);
         this.world = world;
-        currentImage = IDLE_RIGHT;
-        addImage(currentImage);
+        addImage(IDLE_RIGHT);
         createPlayerFixtureWithFriction();
         this.inputHandler = inputHandler;
+        this.health = 100;
     }
 
     public void runRight() {
         removeAllImages();
-        currentImage = RUN_RIGHT;
-        addImage(currentImage);
+        addImage(RUN_RIGHT);
         facingRight = true;
     }
     public void runLeft() {
         removeAllImages();
-        currentImage = RUN_LEFT;
-        addImage(currentImage);
+        addImage(RUN_LEFT);
         facingRight = false;
     }
-
-    
 
     public void jumpRight() {
         removeAllImages();
-        currentImage = JUMP_RIGHT;
-        addImage(currentImage);
+        addImage(JUMP_RIGHT);
         inAir = true;
+        facingRight = true;
+        AudioHandler.playJumpSound();
     }
     public void jumpLeft() {
         removeAllImages();
-        currentImage = JUMP_LEFT;
-        addImage(currentImage);
+        addImage(JUMP_LEFT);
         facingRight = false;
         inAir = true;
+        AudioHandler.playJumpSound();
     }
 
 
     public void idleRight() {
         removeAllImages();
         addImage(IDLE_RIGHT);
+        facingRight = true;
     }
 
     public void idleLeft() {
@@ -86,10 +89,18 @@ public class Player extends Walker {
         facingRight = false;
     }
 
-    public void setFacingRight(boolean facingRight) {
-        this.facingRight = facingRight;
+    public void hurtLeft(){
+        removeAllImages();
+        addImage(HURT_LEFT);
+        AudioHandler.playHurtSound();
     }
-    
+
+    public void hurtRight(){
+        removeAllImages();
+        addImage(HURT_RIGHT);
+        AudioHandler.playHurtSound();
+    }
+   
     public boolean isFacingRight() {
         return facingRight;
     }
@@ -106,6 +117,10 @@ public class Player extends Walker {
         // Simulate gravity by applying a force when the player is in the air.
         if (isInAir()) {
             this.applyForce(new Vec2(0, GRAVITY_FORCE));
+        }
+
+        if (this.health <= 0) {
+            handleDeath();
         }
     
         // Handling the end of an attack animation
@@ -142,33 +157,77 @@ public class Player extends Walker {
     }
     
 
-public void attack() {
-    if (!isAttacking) {
-        removeAllImages();
-        isAttacking = true;
-        attackStartTime = System.currentTimeMillis();
-        if (facingRight) {
-            currentImage = ATTACK_RIGHT;
-        } else {
-            currentImage = ATTACK_LEFT;
+    public void attack() {
+        if (!isAttacking) {
+            removeAllImages();
+            isAttacking = true;
+            attackStartTime = System.currentTimeMillis();
+            if (facingRight) {
+                currentImage = ATTACK_RIGHT;
+            } else {
+                currentImage = ATTACK_LEFT;
+            }
+            addImage(currentImage);
+            createAttackHitbox();
+            AudioHandler.playAttackSound();
         }
-        addImage(currentImage);
+
+
     }
-}
+        
+    private void createAttackHitbox() {
+        // Define the attack hitbox relative to the player position and the direction they're facing
+    }
     
-public void adjustGravity(float newGravityScale) {
-    this.setGravityScale(newGravityScale);
-}
 
-public void createPlayerFixtureWithFriction() {
-    SolidFixture fixture = new SolidFixture(this, characterShape);
-    fixture.setFriction(270f); 
-}
 
-public void endAttack() {
-    if (isAttacking = true){
-        isAttacking = false;
+    public void adjustGravity(float newGravityScale) {
+        this.setGravityScale(newGravityScale);
+    }
+
+    public void createPlayerFixtureWithFriction() {
+        SolidFixture fixture = new SolidFixture(this, characterShape);
+        fixture.setFriction(270f); 
+    }
+
+    public void endAttack() {
+        if (isAttacking = true){
+            isAttacking = false;
+            }
         }
+
+    public void reduceHealth(int damageAmount) {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastDamageTime > DAMAGE_COOLDOWN) {
+            this.health -= damageAmount;
+            lastDamageTime = currentTime;
+
+            updateHitbox();
+
+            if (this.health <= 0) {
+                health = 0;
+                handleDeath();
+            }
+        } 
+        
+    }
+
+    public int getHealth(){
+        return health;
+    }
+
+    public int getDamageAmount(){
+        return damageAmount;
+    }
+
+    private void handleDeath() {
+        // Code to handle player death, like triggering a game over screen
+        System.out.println("Player has died. Restarting game.");
+    }
+
+
+
+    public void updateHitbox() {  
     }
 
 }

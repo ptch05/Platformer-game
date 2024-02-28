@@ -5,23 +5,25 @@ import city.cs.engine.*;
 import entities.Player;
 import entities.Skeleton;
 import input.InputHandler;
+import utilities.PlayerCollisions;
+import utilities.SkeletonPatrolListener;
 
 public class GameWorld extends World {
     // Constructor and methods for world management
     private Player player;
     private Skeleton skeleton;
     private InputHandler inputHandler;
+    private float skeletonPatrolLeftBoundary = -10f; 
+    private float skeletonPatrolRightBoundary = 10f;
 
     public GameWorld() {
-        // Initialize your world here
-        Shape groundShape = new BoxShape(50, 2.5f); // The ground is 100 meters wide in total
+        // Initialize world here
+        Shape groundShape = new BoxShape(50, 2.5f); 
         StaticBody ground = new StaticBody(this, groundShape);
         ground.setPosition(new Vec2(-14.15f, -13f));
 
-        // Assuming the image is 5 meters wide
         float imageWidth = 5.0f; 
-        // Calculate how many images you need to cover the ground width
-        int numTiles = (int) Math.ceil(100 / imageWidth); // 100 is the total width of the ground
+        int numTiles = (int) Math.ceil(100 / imageWidth);
 
         for (int i = 0; i < numTiles; i++) {
             // Calculate the x position for each image
@@ -29,12 +31,22 @@ public class GameWorld extends World {
             // Add the image at this x position with the same y position as the ground
             ground.addImage(new BodyImage("assets/images/level-data/ground.png", 5f)).setOffset(new Vec2(xPos, 0));
         }
-       
-        inputHandler = new InputHandler(player);
-        player = new Player(this, inputHandler);
+
+        
+
+        player = new Player(this, inputHandler); 
+        inputHandler = new InputHandler(player); 
         player.setPosition(new Vec2(-12, -13));
-        skeleton = new Skeleton(this);
-        skeleton.setPosition(new Vec2(0,-12));
+
+        skeleton = new Skeleton(this, skeletonPatrolLeftBoundary, skeletonPatrolRightBoundary);
+        skeleton.setPosition(new Vec2(0,(float)-7.3));
+
+        // Add a StepListener to handle the Skeleton patrolling
+        SkeletonPatrolListener skeletonPatrolListener = new SkeletonPatrolListener(skeleton);
+        this.addStepListener(skeletonPatrolListener);
+
+        PlayerCollisions collision = new PlayerCollisions(player);
+        player.addCollisionListener(collision);
     }
 
     public Player getPlayer(){
