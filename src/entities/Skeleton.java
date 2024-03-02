@@ -10,12 +10,12 @@ public class Skeleton extends Walker{
   private static final BodyImage skeletonImageRight = new BodyImage("assets/images/skeleton/skeleton-clothed-right.gif", 6);
   private static final BodyImage skeletonImageLeft = new BodyImage("assets/images/skeleton/skeleton-clothed-left.gif", 6);
 
-  private float patrolLeftBoundary;
-  private float patrolRightBoundary;
+  private int patrolLeftBoundary;
+  private int patrolRightBoundary;
   private final int walkingSpeed = 7;
   private boolean movingRight;
 
-  public Skeleton(GameWorld world, float leftBoundary, float rightBoundary) {
+  public Skeleton(GameWorld world, int leftBoundary, int rightBoundary) {
     super(world, skeletonShape);
     this.patrolLeftBoundary = leftBoundary;
     this.patrolRightBoundary = rightBoundary;
@@ -45,11 +45,6 @@ public class Skeleton extends Walker{
   private void updateImage() {
     this.removeAllImages();
     this.addImage(this.movingRight ? skeletonImageRight : skeletonImageLeft);
-  }
-
-  public void skeletonDie(){
-    this.destroy();
-
   }
 
 }

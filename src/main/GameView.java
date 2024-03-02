@@ -10,7 +10,7 @@ public class GameView extends UserView {
   private Image mountains;
   private Image graveyard;
   public static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
-  private float backgroundX, mountainsX, graveyardX;
+  
  
 
   public GameView(GameWorld world, int width, int height) {
@@ -22,9 +22,9 @@ public class GameView extends UserView {
 
   @Override
   protected void paintBackground(Graphics2D g) {
-      g.drawImage(background, (int)backgroundX, 0, getWidth(), getHeight(), this);
-      g.drawImage(mountains, (int)mountainsX, 100, getWidth(), getHeight()/11*10, this);
-      g.drawImage(graveyard, (int)graveyardX, 250, getWidth(), getHeight()/11*9, this);
+      g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
+      g.drawImage(mountains, 0, 100, getWidth(), getHeight()/11*10, this);
+      g.drawImage(graveyard, 0, 250, getWidth(), getHeight()/11*9, this);
   }
 
     @Override

@@ -7,7 +7,7 @@ import entities.Skeleton;
 public class SkeletonPatrolListener implements StepListener {
     private Skeleton skeleton;
 
-    public SkeletonPatrolListener(Skeleton skeleton) { 
+    public SkeletonPatrolListener(Skeleton skeleton){ 
         this.skeleton = skeleton;
     
     }

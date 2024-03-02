@@ -21,7 +21,10 @@ public class PlayerCollisions implements CollisionListener {
   public void collide(CollisionEvent e) {
       if (e.getOtherBody() instanceof Skeleton) {
         Skeleton skeleton = (Skeleton) e.getOtherBody();
-
+        if(player.isAttacking()){
+          skeleton.destroy();
+          AudioHandler.playKillSound();
+        } else {
           // Logic to knock the player back
           Vec2 knockback = new Vec2(-10, 10);
           player.setLinearVelocity(knockback);
@@ -42,25 +45,36 @@ public class PlayerCollisions implements CollisionListener {
           Vec2 skeletonVelocity = skeleton.getLinearVelocity();
           skeleton.setLinearVelocity(new Vec2(0, skeletonVelocity.y));
           AudioHandler.playHurtSound();
-      
         } 
+      }
+
       if (e.getReportingBody() instanceof Player) {  //So that skeleton doesn't interfere with any of these
+      
         if (e.getOtherBody() instanceof Potion){
           player.gainHealth(20);
           e.getOtherBody().destroy();
         }
+
         if (e.getOtherBody() instanceof Armour){
           player.gainArmour();
           e.getOtherBody().destroy();
         }
+
         if(e.getOtherBody() instanceof Spikes){
           System.out.println("Sayonara");
           player.handleDeath();
         }
+
         if(e.getOtherBody() instanceof Trophy){
           System.out.println("You win!");
           e.getOtherBody().destroy();
           AudioHandler.playVictorySound();
+          try {
+            Thread.sleep(4000,500);
+          } catch (InterruptedException e1) {
+            e1.printStackTrace();
+          }
+          player.destroy();
         }
       }
   }

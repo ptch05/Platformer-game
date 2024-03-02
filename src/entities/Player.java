@@ -9,13 +9,14 @@ import input.InputHandler;
 
 public class Player extends Walker {
     private static int xNum = 3;
-    private static float yNum = (float)3.5;
+    private static float yNum = (float)3.8;
     private static int playerSize = 7;
     public static final float WALKING_SPEED = 20;
     private static final float GRAVITY_FORCE = -25f;
     private boolean facingRight = true; 
     private boolean inAir = false;
     private boolean isAttacking = false;
+    private Fixture attackFixture;
     private long attackStartTime;
     private long attackDuration = 1000;
     private int health;
@@ -24,7 +25,7 @@ public class Player extends Walker {
     private static final long DAMAGE_COOLDOWN = 1000;
 
     private static final Shape characterShape = new BoxShape(xNum, yNum);
-
+    private static final Shape attackShape = new BoxShape((float) 5.75, yNum);
     private static final BodyImage IDLE_RIGHT = new BodyImage("assets/images/hero/hero-idle-right.gif", playerSize);
     private static final BodyImage RUN_RIGHT = new BodyImage("assets/images/hero/hero-run-right.gif", playerSize);
     private static final BodyImage JUMP_RIGHT = new BodyImage("assets/images/hero/hero-jump-right.gif", playerSize);
@@ -118,7 +119,7 @@ public class Player extends Walker {
         }
     
         // Handling the end of an attack animation
-        if (isAttacking && System.currentTimeMillis() - attackStartTime > attackDuration) {
+        if (isAttacking() && System.currentTimeMillis() - attackStartTime > attackDuration) {
             isAttacking = false;
             
             // Check if inputHandler is not null before using it
@@ -152,27 +153,45 @@ public class Player extends Walker {
     
 
     public void attack() {
-        if (!isAttacking) {
-            removeAllImages();
+        if (!isAttacking()) {
             isAttacking = true;
             attackStartTime = System.currentTimeMillis();
+            removeAllImages();
             if (facingRight) {
                 currentImage = ATTACK_RIGHT;
+                createAttackHitbox(attackShape);
             } else {
                 currentImage = ATTACK_LEFT;
+                createAttackHitbox(attackShape);
             }
             addImage(currentImage);
-            createAttackHitbox();
             AudioHandler.playAttackSound();
         }
-
-
     }
+
+    private void createAttackHitbox(Shape attackShape) {
+        if (attackFixture != null) {
+            attackFixture.destroy(); // Use destroy() method directly on the fixture
+            attackFixture = null; // Clear the reference after destruction
+        }
+        attackFixture = new SolidFixture(this, attackShape); // Create a new attack hitbox
         
-    private void createAttackHitbox() {
-        // Define the attack hitbox relative to the player position and the direction they're facing
     }
     
+    public void endAttack() {
+        if (isAttacking) {
+            isAttacking = false;
+            if (attackFixture != null) {
+                attackFixture.destroy(); // Remove the attack hitbox using destroy()
+                attackFixture = null; // Clear the reference after destruction
+            }
+        }
+    }
+    
+
+    public boolean isAttacking() {
+        return isAttacking;
+    }
 
 
     public void adjustGravity(float newGravityScale) {
@@ -184,11 +203,7 @@ public class Player extends Walker {
         fixture.setFriction(270f); 
     }
 
-    public void endAttack() {
-        if (isAttacking = true){
-            isAttacking = false;
-            }
-        }
+    
 
     public void reduceHealth(int damageAmount) {
         long currentTime = System.currentTimeMillis();
@@ -222,7 +237,6 @@ public class Player extends Walker {
 
     public void handleDeath() {
         health = 0;
-        // Code to handle player death, like triggering a game over screen
         System.out.println("Player has died. Restarting game.");
         world.restartGame();
         
@@ -232,7 +246,7 @@ public class Player extends Walker {
     }
 
     public void gainArmour(){
-        damageAmount = 20;
+        damageAmount -= 20;
     }
 
 }

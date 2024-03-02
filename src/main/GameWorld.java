@@ -1,4 +1,5 @@
 package main;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jbox2d.common.Vec2;
@@ -18,12 +19,25 @@ import utilities.SkeletonPatrolListener;
 public class GameWorld extends World {
     // Constructor and methods for world management
     private Player player;
-    private Skeleton skeleton;
+    private List<Skeleton> skeleton = new ArrayList<>();
+    private List<SkeletonPatrolListener> skeletonPatrolListener = new ArrayList<>();
+
     private InputHandler inputHandler;
-    private float skeletonPatrolLeftBoundary = -10f; 
-    private float skeletonPatrolRightBoundary = 10f;
-    private static float XPos = -14.15f;
+    private int []skeletonPatrolLeftBoundary = {25, 55,170,240,375}; 
+    private int []skeletonPatrolRightBoundary = {35,65,180,250,385};
+    private static float XPos = -68.15f;
     private static float YPos = -13f;
+    private static Vec2[] skeletonPositions = {
+        new Vec2(30, -7.3f),
+        new Vec2(60, -7.3f),
+        new Vec2(175, -3),
+        new Vec2(245, 15),
+        new Vec2(380, 20)
+    };
+    private static final int numberOfSkeletons = 5;
+    private static final int numberOfPotions = 2;
+    private static float[] potionXPos = {60, 175};
+    private static float[] potionYPos = {-6, -1};
 
     public GameWorld() {
         initializeWorld();
@@ -38,6 +52,7 @@ public class GameWorld extends World {
         clearBodies();
         initializeWorld();
         this.start();
+        //view.requestFocus();
     }
     
 
@@ -53,100 +68,27 @@ public class GameWorld extends World {
     }
 
     private void initializeWorld() { 
-        createEnvironment();
         player = new Player(this, inputHandler); 
-        player.setPosition(new Vec2(-12, -5));
-        
+        player.setPosition(new Vec2(5, -5));
         inputHandler = new InputHandler(player); 
+        createEnvironment();
 
-        skeleton = new Skeleton(this, skeletonPatrolLeftBoundary, skeletonPatrolRightBoundary);
-        skeleton.setPosition(new Vec2(0,(float)-7.3));
-
-        // Added a StepListener to handle the Skeleton patrolling
-        SkeletonPatrolListener skeletonPatrolListener = new SkeletonPatrolListener(skeleton);
-        this.addStepListener(skeletonPatrolListener);
+        addSkeletons();
 
         PlayerCollisions collision = new PlayerCollisions(player);
         player.addCollisionListener(collision);
 
-        Potion potion = new Potion(this);
-        potion.setPosition(new Vec2(3, -6));
-
+        for(int i=0; i<numberOfPotions; i++){
+            Potion potion = new Potion(this);
+            potion.setPosition(new Vec2(potionXPos[i], potionYPos[i]));
+        }
         
         Armour armour = new Armour(this);
-        armour.setPosition(new Vec2(10, -6));
+        armour.setPosition(new Vec2(230, 17));
         AudioHandler.playGameMusic();
 
         Trophy trophy = new Trophy(this);
         trophy.setPosition(new Vec2(410,27));
-    }
-
-    private void createEnvironment(){
-        for(int i =0; i<14; i++){
-            createGround();
-        }
-        YPos = -8f;
-        
-        for(int i=0; i<4; i++){
-            createGround();
-            System.out.println("XPos" +XPos);
-        }
-
-        
-
-        YPos = -12f;
-        for(int i=0; i<16; i++){
-            createSpikes();
-            System.out.println("XPos"+XPos);
-        }
-
-        XPos -=20f;
-        YPos = -8f;
-        for(int i=0; i<1;i++){
-            createGround();
-            System.out.println("XPos" +XPos);
-        }
-
-       XPos+=16f;
-        for(int i=0; i<4; i++){
-            createGround();
-            System.out.println("XPos" +XPos);
-        }
-
-        for(int i=0;i<2;i++){
-            createGround();
-            YPos+=4.5f;
-        }
-
-        
-        for(int i=0;i<2;i++){
-            createGround();
-            YPos+=4.5f;
-        }
-
-        for(int i=0; i<7;i++){
-            createGround();
-            System.out.println(YPos);
-        }
-
-        YPos=5;
-        for(int i =0; i<14;i++){
-            createSpikes();
-            System.out.println(XPos);
-        }
-
-        YPos=15.3f;
-        XPos-=25;
-        createGround();
-
-        XPos+=20f;
-        YPos= 10;
-        for(int i=0; i<15;i++){
-            createGround();
-            System.out.println(XPos);
-        }
-
-
     }
 
     private void createGround(){
@@ -163,13 +105,80 @@ public class GameWorld extends World {
         XPos+=3f;
       }
 
-    public void addSkeletons() {
-        int numberOfSkeletons = 5;
+    private void createEnvironment(){
+
+        for(int i=0; i<18; i++){
+            createSpikes();
+        }
+
+        for(int i =0; i<14; i++){
+            createGround();
+        }
+        YPos = -8f;
+        
+        for(int i=0; i<4; i++){
+            createGround();
+        }
+
+        
+
+        YPos = -12f;
+        for(int i=0; i<16; i++){
+            createSpikes();
+        }
+
+        XPos -=20f;
+        YPos = -8f;
+        for(int i=0; i<1;i++){
+            createGround();
+        }
+
+       XPos+=16f;
+        for(int i=0; i<4; i++){
+            createGround();
+        }
+
+        for(int i=0;i<4;i++){
+            createGround();
+            YPos+=4.5f;
+        }
+
+        for(int i=0; i<7;i++){
+            createGround();
+        }
+
+        YPos=5;
+        for(int i =0; i<14;i++){
+            createSpikes();
+        }
+
+        YPos=15.3f;
+        XPos-=25;
+        createGround();
+
+        XPos+=20f;
+        YPos= 10;
+        for(int i=0; i<15;i++){
+            createGround();
+        }
+
+        for(int i=0; i<18; i++){
+            createSpikes();
+        }
     }
 
-    public void addPotions(){
+    private void addSkeletons() {
+
+        for (int i = 0; i < numberOfSkeletons; i++) {
+            Skeleton newSkeleton = new Skeleton(this, skeletonPatrolLeftBoundary[i], skeletonPatrolRightBoundary[i]);
+            newSkeleton.setPosition(skeletonPositions[i]); // Set initial position
+            skeleton.add(newSkeleton);
+
+            SkeletonPatrolListener listener = new SkeletonPatrolListener(newSkeleton);
+            skeletonPatrolListener.add(listener);
+            this.addStepListener(listener); // Add listener to the world for each skeleton
+        }
     }
-    
     
     
 }
