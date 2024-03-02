@@ -3,7 +3,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import entities.Player;
 
 public class InputHandler implements KeyListener {
@@ -11,7 +10,6 @@ public class InputHandler implements KeyListener {
     private boolean keyAPressed = false;
     private boolean keyDPressed = false;
     private boolean isAnimating = false;
-
     private Player player;
 
     public InputHandler(Player player) {

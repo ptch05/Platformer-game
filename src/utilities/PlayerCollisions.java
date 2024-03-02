@@ -6,10 +6,12 @@ import city.cs.engine.CollisionEvent;
 import city.cs.engine.CollisionListener;
 import entities.Player;
 import entities.Skeleton;
+import interactables.Armour;
+import interactables.Potion;
+import interactables.Spikes;
 
 public class PlayerCollisions implements CollisionListener {
   private Player player;
-
   public PlayerCollisions(Player p){
       this.player = p;
   }
@@ -38,9 +40,23 @@ public class PlayerCollisions implements CollisionListener {
 
           Vec2 skeletonVelocity = skeleton.getLinearVelocity();
           skeleton.setLinearVelocity(new Vec2(0, skeletonVelocity.y));
+          AudioHandler.playHurtSound();
       
+        } 
+      if (e.getReportingBody() instanceof Player) {  //So that skeleton doesn't interfere with any of these
+        if (e.getOtherBody() instanceof Potion){
+          player.gainHealth(20);
+          e.getOtherBody().destroy();
         }
-    }
-
+        if (e.getOtherBody() instanceof Armour){
+          player.gainArmour();
+          e.getOtherBody().destroy();
+        }
+        if(e.getOtherBody() instanceof Spikes){
+          System.out.println("Sayonara");
+          player.handleDeath();
+        }
+      }
+  }
 }
 

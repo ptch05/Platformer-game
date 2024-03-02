@@ -1,7 +1,9 @@
 package main;
 import javax.swing.JFrame;
 
+import entities.Player;
 import input.InputHandler;
+import utilities.PlayerListener;
 
 public class Game{
 
@@ -11,17 +13,27 @@ public class Game{
 	 /* A graphical display of the world (a specialised JPanel). */
 	 private GameView view;
 
+	 private Player player;
+
 	 /* Initialise a new test.Game. */
 	 public Game() {
 
 			 //make the world
-			 GameWorld world = new GameWorld();
+			 world = new GameWorld();
 
 			 //make the view
 			 view = new GameView(world,800,600);
 
+			 player = world.getPlayer();
+
 			 InputHandler controller = new InputHandler(world.getPlayer());
        view.addKeyListener(controller);
+
+			
+			 // Create the player listener and add it to the world
+			 PlayerListener playerListener = new PlayerListener(world.getPlayer(), view);
+       world.addStepListener(playerListener);
+
 			 //create a Java window (frame) and add the game
 			 final JFrame frame = new JFrame("Gothic Cemetery");
 			 frame.add(view);
@@ -44,7 +56,6 @@ public class Game{
 
 	 /* Run the game. */
 	 public static void main(String[] args) {
-
 			 new Game();
 	 }
 }

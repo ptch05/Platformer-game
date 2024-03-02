@@ -62,20 +62,20 @@ public class Player extends Walker {
     }
 
     public void jumpRight() {
-        removeAllImages();
-        addImage(JUMP_RIGHT);
-        inAir = true;
-        facingRight = true;
-        AudioHandler.playJumpSound();
-    }
-    public void jumpLeft() {
-        removeAllImages();
-        addImage(JUMP_LEFT);
-        facingRight = false;
-        inAir = true;
-        AudioHandler.playJumpSound();
+            removeAllImages();
+            addImage(JUMP_RIGHT);
+            inAir = true;
+            facingRight = true;
+            AudioHandler.playJumpSound();
     }
 
+    public void jumpLeft() {
+            removeAllImages();
+            addImage(JUMP_LEFT);
+            facingRight = false;
+            inAir = true;
+           AudioHandler.playJumpSound();
+    }
 
     public void idleRight() {
         removeAllImages();
@@ -92,13 +92,11 @@ public class Player extends Walker {
     public void hurtLeft(){
         removeAllImages();
         addImage(HURT_LEFT);
-        AudioHandler.playHurtSound();
     }
 
     public void hurtRight(){
         removeAllImages();
         addImage(HURT_RIGHT);
-        AudioHandler.playHurtSound();
     }
    
     public boolean isFacingRight() {
@@ -109,15 +107,11 @@ public class Player extends Walker {
         return inAir;
     }
     
-    public void setInAir(boolean inAir) {
-        this.inAir = inAir;
-    }
-    
     public void update() {
         // Simulate gravity by applying a force when the player is in the air.
         if (isInAir()) {
             this.applyForce(new Vec2(0, GRAVITY_FORCE));
-        }
+        }else{ }
 
         if (this.health <= 0) {
             handleDeath();
@@ -202,14 +196,19 @@ public class Player extends Walker {
             this.health -= damageAmount;
             lastDamageTime = currentTime;
 
-            updateHitbox();
-
             if (this.health <= 0) {
                 health = 0;
                 handleDeath();
             }
         } 
         
+    }
+
+    public void gainHealth(int i){
+        health = health + 20;
+        if(health + 20 >100){
+            health = 100;
+        }
     }
 
     public int getHealth(){
@@ -220,14 +219,20 @@ public class Player extends Walker {
         return damageAmount;
     }
 
-    private void handleDeath() {
+
+    public void handleDeath() {
+        health = 0;
         // Code to handle player death, like triggering a game over screen
         System.out.println("Player has died. Restarting game.");
+        world.restartGame();
+        
     }
 
-
-
     public void updateHitbox() {  
+    }
+
+    public void gainArmour(){
+        damageAmount = 20;
     }
 
 }

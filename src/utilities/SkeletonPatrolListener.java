@@ -9,6 +9,7 @@ public class SkeletonPatrolListener implements StepListener {
 
     public SkeletonPatrolListener(Skeleton skeleton) { 
         this.skeleton = skeleton;
+    
     }
 
     @Override
@@ -18,6 +19,6 @@ public class SkeletonPatrolListener implements StepListener {
 
     @Override
     public void postStep(StepEvent e) {
-        // N.A.
     }
+
 }

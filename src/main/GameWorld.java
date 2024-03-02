@@ -1,10 +1,16 @@
 package main;
+import java.util.List;
+
 import org.jbox2d.common.Vec2;
 
 import city.cs.engine.*;
 import entities.Player;
 import entities.Skeleton;
 import input.InputHandler;
+import interactables.Armour;
+import interactables.Potion;
+import interactables.Spikes;
+import utilities.AudioHandler;
 import utilities.PlayerCollisions;
 import utilities.SkeletonPatrolListener;
 
@@ -15,41 +21,123 @@ public class GameWorld extends World {
     private InputHandler inputHandler;
     private float skeletonPatrolLeftBoundary = -10f; 
     private float skeletonPatrolRightBoundary = 10f;
+    private static float XPos = -14.15f;
+    private static float YPos = -13f;
 
     public GameWorld() {
-        // Initialize world here
-        Shape groundShape = new BoxShape(50, 2.5f); 
-        StaticBody ground = new StaticBody(this, groundShape);
-        ground.setPosition(new Vec2(-14.15f, -13f));
-
-        float imageWidth = 5.0f; 
-        int numTiles = (int) Math.ceil(100 / imageWidth);
-
-        for (int i = 0; i < numTiles; i++) {
-            // Calculate the x position for each image
-            float xPos = -50 + (i * imageWidth) + (imageWidth / 2); // Start tiling from one end of the ground
-            // Add the image at this x position with the same y position as the ground
-            ground.addImage(new BodyImage("assets/images/level-data/ground.png", 5f)).setOffset(new Vec2(xPos, 0));
-        }
-
-        
-
-        player = new Player(this, inputHandler); 
-        inputHandler = new InputHandler(player); 
-        player.setPosition(new Vec2(-12, -13));
-
-        skeleton = new Skeleton(this, skeletonPatrolLeftBoundary, skeletonPatrolRightBoundary);
-        skeleton.setPosition(new Vec2(0,(float)-7.3));
-
-        // Add a StepListener to handle the Skeleton patrolling
-        SkeletonPatrolListener skeletonPatrolListener = new SkeletonPatrolListener(skeleton);
-        this.addStepListener(skeletonPatrolListener);
-
-        PlayerCollisions collision = new PlayerCollisions(player);
-        player.addCollisionListener(collision);
+        initializeWorld();
     }
 
     public Player getPlayer(){
         return player;
     }
+
+    public void restartGame() {
+        this.stop();
+        clearBodies();
+        initializeWorld();
+        this.start();
+    }
+    
+
+    private void clearBodies() {
+        List<DynamicBody> dynamicBodies = this.getDynamicBodies();
+        for (DynamicBody body : dynamicBodies) {
+            body.destroy();
+        }
+        List<StaticBody> staticBodies = this.getStaticBodies();
+        for (StaticBody body : staticBodies) {
+            body.destroy();
+        }
+    }
+
+    private void initializeWorld() { 
+        createEnvironment();
+        player = new Player(this, inputHandler); 
+        player.setPosition(new Vec2(-12, -5));
+        
+        inputHandler = new InputHandler(player); 
+
+        skeleton = new Skeleton(this, skeletonPatrolLeftBoundary, skeletonPatrolRightBoundary);
+        skeleton.setPosition(new Vec2(0,(float)-7.3));
+
+        // Added a StepListener to handle the Skeleton patrolling
+        SkeletonPatrolListener skeletonPatrolListener = new SkeletonPatrolListener(skeleton);
+        this.addStepListener(skeletonPatrolListener);
+
+        PlayerCollisions collision = new PlayerCollisions(player);
+        player.addCollisionListener(collision);
+
+        Potion potion = new Potion(this);
+        potion.setPosition(new Vec2(3, -6));
+
+        
+        Armour armour = new Armour(this);
+        armour.setPosition(new Vec2(10, -6));
+        AudioHandler.playGameMusic();
+    }
+
+    private void createEnvironment(){
+        for(int i =0; i<14; i++){
+            createGround();
+        }
+        YPos = -8f;
+        
+        for(int i=0; i<4; i++){
+            createGround();
+            System.out.println("XPos" +XPos);
+        }
+
+        
+
+        YPos = -12f;
+        for(int i=0; i<16; i++){
+            createSpikes();
+            System.out.println("XPos"+XPos);
+        }
+
+        XPos -=20f;
+        YPos = -8f;
+        for(int i=0; i<1;i++){
+            createGround();
+            System.out.println("XPos" +XPos);
+        }
+
+       XPos+=16f;
+        for(int i=0; i<4; i++){
+            createGround();
+            System.out.println("XPos" +XPos);
+        }
+
+        for(int i=0;i<2;i++){
+            createGround();
+            YPos+=4.5f;
+        }
+
+
+    }
+
+    private void createGround(){
+        Shape groundShape = new BoxShape((float) 4.7, 5.4f);
+        StaticBody ground = new StaticBody(this, groundShape);
+        ground.setPosition(new Vec2(XPos, YPos));
+        ground.addImage(new BodyImage("assets/images/level-data/ground.png", 11.5f));
+        XPos +=7f;
+    }
+
+    private void createSpikes(){
+        Spikes spikes = new Spikes(this);
+        spikes.setPosition(new Vec2(XPos, YPos));
+        XPos+=3f;
+      }
+
+    public void addSkeletons() {
+        int numberOfSkeletons = 5;
+    }
+
+    public void addPotions(){
+    }
+    
+    
+    
 }

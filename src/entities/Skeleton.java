@@ -12,7 +12,7 @@ public class Skeleton extends Walker{
 
   private float patrolLeftBoundary;
   private float patrolRightBoundary;
-  private final int walkingSpeed = 5;
+  private final int walkingSpeed = 7;
   private boolean movingRight;
 
   public Skeleton(GameWorld world, float leftBoundary, float rightBoundary) {
