@@ -10,6 +10,7 @@ import input.InputHandler;
 import interactables.Armour;
 import interactables.Potion;
 import interactables.Spikes;
+import interactables.Trophy;
 import utilities.AudioHandler;
 import utilities.PlayerCollisions;
 import utilities.SkeletonPatrolListener;
@@ -75,6 +76,9 @@ public class GameWorld extends World {
         Armour armour = new Armour(this);
         armour.setPosition(new Vec2(10, -6));
         AudioHandler.playGameMusic();
+
+        Trophy trophy = new Trophy(this);
+        trophy.setPosition(new Vec2(410,27));
     }
 
     private void createEnvironment(){
@@ -112,6 +116,34 @@ public class GameWorld extends World {
         for(int i=0;i<2;i++){
             createGround();
             YPos+=4.5f;
+        }
+
+        
+        for(int i=0;i<2;i++){
+            createGround();
+            YPos+=4.5f;
+        }
+
+        for(int i=0; i<7;i++){
+            createGround();
+            System.out.println(YPos);
+        }
+
+        YPos=5;
+        for(int i =0; i<14;i++){
+            createSpikes();
+            System.out.println(XPos);
+        }
+
+        YPos=15.3f;
+        XPos-=25;
+        createGround();
+
+        XPos+=20f;
+        YPos= 10;
+        for(int i=0; i<15;i++){
+            createGround();
+            System.out.println(XPos);
         }
 
 

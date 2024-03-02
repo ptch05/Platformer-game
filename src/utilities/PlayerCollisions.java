@@ -9,6 +9,7 @@ import entities.Skeleton;
 import interactables.Armour;
 import interactables.Potion;
 import interactables.Spikes;
+import interactables.Trophy;
 
 public class PlayerCollisions implements CollisionListener {
   private Player player;
@@ -55,6 +56,11 @@ public class PlayerCollisions implements CollisionListener {
         if(e.getOtherBody() instanceof Spikes){
           System.out.println("Sayonara");
           player.handleDeath();
+        }
+        if(e.getOtherBody() instanceof Trophy){
+          System.out.println("You win!");
+          e.getOtherBody().destroy();
+          AudioHandler.playVictorySound();
         }
       }
   }

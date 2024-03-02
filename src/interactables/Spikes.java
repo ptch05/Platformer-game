@@ -1,10 +1,6 @@
 package interactables;
 
-import city.cs.engine.BodyImage;
-import city.cs.engine.BoxShape;
-import city.cs.engine.Shape;
-import city.cs.engine.StaticBody;
-import city.cs.engine.World;
+import city.cs.engine.*;
 
 public class Spikes extends StaticBody {
   private static final Shape spikesShape = new BoxShape(4, 2f);

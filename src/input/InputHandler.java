@@ -91,6 +91,13 @@ public class InputHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
         switch (code) {
+            case KeyEvent.VK_W:
+                if(keyAPressed){
+                    player.runLeft();
+                } else if(keyDPressed){
+                    player.runRight();
+                }
+                break;
             case KeyEvent.VK_A:
                 player.stopWalking();
                 player.idleLeft();
