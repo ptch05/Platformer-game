@@ -1,8 +1,8 @@
-package interactables;
+package objects;
 
+import audio.AudioHandler;
 import city.cs.engine.*;
 import entities.Player;
-import utilities.AudioHandler;
 
 public class Potion extends StaticBody{
   private static final Shape potionShape = new BoxShape((float)0.1, (float)0.5);

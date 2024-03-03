@@ -3,6 +3,7 @@ package entities;
 import org.jbox2d.common.Vec2;
 
 import city.cs.engine.*;
+import effects.DeathAnimation;
 import main.GameWorld;
 
 public class Skeleton extends Walker{
@@ -46,5 +47,13 @@ public class Skeleton extends Walker{
     this.removeAllImages();
     this.addImage(this.movingRight ? skeletonImageRight : skeletonImageLeft);
   }
+
+  public void skeletonDie() {
+        // Position where the skeleton died
+        Vec2 position = this.getPosition();
+        DeathAnimation deathAnimation = new DeathAnimation(this.getWorld(), position, new BodyImage("assets/images/misc/enemy-death.gif", 4));
+        deathAnimation.setPosition(position);
+        this.destroy(); //Destroys the actual skeleton itself
+    }
 
 }

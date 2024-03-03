@@ -1,9 +1,9 @@
 package entities;
 import org.jbox2d.common.Vec2;
 
+import audio.AudioHandler;
 import city.cs.engine.*;
 import main.GameWorld;
-import utilities.AudioHandler;
 import input.InputHandler;
 
 

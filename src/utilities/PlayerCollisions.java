@@ -2,15 +2,16 @@ package utilities;
 
 import org.jbox2d.common.Vec2;
 
+import audio.AudioHandler;
 import city.cs.engine.CollisionEvent;
 import city.cs.engine.CollisionListener;
 import city.cs.engine.UserView;
 import entities.Player;
 import entities.Skeleton;
-import interactables.Armour;
-import interactables.Potion;
-import interactables.Spikes;
-import interactables.Trophy;
+import objects.Armour;
+import objects.Potion;
+import objects.Spikes;
+import objects.Trophy;
 
 public class PlayerCollisions implements CollisionListener {
   private Player player;
@@ -24,13 +25,14 @@ public class PlayerCollisions implements CollisionListener {
       if (e.getOtherBody() instanceof Skeleton) {
         Skeleton skeleton = (Skeleton) e.getOtherBody();
         if(player.isAttacking()){
-          skeleton.destroy();
+          skeleton.skeletonDie();
           AudioHandler.playKillSound();
         } else {
           // Logic to knock the player back
           Vec2 knockback = new Vec2(-10, 10);
           player.setLinearVelocity(knockback);
           Vec2 playerPosition = player.getPosition();
+          player.isInAir();
           Vec2 skeletonPosition = e.getOtherBody().getPosition();
 
           // Determine the direction of the skeleton relative to the player

@@ -1,4 +1,4 @@
-package interactables;
+package objects;
 
 import city.cs.engine.*;
 public class Trophy extends StaticBody {

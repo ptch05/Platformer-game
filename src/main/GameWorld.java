@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.jbox2d.common.Vec2;
 
+import audio.AudioHandler;
 import city.cs.engine.*;
 import entities.Player;
 import entities.Skeleton;
 import input.InputHandler;
-import interactables.Armour;
-import interactables.Potion;
-import interactables.Spikes;
-import interactables.Trophy;
-import utilities.AudioHandler;
+import objects.Armour;
+import objects.Potion;
+import objects.Spikes;
+import objects.Trophy;
 import utilities.PlayerCollisions;
 import utilities.SkeletonPatrolListener;
 
@@ -168,7 +168,6 @@ public class GameWorld extends World {
     }
 
     private void addSkeletons() {
-
         for (int i = 0; i < numberOfSkeletons; i++) {
             Skeleton newSkeleton = new Skeleton(this, skeletonPatrolLeftBoundary[i], skeletonPatrolRightBoundary[i]);
             newSkeleton.setPosition(skeletonPositions[i]); // Set initial position
