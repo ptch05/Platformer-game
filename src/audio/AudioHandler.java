@@ -37,7 +37,7 @@ public class AudioHandler {
   // Added methods to play each sound clip
   public static void playJumpSound() {
       if (JUMP_SOUND_CLIP != null) {
-         JUMP_SOUND_CLIP.play();
+        JUMP_SOUND_CLIP.play();
       }
   }
 
@@ -49,7 +49,7 @@ public class AudioHandler {
 
   public static void playHurtSound() {
       if (HURT_SOUND_CLIP != null) {
-         HURT_SOUND_CLIP.play();
+        HURT_SOUND_CLIP.play();
       }
   }
 

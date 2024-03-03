@@ -17,6 +17,7 @@ public class Player extends Walker {
     private boolean inAir = false;
     private boolean isAttacking = false;
     private boolean armourOn = false;
+    private int killCounter = 0;
     private Fixture attackFixture;
     private long attackStartTime;
     private long attackDuration = 1000;
@@ -236,11 +237,10 @@ public class Player extends Walker {
     }
 
 
-    public void handleDeath() {
+   public void handleDeath() {
         health = 0;
         System.out.println("Player has died. Restarting game.");
         world.restartGame();
-        
     }
 
     public boolean gainArmour() {
@@ -254,6 +254,14 @@ public class Player extends Walker {
 
     public boolean isArmourOn() {
         return armourOn;
+    }
+
+    public int getKillCounter(){
+        return killCounter;
+    }
+
+    public void addKill(){
+         killCounter++;
     }
     
     

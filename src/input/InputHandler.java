@@ -128,4 +128,8 @@ public class InputHandler implements KeyListener {
             }
         }
     }
+    
+    public void setPlayer(Player newPlayer) {
+        this.player = newPlayer;
+    }
 }

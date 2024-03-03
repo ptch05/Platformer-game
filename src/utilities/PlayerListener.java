@@ -17,8 +17,14 @@ public class PlayerListener implements StepListener {
         this.view = view;
     }
     
-    public void preStep(StepEvent e) {}
+    public void preStep(StepEvent e) {
+        //N.A.
+    }
     public void postStep(StepEvent e) {
         view.setCentre(new Vec2(player.getPosition())); //Camera follows the player around constantly
-  }
+    }
+
+    public void setPlayer(Player newPlayer) {
+        this.player = newPlayer;
+    }
 }

@@ -26,6 +26,7 @@ public class PlayerCollisions implements CollisionListener {
         Skeleton skeleton = (Skeleton) e.getOtherBody();
         if(player.isAttacking()){
           skeleton.skeletonDie();
+          player.addKill();
           AudioHandler.playKillSound();
         } else {
           // Logic to knock the player back

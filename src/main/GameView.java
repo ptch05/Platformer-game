@@ -6,18 +6,15 @@ import java.awt.*;
 import entities.Player;
 
 public class GameView extends UserView {
-  private Image background;
-  private Image mountains;
-  private Image graveyard;
+  private Image background, mountains, graveyard, skulls;
   public static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
-  
- 
 
-  public GameView(GameWorld world, int width, int height) {
+  public GameView(World world, int width, int height) {
       super(world, width, height);
       background = new ImageIcon("assets/images/level-data/background.png").getImage();
       mountains = new ImageIcon("assets/images/level-data/mountains.png").getImage();
       graveyard = new ImageIcon("assets/images/level-data/graveyard.png").getImage();
+      skulls = new ImageIcon("assets/images/misc/skulls.gif").getImage();
   }
 
   @Override
@@ -27,50 +24,57 @@ public class GameView extends UserView {
       g.drawImage(graveyard, 0, 250, getWidth(), getHeight()/11*9, this);
   }
 
-    @Override
+  @Override
   protected void paintForeground(Graphics2D g) {
-      Player player = ((GameWorld) getWorld()).getPlayer();
-      int maxHealthWidth = 200; 
-      int healthBarHeight = 20; 
-      int borderThickness = 5;
-
-      int health = player.getHealth();
-      int maxHealth = 100; 
-
-      // Calculate the current width of the health bar based on player's health
-      int currentHealthWidth = (int) ((health / (float) maxHealth) * (maxHealthWidth - 2 * borderThickness));
-      int healthBarX = 30;
-      int healthBarY = 40;
-      g.setColor(Color.BLACK);
-      g.fillRect(healthBarX, healthBarY, maxHealthWidth, healthBarHeight);
-      g.setColor(Color.RED);
-      g.fillRect(healthBarX + borderThickness, healthBarY + borderThickness, currentHealthWidth, healthBarHeight - 2 * borderThickness);
-      g.setColor(Color.WHITE);
-      g.setFont(STATUS_FONT);
-      String healthText = "HEALTH: " + health;
-      
-      // Calculate the width of the text so we can position it centered on the health bar
-      FontMetrics metrics = g.getFontMetrics(STATUS_FONT);
-      int textWidth = metrics.stringWidth(healthText);
-      int textX = healthBarX + (maxHealthWidth - textWidth) / 2;
-      int textY = healthBarY + ((healthBarHeight - metrics.getHeight()) / 2) + metrics.getAscent();
-      g.drawString(healthText, textX, textY);
-
-      if (player.isArmourOn()) {
-        // Draw the armor bar
-        g.setColor(Color.BLACK);
-        g.fillRect(50, 65, 150, 20);
-        g.setColor(Color.GRAY);
-        g.fillRect(55, 70, 140, 10);
-        g.setColor(Color.WHITE);
-        g.setFont(STATUS_FONT);
-        String armourText = "ARMOUR ON!";
-        int armourtextWidth = metrics.stringWidth(armourText);
-        int armourtextX = 50 + (150 - armourtextWidth) / 2;
-        int armourtextY = 65 + ((20 - metrics.getHeight()) / 2) + metrics.getAscent();
-        g.drawString(armourText, armourtextX, armourtextY);
+    Player player = ((GameWorld) getWorld()).getPlayer();
+    drawHealthBar(g, player);
+    if (player.isArmourOn()) {
+        drawArmourBar(g);
     }
+    drawKillCounter(g, player);
   }
 
+  private void drawHealthBar(Graphics2D g, Player player) {
+    int maxHealthWidth = 200;  
+    int healthBarX = 30; 
+    int healthBarY = 40;
+    drawStatusBar(g, healthBarX, healthBarY, player.getHealth(), 100, Color.RED, "HEALTH: ", maxHealthWidth);
+  }
 
+  private void drawArmourBar(Graphics2D g) {
+    g.setColor(Color.BLACK);
+    g.fillRect(50, 65, 150, 20);
+    g.setColor(Color.GRAY);
+    g.fillRect(55, 70, 140, 10);
+    drawCenteredText(g, "ARMOUR ON!",50, 65, 150, 20, Color.WHITE);
+  }
+
+  private void drawKillCounter(Graphics2D g, Player player) {
+    int killCounter = player.getKillCounter();
+    g.setColor(Color.BLACK);
+    g.fillRect(550, 40, 150, 20);
+    g.drawImage(skulls, 452, -1, 180, 110, this);
+    drawCenteredText(g, "Kill Count: " + killCounter, 550, 40, 150, 20, Color.RED);
+  }
+
+  private void drawStatusBar(Graphics2D g, int x, int y, int value, int maxValue, Color barColor, String text,int maxWidth) {
+    int barHeight = 20;
+    int borderThickness = 5;
+    int barInnerWidth = (int) ((float) value / maxValue * (maxWidth - 2 * borderThickness));
+    g.setColor(Color.BLACK);
+    g.fillRect(x, y, maxWidth, barHeight);
+    g.setColor(barColor);
+    g.fillRect(x + borderThickness, y + borderThickness, barInnerWidth, barHeight - 2 * borderThickness);
+    drawCenteredText(g, text + value, x, y, maxWidth, barHeight, Color.WHITE);
+  }
+
+  private void drawCenteredText(Graphics2D g, String text, int x, int y, int width, int height, Color textColor) {
+    g.setColor(textColor);
+    g.setFont(STATUS_FONT);
+    FontMetrics metrics = g.getFontMetrics(STATUS_FONT);
+    int textWidth = metrics.stringWidth(text);
+    int textX = x + (width - textWidth) / 2;
+    int textY = y + ((height - metrics.getHeight()) / 2) + metrics.getAscent();
+    g.drawString(text, textX, textY);
+  }
 }

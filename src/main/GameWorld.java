@@ -51,8 +51,8 @@ public class GameWorld extends World {
         this.stop();
         clearBodies();
         initializeWorld();
+        inputHandler.setPlayer(player);
         this.start();
-        //view.requestFocus();
     }
     
 
@@ -67,12 +67,14 @@ public class GameWorld extends World {
         }
     }
 
-    private void initializeWorld() { 
+    public void initializeWorld() { 
+        XPos = -68.15f; // Reset X position for ground creation
+        YPos = -13f;
+        createEnvironment();
+        inputHandler = new InputHandler(null);
         player = new Player(this, inputHandler); 
         player.setPosition(new Vec2(5, -5));
         inputHandler = new InputHandler(player); 
-        createEnvironment();
-
         addSkeletons();
 
         PlayerCollisions collision = new PlayerCollisions(player);
