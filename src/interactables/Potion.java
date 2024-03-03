@@ -22,7 +22,6 @@ public class Potion extends StaticBody{
         @Override
         public void beginContact(SensorEvent e) {
             if (e.getContactBody() instanceof Player) {
-                
                 Player player = (Player) e.getContactBody();
                 player.gainHealth(20);
                 AudioHandler.playPotionSound();

@@ -47,7 +47,7 @@ public class GameView extends UserView {
       g.fillRect(healthBarX + borderThickness, healthBarY + borderThickness, currentHealthWidth, healthBarHeight - 2 * borderThickness);
       g.setColor(Color.WHITE);
       g.setFont(STATUS_FONT);
-      String healthText = "Health: " + health;
+      String healthText = "HEALTH: " + health;
       
       // Calculate the width of the text so we can position it centered on the health bar
       FontMetrics metrics = g.getFontMetrics(STATUS_FONT);
@@ -55,6 +55,21 @@ public class GameView extends UserView {
       int textX = healthBarX + (maxHealthWidth - textWidth) / 2;
       int textY = healthBarY + ((healthBarHeight - metrics.getHeight()) / 2) + metrics.getAscent();
       g.drawString(healthText, textX, textY);
+
+      if (player.isArmourOn()) {
+        // Draw the armor bar
+        g.setColor(Color.BLACK);
+        g.fillRect(50, 65, 150, 20);
+        g.setColor(Color.GRAY);
+        g.fillRect(55, 70, 140, 10);
+        g.setColor(Color.WHITE);
+        g.setFont(STATUS_FONT);
+        String armourText = "ARMOUR ON!";
+        int armourtextWidth = metrics.stringWidth(armourText);
+        int armourtextX = 50 + (150 - armourtextWidth) / 2;
+        int armourtextY = 65 + ((20 - metrics.getHeight()) / 2) + metrics.getAscent();
+        g.drawString(armourText, armourtextX, armourtextY);
+    }
   }
 
 

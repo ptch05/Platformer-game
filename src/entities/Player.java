@@ -16,6 +16,7 @@ public class Player extends Walker {
     private boolean facingRight = true; 
     private boolean inAir = false;
     private boolean isAttacking = false;
+    private boolean armourOn = false;
     private Fixture attackFixture;
     private long attackStartTime;
     private long attackDuration = 1000;
@@ -242,13 +243,20 @@ public class Player extends Walker {
         
     }
 
-    public void updateHitbox() {  
+    public boolean gainArmour() {
+        if (!armourOn) { 
+            damageAmount -= 20; 
+            armourOn = true;     
+            return true;         
+        }
+        return false; 
     }
 
-    public void gainArmour(){
-        damageAmount -= 20;
+    public boolean isArmourOn() {
+        return armourOn;
     }
-
+    
+    
 }
 
 

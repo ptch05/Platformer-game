@@ -4,6 +4,7 @@ import org.jbox2d.common.Vec2;
 
 import city.cs.engine.CollisionEvent;
 import city.cs.engine.CollisionListener;
+import city.cs.engine.UserView;
 import entities.Player;
 import entities.Skeleton;
 import interactables.Armour;
@@ -13,6 +14,7 @@ import interactables.Trophy;
 
 public class PlayerCollisions implements CollisionListener {
   private Player player;
+  private UserView view;
   public PlayerCollisions(Player p){
       this.player = p;
   }
@@ -58,6 +60,7 @@ public class PlayerCollisions implements CollisionListener {
         if (e.getOtherBody() instanceof Armour){
           player.gainArmour();
           e.getOtherBody().destroy();
+          view.repaint();
         }
 
         if(e.getOtherBody() instanceof Spikes){
