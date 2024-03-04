@@ -10,7 +10,7 @@ import input.InputHandler;
 
 public class Player extends Walker {
     private static int xNum = 3;
-    private static float yNum = (float)3.8;
+    private static float yNum = (float)3.85;
     private static int playerSize = 7;
     public static final float WALKING_SPEED = 20;
     private static final float GRAVITY_FORCE = -25f;
@@ -18,8 +18,10 @@ public class Player extends Walker {
     private boolean inAir = false;
     private boolean isAttacking = false;
     private boolean armourOn = false;
+    private boolean isCrouching = false;
     private int killCounter = 0;
     private Fixture attackFixture;
+    private Fixture crouchFixture;
     private long attackStartTime;
     private long attackDuration = 1000;
     private int health;
@@ -29,16 +31,19 @@ public class Player extends Walker {
     
     private static final Shape characterShape = new BoxShape(xNum, yNum);
     private static final Shape attackShape = new BoxShape((float) 5.75, yNum);
+    private static final Shape crouchShape = new BoxShape(xNum, (float)4);
     private static final BodyImage IDLE_RIGHT = new BodyImage("assets/images/hero/hero-idle-right.gif", playerSize);
     private static final BodyImage RUN_RIGHT = new BodyImage("assets/images/hero/hero-run-right.gif", playerSize);
     private static final BodyImage JUMP_RIGHT = new BodyImage("assets/images/hero/hero-jump-right.gif", playerSize);
     private static final BodyImage ATTACK_RIGHT = new BodyImage("assets/images/hero/hero-attack-right.gif", playerSize);
     private static final BodyImage HURT_RIGHT = new BodyImage("assets/images/hero/hero-hurt-right.png",(float) (playerSize*1.3));
+    private static final BodyImage CROUCH_RIGHT = new BodyImage("assets/images/hero/hero-crouch-right.png", (float)(playerSize*1.4));
     private static final BodyImage IDLE_LEFT = new BodyImage("assets/images/hero/hero-idle-left.gif", playerSize);
     private static final BodyImage RUN_LEFT = new BodyImage("assets/images/hero/hero-run-left.gif", playerSize);
     private static final BodyImage JUMP_LEFT = new BodyImage("assets/images/hero/hero-jump-left.gif", playerSize);
     private static final BodyImage ATTACK_LEFT = new BodyImage("assets/images/hero/hero-attack-left.gif", playerSize);
     private static final BodyImage HURT_LEFT = new BodyImage("assets/images/hero/hero-hurt-right.png",(float) (playerSize*1.3));
+    private static final BodyImage CROUCH_LEFT = new BodyImage("assets/images/hero/hero-crouch-left.png", (float)(playerSize*1.4));
     
 
     private GameWorld world;
@@ -275,6 +280,46 @@ public class Player extends Walker {
 
     public void addKill(){
          killCounter++;
+    }
+
+    public boolean isCrouching(){
+        return isCrouching;
+        
+    }
+
+    public void crouch() {
+        if (!isCrouching()) {
+            isCrouching = true;
+            removeAllImages();
+            if (facingRight) {
+                currentImage = CROUCH_RIGHT;
+                createCrouchHitbox(crouchShape);
+            } else {
+                currentImage = CROUCH_LEFT;
+                createCrouchHitbox(crouchShape);
+            }
+            addImage(currentImage);
+            AudioHandler.playCrouchSound();
+        }
+    }
+
+    private void createCrouchHitbox(Shape crouchShape) {
+        if (crouchFixture != null) {
+            crouchFixture.destroy(); // Use destroy() method directly on the fixture
+            crouchFixture = null; // Clear the reference after destruction
+        }
+        crouchFixture = new SolidFixture(this, crouchShape); // Create a new attack hitbox
+        
+    }
+    
+    public void endCrouch() {
+        if (isCrouching) {
+            isCrouching = false;
+            if (crouchFixture != null) {
+                crouchFixture.destroy(); // Remove the attack hitbox using destroy()
+                crouchFixture = null; // Clear the reference after destruction
+            }
+        }
     }
     
 }

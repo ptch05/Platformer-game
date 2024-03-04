@@ -15,6 +15,7 @@ public class AudioHandler {
   private static final SoundClip VICTORY_SOUND_CLIP;
   private static final SoundClip SPAWN_SOUND_CLIP;
   private static final SoundClip LOSE_ARMOUR_SOUND_CLIP;
+  private static final SoundClip CROUCH_SOUND_CLIP;
 
   static {
     JUMP_SOUND_CLIP = loadSoundClip("assets/sounds/jump.wav");
@@ -27,6 +28,7 @@ public class AudioHandler {
     VICTORY_SOUND_CLIP = loadSoundClip("assets/sounds/victory.wav");
     SPAWN_SOUND_CLIP = loadSoundClip("assets/sounds/spawn.wav");
     LOSE_ARMOUR_SOUND_CLIP = loadSoundClip("assets/sounds/lose-armour.wav");
+    CROUCH_SOUND_CLIP = loadSoundClip("assets/sounds/crouch.wav");
   }
 
   private static SoundClip loadSoundClip(String filePath) {
@@ -52,41 +54,42 @@ public class AudioHandler {
   }
 
   public static void playKillSound() {
-       KILL_SOUND_CLIP.play();
+        KILL_SOUND_CLIP.play();
   }
 
   public static void playGameMusic() {
         GAME_SOUND_CLIP.setVolume(0.6);
         GAME_SOUND_CLIP.loop();
-      
   }
 
   public static void playPotionSound() {
         POTION_SOUND_CLIP.setVolume(2);
         POTION_SOUND_CLIP.play();
-      
   }
 
   public static void playArmourSound() {
         ARMOUR_SOUND_CLIP.setVolume(1.5);
         ARMOUR_SOUND_CLIP.play();
-      
   }
 
   public static void loseArmourSound() {
-      //LOSE_ARMOUR_SOUND_CLIP.setVolume(1.5);
-      LOSE_ARMOUR_SOUND_CLIP.play();
-    
-}
+        LOSE_ARMOUR_SOUND_CLIP.setVolume(1.5);
+        LOSE_ARMOUR_SOUND_CLIP.play();
+  }
 
   public static void playVictorySound() {
         VICTORY_SOUND_CLIP.setVolume(2);
         GAME_SOUND_CLIP.stop();
         VICTORY_SOUND_CLIP.play();
-      
   }
 
   public static void playSpawnSound(){
-    SPAWN_SOUND_CLIP.play();
+        SPAWN_SOUND_CLIP.play();
   }
+
+  public static void playCrouchSound(){
+        CROUCH_SOUND_CLIP.setVolume(1.2);
+        CROUCH_SOUND_CLIP.play();
+  }
+
 }

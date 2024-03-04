@@ -10,6 +10,7 @@ public class InputHandler implements KeyListener {
     private boolean keyWPressed = false;
     private boolean keyAPressed = false;
     private boolean keyDPressed = false;
+    private boolean keySPressed = false;
     private boolean isAnimating = false;
     private Player player;
     private GameWorld world;
@@ -25,6 +26,11 @@ public class InputHandler implements KeyListener {
     public boolean isKeyAPressed() {
         return keyAPressed;
     }
+
+    public boolean isKeySPressed() {
+        return keySPressed;
+    }
+
 
     public boolean isKeyDPressed() {
         return keyDPressed;
@@ -79,6 +85,11 @@ public class InputHandler implements KeyListener {
                 }
                 keyAPressed = true;
                 break;
+
+            case KeyEvent.VK_S:
+                player.crouch();
+                break;
+
             case KeyEvent.VK_D:
                 if (!keyAPressed) { // Don't start walking right if A is already pressed
                     player.startWalking(Player.WALKING_SPEED);
@@ -109,6 +120,14 @@ public class InputHandler implements KeyListener {
                 player.stopWalking();
                 player.idleLeft();
                 keyAPressed = false;
+                break;
+            case KeyEvent.VK_S:
+                player.endCrouch();
+                if(keyAPressed){
+                    player.runLeft();
+                } else if(keyDPressed){
+                    player.runRight();
+                }
                 break;
             case KeyEvent.VK_D:
                 player.stopWalking();
