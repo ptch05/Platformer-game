@@ -8,6 +8,7 @@ import city.cs.engine.CollisionListener;
 import city.cs.engine.UserView;
 import entities.Player;
 import entities.Skeleton;
+import main.GameWorld;
 import objects.Armour;
 import objects.Potion;
 import objects.Spikes;
@@ -16,8 +17,10 @@ import objects.Trophy;
 public class PlayerCollisions implements CollisionListener {
   private Player player;
   private UserView view;
-  public PlayerCollisions(Player p){
+  private GameWorld world;
+  public PlayerCollisions(Player p, GameWorld world){
       this.player = p;
+      this.world = world;
   }
 
   @Override
@@ -80,7 +83,7 @@ public class PlayerCollisions implements CollisionListener {
           } catch (InterruptedException e1) {
             e1.printStackTrace();
           }
-          player.destroy();
+          world.restartGame();
         }
       }
   }

@@ -1,5 +1,8 @@
 package objects;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import audio.AudioHandler;
 import city.cs.engine.*;
 import entities.Player;
@@ -26,6 +29,16 @@ public class Armour extends StaticBody{
                 player.gainArmour();
                 AudioHandler.playArmourSound();
                 Armour.this.destroy(); // Destroys the potion
+
+                // Set a timer to remove the armour effect after 10 seconds
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                  @Override
+                  public void run() {
+                      player.loseArmour(); // Call the method to remove the armour effect
+                      AudioHandler.loseArmourSound();
+                  }
+                }, 10000); 
             }
         }
 

@@ -23,8 +23,8 @@ public class GameWorld extends World {
     private List<SkeletonPatrolListener> skeletonPatrolListener = new ArrayList<>();
 
     private InputHandler inputHandler;
-    private int []skeletonPatrolLeftBoundary = {25, 55,170,240,375}; 
-    private int []skeletonPatrolRightBoundary = {35,65,180,250,385};
+    private int []skeletonPatrolLeftBoundary = {25, 45,170,240,375}; 
+    private int []skeletonPatrolRightBoundary = {35,70,180,250,385};
     private static float XPos = -68.15f;
     private static float YPos = -13f;
     private static Vec2[] skeletonPositions = {
@@ -75,10 +75,11 @@ public class GameWorld extends World {
         player.setPosition(new Vec2(5, -5));
         inputHandler = new InputHandler(this);
         player.setInputHandler(inputHandler);
+        player.createPlayerFixtureWithFriction();
 
         addSkeletons();
 
-        PlayerCollisions collision = new PlayerCollisions(player);
+        PlayerCollisions collision = new PlayerCollisions(player, this);
         player.addCollisionListener(collision);
 
         for(int i=0; i<numberOfPotions; i++){
@@ -183,6 +184,7 @@ public class GameWorld extends World {
             this.addStepListener(listener); // Add listener to the world for each skeleton
         }
     }
+
     
     
 }

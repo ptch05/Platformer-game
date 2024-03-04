@@ -25,7 +25,7 @@ public class Player extends Walker {
     private int damageAmount = 40;
     private long lastDamageTime;
     private static final long DAMAGE_COOLDOWN = 1000;
-
+    
     private static final Shape characterShape = new BoxShape(xNum, yNum);
     private static final Shape attackShape = new BoxShape((float) 5.75, yNum);
     private static final BodyImage IDLE_RIGHT = new BodyImage("assets/images/hero/hero-idle-right.gif", playerSize);
@@ -122,7 +122,7 @@ public class Player extends Walker {
         if (this.health <= 0) {
             handleDeath();
         }
-    
+
         // Handling the end of an attack animation
         if (isAttacking() && System.currentTimeMillis() - attackStartTime > attackDuration) {
             isAttacking = false;
@@ -253,6 +253,15 @@ public class Player extends Walker {
             return true;         
         }
         return false; 
+    }
+
+    public boolean loseArmour(){
+        if(armourOn){
+            damageAmount +=20;
+            armourOn = false;
+            return false;
+        }
+        return false;
     }
 
     public boolean isArmourOn() {
