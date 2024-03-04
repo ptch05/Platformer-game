@@ -32,7 +32,7 @@ public class GameWorld extends World {
         new Vec2(60, -7.3f),
         new Vec2(175, -3),
         new Vec2(245, 15),
-        new Vec2(380, 20)
+        new Vec2(380, 22)
     };
     private static final int numberOfSkeletons = 5;
     private static final int numberOfPotions = 2;
@@ -128,7 +128,7 @@ public class GameWorld extends World {
 
         
 
-        YPos = -12f;
+        YPos = -9f;
         for(int i=0; i<16; i++){
             createSpikes();
         }
@@ -153,7 +153,7 @@ public class GameWorld extends World {
             createGround();
         }
 
-        YPos=5;
+        YPos=9;
         for(int i =0; i<14;i++){
             createSpikes();
         }
@@ -163,11 +163,12 @@ public class GameWorld extends World {
         createGround();
 
         XPos+=20f;
-        YPos= 10;
+        YPos= 11;
         for(int i=0; i<15;i++){
             createGround();
         }
 
+        YPos =9;
         for(int i=0; i<18; i++){
             createSpikes();
         }

@@ -1,4 +1,5 @@
 package entities;
+
 import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
@@ -275,7 +276,6 @@ public class Player extends Walker {
     public void addKill(){
          killCounter++;
     }
-    
     
 }
 

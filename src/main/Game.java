@@ -42,7 +42,7 @@ public class Game{
 			 // when the x button is pressed
 			 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			 frame.setLocationByPlatform(true);
-			 // don't let the frame be resized
+			 // don't let the frame be resizeda
 			 frame.setResizable(false);
 			 // size the frame to fit the world view
 			 frame.pack();

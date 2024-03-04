@@ -47,7 +47,7 @@ public class PlayerCollisions implements CollisionListener {
             player.hurtLeft(); 
           }
           
-          player.applyForce(new Vec2(skeletonIsLeft ? 1000 : -1000, 0));
+          player.applyForce(new Vec2(skeletonIsLeft ? 30 : -30, 10));
           player.reduceHealth(player.getDamageAmount());
 
           Vec2 skeletonVelocity = skeleton.getLinearVelocity();
@@ -71,6 +71,7 @@ public class PlayerCollisions implements CollisionListener {
 
         if(e.getOtherBody() instanceof Spikes){
           System.out.println("Sayonara");
+          AudioHandler.playHurtSound();
           player.handleDeath();
         }
 
