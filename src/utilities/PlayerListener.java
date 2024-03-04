@@ -28,11 +28,9 @@ public class PlayerListener implements StepListener {
     }
     public void postStep(StepEvent e) {
         Player player = getPlayer();
-    // Get the current position of the player
-    Vec2 position = player.getPosition();
-    // Adjust the y-value by subtracting 10 units
-    Vec2 viewCentre = new Vec2(position.x, position.y + (float)3.2);
-    view.setCentre(viewCentre); // Now the camera follows the player but is offset 10 units above
+        Vec2 position = player.getPosition(); // Get the current position of the player
+        Vec2 viewCentre = new Vec2(position.x, position.y + (float)3.2);
+        view.setCentre(viewCentre); // Now the camera follows the player but is offset 3.2units above
       }
     
 

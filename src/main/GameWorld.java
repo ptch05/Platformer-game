@@ -23,16 +23,16 @@ public class GameWorld extends World {
     private List<SkeletonPatrolListener> skeletonPatrolListener = new ArrayList<>();
 
     private InputHandler inputHandler;
-    private int []skeletonPatrolLeftBoundary = {25, 45,170,240,375}; 
-    private int []skeletonPatrolRightBoundary = {35,70,180,250,385};
+    private int []skeletonPatrolLeftBoundary = {25, 45,160,225,350}; 
+    private int []skeletonPatrolRightBoundary = {35,70,175,260,380};
     private static float XPos = -68.15f;
     private static float YPos = -13f;
     private static Vec2[] skeletonPositions = {
         new Vec2(30, -7.3f),
         new Vec2(60, -7.3f),
-        new Vec2(175, -3),
-        new Vec2(245, 15),
-        new Vec2(380, 22)
+        new Vec2(170, -3),
+        new Vec2(240, 15),
+        new Vec2(365, 22)
     };
     private static final int numberOfSkeletons = 5;
     private static final int numberOfPotions = 2;
@@ -126,8 +126,6 @@ public class GameWorld extends World {
             createGround();
         }
 
-        
-
         YPos = -9f;
         for(int i=0; i<16; i++){
             createSpikes();
@@ -168,7 +166,7 @@ public class GameWorld extends World {
             createGround();
         }
 
-        YPos =9;
+        YPos =10;
         for(int i=0; i<18; i++){
             createSpikes();
         }

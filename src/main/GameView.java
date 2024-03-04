@@ -18,11 +18,25 @@ public class GameView extends UserView {
   }
 
   @Override
-  protected void paintBackground(Graphics2D g) {
-      g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-      g.drawImage(mountains, 0, 100, getWidth(), getHeight()/11*10, this);
-      g.drawImage(graveyard, 0, 250, getWidth(), getHeight()/11*9, this);
-  }
+protected void paintBackground(Graphics2D g) {
+    Player player = ((GameWorld) getWorld()).getPlayer();
+    float playerX = player.getPosition().x;
+
+    // Implemented parallax scrolling, so these are the scrolling factors
+    float backgroundParallaxFactor = 0.001f;
+    float mountainsParallaxFactor = 2.5f;
+    float graveyardParallaxFactor = 8.5f;
+
+    // Calculated the new positions for each background layer
+    int backgroundX = (int) (playerX * backgroundParallaxFactor) % getWidth();
+    int mountainsX = (int) (playerX * mountainsParallaxFactor) % getWidth();
+    int graveyardX = (int) (playerX * graveyardParallaxFactor) % getWidth();
+
+    g.drawImage(background, -backgroundX, -55, getWidth()+20, getHeight()+15, this);
+    g.drawImage(mountains, -mountainsX -100, 120, getWidth()*6, getHeight()/11*10, this);
+    g.drawImage(graveyard, -graveyardX - 200, 270, getWidth()*5, getHeight()/11*9, this);
+}
+
 
   @Override
   protected void paintForeground(Graphics2D g) {
