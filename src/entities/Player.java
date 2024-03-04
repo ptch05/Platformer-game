@@ -44,13 +44,16 @@ public class Player extends Walker {
     private BodyImage currentImage;
     private InputHandler inputHandler;
 
-    public Player(GameWorld world, InputHandler inputHandler) {
+    public Player(GameWorld world) {
         super(world, characterShape);
         this.world = world;
         addImage(IDLE_RIGHT);
         createPlayerFixtureWithFriction();
-        this.inputHandler = inputHandler;
         this.health = 100;
+    }
+
+    public void setInputHandler(InputHandler newInputHandler) {
+        this.inputHandler = newInputHandler;
     }
 
     public void runRight() {
@@ -114,7 +117,7 @@ public class Player extends Walker {
         // Simulate gravity by applying a force when the player is in the air.
         if (isInAir()) {
             this.applyForce(new Vec2(0, GRAVITY_FORCE));
-        }else{ }
+        }
 
         if (this.health <= 0) {
             handleDeath();

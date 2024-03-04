@@ -3,7 +3,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import audio.AudioHandler;
 import entities.Player;
+import main.GameWorld;
 
 public class InputHandler implements KeyListener {
     private boolean keyWPressed = false;
@@ -11,9 +14,10 @@ public class InputHandler implements KeyListener {
     private boolean keyDPressed = false;
     private boolean isAnimating = false;
     private Player player;
+    private GameWorld world;
 
-    public InputHandler(Player player) {
-        this.player = player;
+    public InputHandler(GameWorld world) {
+        this.world = world;
     }
 
     public boolean isKeyWPressed() {
@@ -28,6 +32,10 @@ public class InputHandler implements KeyListener {
         return keyDPressed;
     }
 
+    private Player getPlayer() {
+        return (Player) world.getPlayer();
+    }
+
     @Override
     public void keyTyped(KeyEvent e) {
         // N.A.
@@ -35,6 +43,7 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
+        Player player = getPlayer(); 
         int code = e.getKeyCode();
         switch (code) {
             case KeyEvent.VK_W:
@@ -65,7 +74,6 @@ public class InputHandler implements KeyListener {
                     }, 2);
                 }
                 break;
-
             case KeyEvent.VK_A:
                 if (!keyDPressed) { // Don't start walking left if D is already pressed
                     player.startWalking(-Player.WALKING_SPEED);
@@ -89,6 +97,7 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
+        Player player = getPlayer(); 
         int code = e.getKeyCode();
         switch (code) {
             case KeyEvent.VK_W:

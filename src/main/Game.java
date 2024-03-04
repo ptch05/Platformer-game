@@ -26,12 +26,12 @@ public class Game{
 
 			 player = world.getPlayer();
 
-			 InputHandler controller = new InputHandler(world.getPlayer());
+			 InputHandler controller = new InputHandler(world);
        view.addKeyListener(controller);
 
 			
 			 // Create the player listener and add it to the world
-			 PlayerListener playerListener = new PlayerListener(world.getPlayer(), view);
+			 PlayerListener playerListener = new PlayerListener(world, view);
        world.addStepListener(playerListener);
 
 			 //create a Java window (frame) and add the game

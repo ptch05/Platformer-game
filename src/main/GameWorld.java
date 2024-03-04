@@ -71,10 +71,11 @@ public class GameWorld extends World {
         XPos = -68.15f; // Reset X position for ground creation
         YPos = -13f;
         createEnvironment();
-        inputHandler = new InputHandler(null);
-        player = new Player(this, inputHandler); 
+        player = new Player(this);
         player.setPosition(new Vec2(5, -5));
-        inputHandler = new InputHandler(player); 
+        inputHandler = new InputHandler(this);
+        player.setInputHandler(inputHandler);
+
         addSkeletons();
 
         PlayerCollisions collision = new PlayerCollisions(player);
@@ -87,10 +88,12 @@ public class GameWorld extends World {
         
         Armour armour = new Armour(this);
         armour.setPosition(new Vec2(230, 17));
+        AudioHandler.playSpawnSound();
         AudioHandler.playGameMusic();
 
         Trophy trophy = new Trophy(this);
         trophy.setPosition(new Vec2(410,27));
+        
     }
 
     private void createGround(){
