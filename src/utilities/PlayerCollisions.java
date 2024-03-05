@@ -29,11 +29,11 @@ public class PlayerCollisions implements CollisionListener {
   public void collide(CollisionEvent e) {
     if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound) {
       Enemy enemy = (Enemy) e.getOtherBody();
-        if(player.isAttacking()){
+      if(player.isAttacking()){
           enemy.enemyDie();
           player.addKill();
           AudioHandler.playKillSound();
-        } else {
+      } else {
           // Logic to knock the player back
           Vec2 knockback = new Vec2(-10, 10);
           player.setLinearVelocity(knockback);
@@ -41,23 +41,28 @@ public class PlayerCollisions implements CollisionListener {
           player.isInAir();
           Vec2 enemyPosition = e.getOtherBody().getPosition();
 
-          // Determine the direction of the enemy relative to the player
+           // Determine the direction of the enemy relative to the player
           boolean enemyIsLeft = enemyPosition.x < playerPosition.x;
           if (enemyIsLeft) {
-            player.hurtRight();
+              player.hurtRight();
           } else {
-            player.hurtLeft();
+              player.hurtLeft();
           }
-
+  
+          int damageAmount = player.getDamageAmount(); 
+          if (e.getOtherBody() instanceof Hound) {
+              damageAmount = 20;
+          }
+  
           player.applyForce(new Vec2(enemyIsLeft ? 30 : -30, 10));
-          player.reduceHealth(player.getDamageAmount());
-
+          player.reduceHealth(damageAmount);
+  
           Vec2 enemyVelocity = enemy.getLinearVelocity();
           enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y));
           AudioHandler.playHurtSound();
-        }
-    }
-
+      }
+  }
+  
       if (e.getReportingBody() instanceof Player) {  //So that enemy doesn't interfere with any of these
       
         if (e.getOtherBody() instanceof Potion){

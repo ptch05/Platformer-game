@@ -11,7 +11,7 @@ public class Skeleton extends Enemy {
   private static final BodyImage skeletonImageLeft = new BodyImage("assets/images/skeleton/skeleton-clothed-left.gif", 6);
 
   public Skeleton(GameWorld world, int leftBoundary, int rightBoundary) {
-    super(world, skeletonShape, skeletonImageRight, skeletonImageLeft, leftBoundary, rightBoundary, 7);
+    super(world, skeletonShape, skeletonImageRight, skeletonImageLeft, leftBoundary, rightBoundary, 3);
   }
   
 }

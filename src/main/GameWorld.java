@@ -7,6 +7,7 @@ import org.jbox2d.common.Vec2;
 import audio.AudioHandler;
 import city.cs.engine.*;
 import entities.Enemy;
+//import entities.Ghost;
 import entities.Hound;
 import entities.Player;
 import entities.Skeleton;
@@ -22,26 +23,38 @@ public class GameWorld extends World {
     private List<PatrolListener> patrolListeners = new ArrayList<>();
 
     private InputHandler inputHandler;
-    private int []skeletonPatrolLeftBoundary = {25, 45,160,225,330}; 
-    private int []skeletonPatrolRightBoundary = {35,70,175,260,350};
-    private int []houndPatrolLeftBoundary = {0,390}; 
-    private int []houndPatrolRightBoundary = {20,355};
+    private static final int numberOfSkeletons = 7;
+    private static final int numberOfHounds = 2;
+   // private static final int numberOfGhosts = 3;
+    private static final int numberOfPotions = 2;
+    private int []skeletonPatrolLeftBoundary = {25, 52, 91, 160,235,315, 380}; 
+    private int []skeletonPatrolRightBoundary = {35,75, 100, 175,245,335, 400 };
+    private int []houndPatrolLeftBoundary = {0,350}; 
+    private int []houndPatrolRightBoundary = {20,370};
+    /*private int []ghostPatrolUpperBoundary = {0,350}; 
+     private int []ghostPatrolLowerBoundary = {20,370};*/
     private static float XPos = -68.15f;
     private static float YPos = -13f;
     private static Vec2[] skeletonPositions = {
         new Vec2(30, -7.3f),
         new Vec2(60, -7.3f),
+        new Vec2(95, 1f),
         new Vec2(170, -3),
         new Vec2(240, 15),
-        new Vec2(365, 22)
+        new Vec2(325, 22),
+        new Vec2(390, 22)
     };
     private static Vec2[] houndPositions = {
-        new Vec2(10, -7.3f),
-        new Vec2(375, 18)
+        new Vec2(10, -5.8f),
+        new Vec2(352, 20)
     };
-    private static final int numberOfSkeletons = 5;
-    private static final int numberOfHounds = 2;
-    private static final int numberOfPotions = 2;
+
+    /*private static Vec2[] ghostPositions = {
+        new Vec2(10, -5.8f),
+        new Vec2(352, 20)
+    };*/
+
+
     private static float[] potionXPos = {60, 175};
     private static float[] potionYPos = {-6, -1};
 
@@ -75,11 +88,12 @@ public class GameWorld extends World {
     }
 
     public void initializeWorld() { 
+        //Uses this method to make the world every time
         XPos = -68.15f; // Resets X position for ground creation
         YPos = -13f; // Resets Y position for ground creation
         createEnvironment();
         player = new Player(this);
-        player.setPosition(new Vec2(5, -5));
+        player.setPosition(new Vec2(-3, -5));
         inputHandler = new InputHandler(this);
         player.setInputHandler(inputHandler);
         player.createPlayerFixtureWithFriction();
@@ -133,6 +147,7 @@ public class GameWorld extends World {
         
         for(int i=0; i<4; i++){
             createGround();
+            System.out.println(XPos);
         }
 
         YPos = -9f;
@@ -195,6 +210,13 @@ public class GameWorld extends World {
             createEnemy(newHound, houndPositions[i]);
         }
     }
+
+   /*  private void addGhosts(){
+        for (int i = 0; i < numberOfGhosts; i++) {
+            Ghost newGhost = new Ghost(this, ghostPatrolUpperBoundary[i], ghostPatrolLowerBoundary[i]);
+            createEnemy(newGhost, ghostPositions[i]);
+        }
+    }*/
 
     private void createEnemy(Enemy enemy, Vec2 position) {
         enemy.setPosition(position); // Sets initial position of the enemies

@@ -34,7 +34,7 @@ public class Enemy extends Walker{
         this.movingRight = true;
     }
 
-    this.setLinearVelocity(new Vec2(this.movingRight ? 2 : -2, 0)); // Move the enemy at a constant speed
+    this.setLinearVelocity(new Vec2(this.movingRight ? walkingSpeed : -walkingSpeed, 0)); // Move the enemy at a constant speed
     updateImage();
   }
 
@@ -47,8 +47,9 @@ public class Enemy extends Walker{
   }
 
   private void updateImage() {
-    this.removeAllImages();
-    this.addImage(this.movingRight ? this.imageRight : this.imageLeft);
+    this.removeAllImages(); // Remove all current images
+    BodyImage newImage = this.movingRight ? this.imageRight : this.imageLeft;
+    this.addImage(newImage); // Add the correct image based on the current direction
 }
 
   public void enemyDie() {
