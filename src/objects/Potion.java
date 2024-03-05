@@ -6,7 +6,7 @@ import entities.Player;
 
 public class Potion extends StaticBody{
   private static final Shape potionShape = new BoxShape((float)0.1, (float)0.5);
-  private static final BodyImage potionImage = new BodyImage("assets/images/misc/potion.png", (float) 2.5);
+  private static final BodyImage potionImage = new BodyImage("./assets/images/misc/potion.png", (float) 2.5);
 
   private Sensor potionSensor;
 

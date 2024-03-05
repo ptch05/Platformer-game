@@ -35,61 +35,61 @@ public class AudioHandler {
       try {
           return new SoundClip(filePath);
       } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-          e.printStackTrace(); // This will print the stack trace of the exception to the console
+          e.printStackTrace();
           return null;
       }
   }
 
   // Added methods to play each sound clip
   public static void playJumpSound() {
-        JUMP_SOUND_CLIP.play();
+        //JUMP_SOUND_CLIP.play();
   }
 
   public static void playAttackSound() {
-        ATTACK_SOUND_CLIP.play();
+       // ATTACK_SOUND_CLIP.play();
   }
 
   public static void playHurtSound() {
-        HURT_SOUND_CLIP.play();
+       // HURT_SOUND_CLIP.play();
   }
 
   public static void playKillSound() {
-        KILL_SOUND_CLIP.play();
+       // KILL_SOUND_CLIP.play();
   }
 
   public static void playGameMusic() {
         GAME_SOUND_CLIP.setVolume(0.6);
-        GAME_SOUND_CLIP.loop();
+       // GAME_SOUND_CLIP.loop();
   }
 
   public static void playPotionSound() {
         POTION_SOUND_CLIP.setVolume(2);
-        POTION_SOUND_CLIP.play();
+       // POTION_SOUND_CLIP.play();
   }
 
   public static void playArmourSound() {
         ARMOUR_SOUND_CLIP.setVolume(1.5);
-        ARMOUR_SOUND_CLIP.play();
+       // ARMOUR_SOUND_CLIP.play();
   }
 
   public static void loseArmourSound() {
         LOSE_ARMOUR_SOUND_CLIP.setVolume(1.5);
-        LOSE_ARMOUR_SOUND_CLIP.play();
+       // LOSE_ARMOUR_SOUND_CLIP.play();
   }
 
   public static void playVictorySound() {
         VICTORY_SOUND_CLIP.setVolume(2);
         GAME_SOUND_CLIP.stop();
-        VICTORY_SOUND_CLIP.play();
+       // VICTORY_SOUND_CLIP.play();
   }
 
   public static void playSpawnSound(){
-        SPAWN_SOUND_CLIP.play();
+       // SPAWN_SOUND_CLIP.play();
   }
 
   public static void playCrouchSound(){
         CROUCH_SOUND_CLIP.setVolume(1.2);
-        CROUCH_SOUND_CLIP.play();
+        //CROUCH_SOUND_CLIP.play();
   }
 
 }

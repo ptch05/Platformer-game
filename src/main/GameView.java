@@ -11,10 +11,10 @@ public class GameView extends UserView {
 
   public GameView(World world, int width, int height) {
       super(world, width, height);
-      background = new ImageIcon("assets/images/level-data/background.png").getImage();
-      mountains = new ImageIcon("assets/images/level-data/mountains.png").getImage();
-      graveyard = new ImageIcon("assets/images/level-data/graveyard.png").getImage();
-      skulls = new ImageIcon("assets/images/misc/skulls.gif").getImage();
+      background = new ImageIcon("./assets/images/level-data/background.png").getImage();
+      mountains = new ImageIcon("./assets/images/level-data/mountains.png").getImage();
+      graveyard = new ImageIcon("./assets/images/level-data/graveyard.png").getImage();
+      skulls = new ImageIcon("./assets/images/misc/skulls.gif").getImage();
   }
 
   @Override
@@ -24,8 +24,8 @@ protected void paintBackground(Graphics2D g) {
 
     // Implemented parallax scrolling, so these are the scrolling factors
     float backgroundParallaxFactor = 0.001f;
-    float mountainsParallaxFactor = 2.5f;
-    float graveyardParallaxFactor = 8.5f;
+    float mountainsParallaxFactor = 2f;
+    float graveyardParallaxFactor = 7f;
 
     // Calculated the new positions for each background layer
     int backgroundX = (int) (playerX * backgroundParallaxFactor) % getWidth();

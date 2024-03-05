@@ -1,5 +1,7 @@
 package utilities;
 
+import entities.Enemy;
+import entities.Hound;
 import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
@@ -25,10 +27,10 @@ public class PlayerCollisions implements CollisionListener {
 
   @Override
   public void collide(CollisionEvent e) {
-      if (e.getOtherBody() instanceof Skeleton) {
-        Skeleton skeleton = (Skeleton) e.getOtherBody();
+    if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound) {
+      Enemy enemy = (Enemy) e.getOtherBody();
         if(player.isAttacking()){
-          skeleton.skeletonDie();
+          enemy.enemyDie();
           player.addKill();
           AudioHandler.playKillSound();
         } else {
@@ -37,26 +39,26 @@ public class PlayerCollisions implements CollisionListener {
           player.setLinearVelocity(knockback);
           Vec2 playerPosition = player.getPosition();
           player.isInAir();
-          Vec2 skeletonPosition = e.getOtherBody().getPosition();
+          Vec2 enemyPosition = e.getOtherBody().getPosition();
 
-          // Determine the direction of the skeleton relative to the player
-          boolean skeletonIsLeft = skeletonPosition.x < playerPosition.x;
-          if (skeletonIsLeft) {
-            player.hurtRight(); 
+          // Determine the direction of the enemy relative to the player
+          boolean enemyIsLeft = enemyPosition.x < playerPosition.x;
+          if (enemyIsLeft) {
+            player.hurtRight();
           } else {
-            player.hurtLeft(); 
+            player.hurtLeft();
           }
-          
-          player.applyForce(new Vec2(skeletonIsLeft ? 30 : -30, 10));
+
+          player.applyForce(new Vec2(enemyIsLeft ? 30 : -30, 10));
           player.reduceHealth(player.getDamageAmount());
 
-          Vec2 skeletonVelocity = skeleton.getLinearVelocity();
-          skeleton.setLinearVelocity(new Vec2(0, skeletonVelocity.y));
+          Vec2 enemyVelocity = enemy.getLinearVelocity();
+          enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y));
           AudioHandler.playHurtSound();
-        } 
-      }
+        }
+    }
 
-      if (e.getReportingBody() instanceof Player) {  //So that skeleton doesn't interfere with any of these
+      if (e.getReportingBody() instanceof Player) {  //So that enemy doesn't interfere with any of these
       
         if (e.getOtherBody() instanceof Potion){
           player.gainHealth(20);

@@ -9,7 +9,7 @@ import entities.Player;
 
 public class Armour extends StaticBody{
   private static final Shape armourShape = new BoxShape((float)0.1, (float)0.5);
-  private static final BodyImage armourImage = new BodyImage("assets/images/misc/armour.png", (float) 2.5);
+  private static final BodyImage armourImage = new BodyImage("./assets/images/misc/armour.png", (float) 2.5);
 
   private Sensor armourSensor;
 

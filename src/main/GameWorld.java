@@ -6,25 +6,26 @@ import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
 import city.cs.engine.*;
+import entities.Enemy;
+import entities.Hound;
 import entities.Player;
 import entities.Skeleton;
 import input.InputHandler;
-import objects.Armour;
-import objects.Potion;
-import objects.Spikes;
-import objects.Trophy;
+import objects.*;
 import utilities.PlayerCollisions;
-import utilities.SkeletonPatrolListener;
+import utilities.PatrolListener;
 
 public class GameWorld extends World {
     // Constructor and methods for world management
     private Player player;
-    private List<Skeleton> skeleton = new ArrayList<>();
-    private List<SkeletonPatrolListener> skeletonPatrolListener = new ArrayList<>();
+    private List<Enemy> enemies = new ArrayList<>();
+    private List<PatrolListener> patrolListeners = new ArrayList<>();
 
     private InputHandler inputHandler;
-    private int []skeletonPatrolLeftBoundary = {25, 45,160,225,350}; 
-    private int []skeletonPatrolRightBoundary = {35,70,175,260,380};
+    private int []skeletonPatrolLeftBoundary = {25, 45,160,225,330}; 
+    private int []skeletonPatrolRightBoundary = {35,70,175,260,350};
+    private int []houndPatrolLeftBoundary = {0,390}; 
+    private int []houndPatrolRightBoundary = {20,355};
     private static float XPos = -68.15f;
     private static float YPos = -13f;
     private static Vec2[] skeletonPositions = {
@@ -34,7 +35,12 @@ public class GameWorld extends World {
         new Vec2(240, 15),
         new Vec2(365, 22)
     };
+    private static Vec2[] houndPositions = {
+        new Vec2(10, -7.3f),
+        new Vec2(375, 18)
+    };
     private static final int numberOfSkeletons = 5;
+    private static final int numberOfHounds = 2;
     private static final int numberOfPotions = 2;
     private static float[] potionXPos = {60, 175};
     private static float[] potionYPos = {-6, -1};
@@ -57,6 +63,7 @@ public class GameWorld extends World {
     
 
     private void clearBodies() {
+        //Deletes all bodies in the world at once
         List<DynamicBody> dynamicBodies = this.getDynamicBodies();
         for (DynamicBody body : dynamicBodies) {
             body.destroy();
@@ -68,8 +75,8 @@ public class GameWorld extends World {
     }
 
     public void initializeWorld() { 
-        XPos = -68.15f; // Reset X position for ground creation
-        YPos = -13f;
+        XPos = -68.15f; // Resets X position for ground creation
+        YPos = -13f; // Resets Y position for ground creation
         createEnvironment();
         player = new Player(this);
         player.setPosition(new Vec2(5, -5));
@@ -78,6 +85,7 @@ public class GameWorld extends World {
         player.createPlayerFixtureWithFriction();
 
         addSkeletons();
+        addHounds();
 
         PlayerCollisions collision = new PlayerCollisions(player, this);
         player.addCollisionListener(collision);
@@ -101,7 +109,7 @@ public class GameWorld extends World {
         Shape groundShape = new BoxShape((float) 4.7, 5.4f);
         StaticBody ground = new StaticBody(this, groundShape);
         ground.setPosition(new Vec2(XPos, YPos));
-        ground.addImage(new BodyImage("assets/images/level-data/ground.png", 11.5f));
+        ground.addImage(new BodyImage("./assets/images/level-data/ground.png", 11.5f));
         XPos +=7f;
     }
 
@@ -112,6 +120,7 @@ public class GameWorld extends World {
       }
 
     private void createEnvironment(){
+        //Logic for the first level
 
         for(int i=0; i<18; i++){
             createSpikes();
@@ -173,17 +182,27 @@ public class GameWorld extends World {
     }
 
     private void addSkeletons() {
+        //Adds the enemies into the world 
         for (int i = 0; i < numberOfSkeletons; i++) {
             Skeleton newSkeleton = new Skeleton(this, skeletonPatrolLeftBoundary[i], skeletonPatrolRightBoundary[i]);
-            newSkeleton.setPosition(skeletonPositions[i]); // Set initial position
-            skeleton.add(newSkeleton);
-
-            SkeletonPatrolListener listener = new SkeletonPatrolListener(newSkeleton);
-            skeletonPatrolListener.add(listener);
-            this.addStepListener(listener); // Add listener to the world for each skeleton
+            createEnemy(newSkeleton, skeletonPositions[i]);
         }
     }
 
-    
-    
+    private void addHounds(){
+        for (int i = 0; i < numberOfHounds; i++) {
+            Hound newHound = new Hound(this, houndPatrolLeftBoundary[i], houndPatrolRightBoundary[i]);
+            createEnemy(newHound, houndPositions[i]);
+        }
+    }
+
+    private void createEnemy(Enemy enemy, Vec2 position) {
+        enemy.setPosition(position); // Sets initial position of the enemies
+        enemies.add(enemy);
+
+        PatrolListener listener = new PatrolListener(enemy);
+        patrolListeners.add(listener);
+        this.addStepListener(listener); // Then it adds the listeners for each of the enemies to the world
+    }
+
 }
