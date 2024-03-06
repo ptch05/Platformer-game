@@ -12,8 +12,8 @@ public class Player extends Walker {
     private static int xNum = 3;
     private static float yNum = (float)3.85;
     private static int playerSize = 7;
-    public static final float WALKING_SPEED = 20;
-    private static final float GRAVITY_FORCE = -25f;
+    public static final float WALKING_SPEED = (float)22.2;
+    private static final float GRAVITY_FORCE = 2.3f;
     private boolean facingRight = true; 
     private boolean inAir = false;
     private boolean isAttacking = false;
@@ -55,6 +55,7 @@ public class Player extends Walker {
         this.world = world;
         addImage(IDLE_RIGHT);
         createPlayerFixtureWithFriction();
+        setGravityScale(GRAVITY_FORCE);
         this.health = 100;
     }
 
@@ -254,7 +255,7 @@ public class Player extends Walker {
 
     public boolean gainArmour() {
         if (!armourOn) { 
-            damageAmount -= 20; 
+            damageAmount /= 2; 
             armourOn = true;     
             return true;         
         }
@@ -263,7 +264,7 @@ public class Player extends Walker {
 
     public boolean loseArmour(){
         if(armourOn){
-            damageAmount +=20;
+            damageAmount *=2 ;
             armourOn = false;
             return false;
         }

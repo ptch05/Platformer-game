@@ -84,7 +84,7 @@ public class AudioHandler {
 
     public static void playCrouchSound() {
         CROUCH_SOUND_CLIP.setVolume(CROUCH_VOLUME);
-        //CROUCH_SOUND_CLIP.play();
+       // CROUCH_SOUND_CLIP.play();
     }
 
     public static void playMenuSound() {

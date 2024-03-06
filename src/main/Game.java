@@ -6,37 +6,17 @@ import input.InputHandler;
 import utilities.PlayerListener;
 
 public class Game{
-
 	 /** The World in which the bodies move and interact. */
 	 private GameWorld world;
-
 	 /* A graphical display of the world (a specialised JPanel). */
 	 private GameView view;
-
 	 private Player player;
+	 private JFrame frame;
 
 	 /* Initialise a new test.Game. */
-	 public Game() {
-
-			 //make the world
-			 world = new GameWorld();
-
-			 //make the view
-			 view = new GameView(world,800,600);
-
-			 player = world.getPlayer();
-
-			 InputHandler controller = new InputHandler(world);
-       view.addKeyListener(controller);
-
-			
-			 // Create the player listener and add it to the world
-			 PlayerListener playerListener = new PlayerListener(world, view);
-       world.addStepListener(playerListener);
-
+	  public Game() {
 			 //create a Java window (frame) and add the game
-			 final JFrame frame = new JFrame("Gothic Cemetery");
-			 frame.add(view);
+			 frame = new JFrame("Gothic Cemetery");
 
 			 // enable the frame to quit the application
 			 // when the x button is pressed
@@ -45,6 +25,25 @@ public class Game{
 			 // don't let the frame be resized
 			 frame.setResizable(false);
 			 // size the frame to fit the world view
+			 startGame();
+	  }
+	  
+	  private void startGame(){
+			//make the world
+			 world = new GameWorld();
+
+			 //make the view
+			 view = new GameView(world,800,600);
+			 player = world.getPlayer();
+
+			 InputHandler controller = new InputHandler(world);
+       view.addKeyListener(controller);
+
+			 // Create the player listener and add it to the world
+			 PlayerListener playerListener = new PlayerListener(world, view);
+       world.addStepListener(playerListener);
+
+			 frame.add(view);
 			 frame.pack();
 			 // finally, make the frame visible
 			 frame.setVisible(true);
@@ -52,7 +51,7 @@ public class Game{
 			 // start our game world simulation!
 			 world.start();
 			 view.requestFocus();
-	 }
+	  }
 
 	 /* Run the game. */
 	 public static void main(String[] args) {

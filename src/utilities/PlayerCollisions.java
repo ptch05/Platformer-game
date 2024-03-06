@@ -35,13 +35,14 @@ public class PlayerCollisions implements CollisionListener {
           AudioHandler.playKillSound();
       } else {
           // Logic to knock the player back
-          Vec2 knockback = new Vec2(-10, 10);
+          player.setLinearVelocity(new Vec2(0, 0)); //Initially sets player velocity to 0 so that it kills off all the player's velocity
+          Vec2 knockback = new Vec2(-15, 15);
           player.setLinearVelocity(knockback);
           Vec2 playerPosition = player.getPosition();
           player.isInAir();
           Vec2 enemyPosition = e.getOtherBody().getPosition();
 
-           // Determine the direction of the enemy relative to the player
+          // Determine the direction of the enemy relative to the player
           boolean enemyIsLeft = enemyPosition.x < playerPosition.x;
           if (enemyIsLeft) {
               player.hurtRight();
@@ -49,17 +50,15 @@ public class PlayerCollisions implements CollisionListener {
               player.hurtLeft();
           }
   
-          int damageAmount = player.getDamageAmount(); 
-          if (e.getOtherBody() instanceof Hound) {
-              damageAmount = 20;
-          }
-  
+          int damageAmount = (e.getOtherBody() instanceof Skeleton) ? player.getDamageAmount()/2 : player.getDamageAmount(); //Skeleton attacks do half the damage as Hound attacks
           player.applyForce(new Vec2(enemyIsLeft ? 30 : -30, 10));
           player.reduceHealth(damageAmount);
   
           Vec2 enemyVelocity = enemy.getLinearVelocity();
-          enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y));
+          enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y)); //So that the enemy doesn't also move after colliding
           AudioHandler.playHurtSound();
+
+          
       }
   }
   

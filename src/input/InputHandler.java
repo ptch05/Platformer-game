@@ -11,6 +11,7 @@ public class InputHandler implements KeyListener {
     private boolean keyAPressed = false;
     private boolean keyDPressed = false;
     private boolean keySPressed = false;
+    private boolean keyKPressed = false;
     private boolean isAnimating = false;
     private Player player;
     private GameWorld world;
@@ -30,7 +31,6 @@ public class InputHandler implements KeyListener {
     public boolean isKeySPressed() {
         return keySPressed;
     }
-
 
     public boolean isKeyDPressed() {
         return keyDPressed;
@@ -99,6 +99,17 @@ public class InputHandler implements KeyListener {
                 break;
 
             case KeyEvent.VK_K:
+                // Stop running when attacking
+                if (!keyAPressed || !keyDPressed) {
+                    player.stopWalking();
+                    if (keyAPressed) {
+                        player.idleLeft();
+                    } else if (keyDPressed) {
+                        player.idleRight();
+                    }
+                    keyAPressed = false;
+                    keyDPressed = false;
+                }
                 player.attack();
                 break;
         }
