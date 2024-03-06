@@ -133,65 +133,51 @@ public class GameWorld extends World {
         XPos+=3f;
       }
 
-    private void createEnvironment(){
-        //Logic for the first level
+      private void createEnvironment() {
+        // Logic for the first level
+        addSpikes(18);
+        addGround(14);
 
-        for(int i=0; i<18; i++){
-            createSpikes();
-        }
-
-        for(int i =0; i<14; i++){
-            createGround();
-        }
         YPos = -8f;
-        
-        for(int i=0; i<4; i++){
-            createGround();
-            System.out.println(XPos);
-        }
+        addGround(4);
 
         YPos = -9f;
-        for(int i=0; i<16; i++){
-            createSpikes();
-        }
-
-        XPos -=20f;
+        addSpikes(16);
+    
+        XPos -= 20f;
         YPos = -8f;
-        for(int i=0; i<1;i++){
-            createGround();
-        }
-
-       XPos+=16f;
+        addGround(1);
+        XPos += 16f;
+        addGround(4);
+        
         for(int i=0; i<4; i++){
-            createGround();
+            addGround(1);
+            YPos +=4.5f;
         }
-
-        for(int i=0;i<4;i++){
-            createGround();
-            YPos+=4.5f;
-        }
-
-        for(int i=0; i<7;i++){
-            createGround();
-        }
-
+        addGround(7);
         YPos=9;
-        for(int i =0; i<14;i++){
-            createSpikes();
-        }
-
-        YPos=15.3f;
-        XPos-=25;
-        createGround();
-
-        XPos+=20f;
+        addSpikes(14);
+    
+        YPos = 15.3f;
+        XPos -= 25;
+        addGround(1);
+        XPos += 20f;
         YPos= 11;
-        for(int i=0; i<15;i++){
+        addGround(15);
+        YPos =10;
+        addSpikes(18);
+    }
+    
+    private void addGround(int times) {
+        //Adds in ground every time it's called
+        for (int i = 0; i < times; i++) {
             createGround();
         }
-
-        YPos =10;
-        for(int i=0; i<18; i++){
+    }
+ 
+    private void addSpikes(int times) {
+        //Adds in spikes every time it's called
+        for (int i = 0; i < times; i++) {
             createSpikes();
         }
     }

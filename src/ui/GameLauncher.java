@@ -1,7 +1,7 @@
 package ui;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class GameLauncher extends JFrame{
+public class GameLauncher extends JPanel{
 
 }
