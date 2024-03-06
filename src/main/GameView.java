@@ -67,7 +67,7 @@ protected void paintBackground(Graphics2D g) {
     int killCounter = player.getKillCounter();
     g.setColor(Color.BLACK);
     g.fillRect(550, 40, 150, 20);
-    g.drawImage(skulls, 452, -1, 180, 110, this);
+    g.drawImage(skulls, 475, 10, 140, 90, this);
     drawCenteredText(g, "Kill Count: " + killCounter, 550, 40, 150, 20, Color.RED);
   }
 
