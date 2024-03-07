@@ -22,15 +22,13 @@ public class Player extends Walker {
     private int killCounter = 0;
     private Fixture attackFixture;
     private Fixture crouchFixture;
-    private long attackStartTime;
-    private long attackDuration = 1000;
     private int health;
     private int damageAmount = 40;
     private long lastDamageTime;
     private static final long DAMAGE_COOLDOWN = 1000;
     
     private static final Shape characterShape = new BoxShape(xNum, yNum);
-    private static final Shape attackShape = new BoxShape((float) 5.75, yNum);
+    private static final Shape attackShape = new BoxShape((float) 5.7, yNum);
     private static final Shape crouchShape = new BoxShape(xNum, (float)4);
     private static final BodyImage IDLE_RIGHT = new BodyImage("./assets/images/hero/hero-idle-right.gif", playerSize);
     private static final BodyImage RUN_RIGHT = new BodyImage("./assets/images/hero/hero-run-right.gif", playerSize);
@@ -73,7 +71,7 @@ public class Player extends Walker {
         addImage(RUN_LEFT);
         facingRight = false;
     }
-
+    
     public void jumpRight() {
             removeAllImages();
             addImage(JUMP_RIGHT);
@@ -125,41 +123,9 @@ public class Player extends Walker {
         if (isInAir()) {
             this.applyForce(new Vec2(0, GRAVITY_FORCE));
         }
-
+        
         if (this.health <= 0) {
             handleDeath();
-        }
-
-        // Handling the end of an attack animation
-        if (isAttacking() && System.currentTimeMillis() - attackStartTime > attackDuration) {
-            isAttacking = false;
-            
-            // Check if inputHandler is not null before using it
-            if (inputHandler != null) {
-                if (!inputHandler.isKeyAPressed() && !inputHandler.isKeyDPressed()) {
-                    if (facingRight) {
-                        idleRight();
-                    } else {
-                        idleLeft();
-                    }
-                } else {
-                    if (inputHandler.isKeyAPressed()) {
-                        runLeft();
-                    } 
-                    if (inputHandler.isKeyDPressed()) {
-                        runRight();
-                    }
-                }
-        
-                // After attack, if inAir is still true, should go back to jump animation
-                if (inAir) {
-                    if (facingRight) {
-                        jumpRight();
-                    } else {
-                        jumpLeft();
-                    }
-                }
-            }
         }
     }
     
@@ -167,7 +133,6 @@ public class Player extends Walker {
     public void attack() {
         if (!isAttacking()) {
             isAttacking = true;
-            attackStartTime = System.currentTimeMillis();
             removeAllImages();
             if (facingRight) {
                 currentImage = ATTACK_RIGHT;

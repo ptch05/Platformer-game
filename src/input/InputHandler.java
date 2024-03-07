@@ -36,6 +36,10 @@ public class InputHandler implements KeyListener {
         return keyDPressed;
     }
 
+    public boolean isKeyKPressed() {
+        return keyKPressed;
+    }
+
     private Player getPlayer() {
         return (Player) world.getPlayer();
     }
