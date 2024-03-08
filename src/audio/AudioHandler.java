@@ -6,25 +6,26 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
 public class AudioHandler {
-    private static final SoundClip JUMP_SOUND_CLIP = loadSoundClip("./assets/sounds/jump.wav");
-    private static final SoundClip ATTACK_SOUND_CLIP = loadSoundClip("./assets/sounds/attack.wav");
-    private static final SoundClip HURT_SOUND_CLIP = loadSoundClip("./assets/sounds/hurt.wav");
-    private static final SoundClip KILL_SOUND_CLIP = loadSoundClip("./assets/sounds/kill.wav");
+    private static final SoundClip JUMP_SOUND_CLIP = loadSoundClip("./assets/sounds/player/jump.wav");
+    private static final SoundClip ATTACK_SOUND_CLIP = loadSoundClip("./assets/sounds/player/attack.wav");
+    private static final SoundClip HURT_SOUND_CLIP = loadSoundClip("./assets/sounds/player/hurt.wav");
+    private static final SoundClip KILL_SOUND_CLIP = loadSoundClip("./assets/sounds/player/kill.wav");
     private static final SoundClip GAME_SOUND_CLIP = loadSoundClip("./assets/music/game-music-loop.wav");
-    private static final SoundClip POTION_SOUND_CLIP = loadSoundClip("./assets/sounds/potion.wav");
-    private static final SoundClip ARMOUR_SOUND_CLIP = loadSoundClip("./assets/sounds/armour.wav");
-    private static final SoundClip VICTORY_SOUND_CLIP = loadSoundClip("./assets/sounds/victory.wav");
-    private static final SoundClip SPAWN_SOUND_CLIP = loadSoundClip("./assets/sounds/spawn.wav");
-    private static final SoundClip LOSE_ARMOUR_SOUND_CLIP = loadSoundClip("./assets/sounds/lose-armour.wav");
-    private static final SoundClip CROUCH_SOUND_CLIP = loadSoundClip("./assets/sounds/crouch.wav");
+    private static final SoundClip POTION_SOUND_CLIP = loadSoundClip("./assets/sounds/collectibles/potion.wav");
+    private static final SoundClip ARMOUR_SOUND_CLIP = loadSoundClip("./assets/sounds/collectibles/armour.wav");
+    private static final SoundClip VICTORY_SOUND_CLIP = loadSoundClip("./assets/sounds/collectibles/victory.wav");
+    private static final SoundClip SPAWN_SOUND_CLIP = loadSoundClip("./assets/sounds/player/spawn.wav");
+    private static final SoundClip LOSE_ARMOUR_SOUND_CLIP = loadSoundClip("./assets/sounds/collectibles/lose-armour.wav");
+    private static final SoundClip CROUCH_SOUND_CLIP = loadSoundClip("./assets/sounds/player/crouch.wav");
     private static final SoundClip MENU_SOUND_CLIP = loadSoundClip("./assets/music/menu-music-loop.wav");
-    private static final SoundClip BUTTON_SOUND_CLIP = loadSoundClip("./assets/sounds/button.wav");
+    private static final SoundClip BUTTON_SOUND_CLIP = loadSoundClip("./assets/sounds/misc/button.wav");
 
     private static final double GAME_VOLUME = 0.6;
     private static final double POTION_VOLUME = 2;
     private static final double ARMOUR_VOLUME = 1.5;
     private static final double VICTORY_VOLUME = 2;
     private static final double CROUCH_VOLUME = 1.2;
+    private static final double MENU_VOLUME = 2;
 
     private static SoundClip loadSoundClip(String filePath) {
         try {
@@ -88,6 +89,7 @@ public class AudioHandler {
     }
 
     public static void playMenuSound() {
+        MENU_SOUND_CLIP.setVolume(MENU_VOLUME);
         MENU_SOUND_CLIP.loop();
     }
 

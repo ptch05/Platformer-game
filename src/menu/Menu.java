@@ -22,11 +22,11 @@ public class Menu extends JPanel {
         this.setPreferredSize(new Dimension(800, 600));
         addMenuButtons();
         AudioHandler.playMenuSound();
-        menu = new ImageIcon("./assets/images/misc/title-screen.png").getImage();
+        menu = new ImageIcon("./assets/images/start-screen/title-screen.png").getImage();
     }
 
     private void addMenuButtons() {
-        JButton playButton = createButton("./assets/images/misc/play.png", e -> {
+        JButton playButton = createButton("./assets/images/start-screen/play.png", e -> {
             AudioHandler.playButtonSound();
             Timer timer = new Timer(500, evt -> {
                 startGame();
@@ -36,7 +36,7 @@ public class Menu extends JPanel {
             timer.start();
         });
 
-        JButton quitButton = createButton("./assets/images/misc/quit.png", e -> {
+        JButton quitButton = createButton("./assets/images/start-screen/quit.png", e -> {
             AudioHandler.playButtonSound();
             Timer timer = new Timer(500, evt -> System.exit(0));
             timer.start();

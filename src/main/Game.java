@@ -9,7 +9,7 @@ public class Game {
 
 	public Game() {
 			//create a Java window (frame) and add the game
-			frame = new JFrame("Gothic Cemetery");
+			frame = new JFrame("GothicVania Cemetery");
 
 			// enable the frame to quit the application
 			// when the x button is pressed
@@ -28,6 +28,6 @@ public class Game {
 	}
 
 	public static void main(String[] args) {
-		  new Game();
+		  new Game();			
 	}
 }

@@ -1,8 +1,6 @@
 package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Timer;
-import java.util.TimerTask;
 import entities.Player;
 import main.GameWorld;
 
@@ -12,7 +10,6 @@ public class InputHandler implements KeyListener {
     private boolean keyDPressed = false;
     private boolean keySPressed = false;
     private boolean keyKPressed = false;
-    private boolean isAnimating = false;
     private Player player;
     private GameWorld world;
 
@@ -55,31 +52,12 @@ public class InputHandler implements KeyListener {
         int code = e.getKeyCode();
         switch (code) {
             case KeyEvent.VK_W:
-                // Check if not already in animation
-                if (!isAnimating) {
-                    // Set animation state to true
-                    isAnimating = true;
-
-                    // Perform jump and animation
-                    player.jump(20);
-                    player.adjustGravity(3.3f);
-                    if (player.isFacingRight()) {
-                        player.jumpRight();
-                    } else {
-                        player.jumpLeft();
-                    }
-
-                    // Schedule a task to reset animation state after animation duration
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            // Reset animation state to false
-                            isAnimating = false;
-                            // Cancel this task
-                            timer.cancel();
-                        }
-                    }, 2);
+                player.jump(20);
+                player.adjustGravity(3.3f);
+                if (player.isFacingRight()) {
+                    player.jumpRight();
+                } else {
+                    player.jumpLeft();
                 }
                 break;
             case KeyEvent.VK_A:

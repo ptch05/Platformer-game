@@ -96,7 +96,7 @@ public class GameWorld extends World {
         player.setPosition(new Vec2(-3, -5));
         inputHandler = new InputHandler(this);
         player.setInputHandler(inputHandler);
-        player.createPlayerFixtureWithFriction();
+        player.addFriction();
 
         addSkeletons();
         addHounds();
@@ -116,7 +116,6 @@ public class GameWorld extends World {
 
         Trophy trophy = new Trophy(this);
         trophy.setPosition(new Vec2(410,27));
-        
     }
 
     private void createGround(){

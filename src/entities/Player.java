@@ -52,7 +52,7 @@ public class Player extends Walker {
         super(world, characterShape);
         this.world = world;
         addImage(IDLE_RIGHT);
-        createPlayerFixtureWithFriction();
+        addFriction();
         setGravityScale(GRAVITY_FORCE);
         this.health = 100;
     }
@@ -175,7 +175,7 @@ public class Player extends Walker {
         this.setGravityScale(newGravityScale);
     }
 
-    public void createPlayerFixtureWithFriction() {
+    public void addFriction() {
         SolidFixture fixture = new SolidFixture(this, characterShape);
         fixture.setFriction(270f); 
     }
