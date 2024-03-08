@@ -76,13 +76,11 @@ public class PlayerCollisions implements CollisionListener {
         }
 
         if(e.getOtherBody() instanceof Spikes){
-          System.out.println("Sayonara");
           AudioHandler.playHurtSound();
           player.handleDeath();
         }
 
         if(e.getOtherBody() instanceof Trophy){
-          System.out.println("You win!");
           e.getOtherBody().destroy();
           AudioHandler.playVictorySound();
           try {

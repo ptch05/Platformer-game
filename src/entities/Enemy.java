@@ -34,17 +34,17 @@ public class Enemy extends Walker{
         this.movingRight = true;
     }
 
-    this.setLinearVelocity(new Vec2(this.movingRight ? walkingSpeed : -walkingSpeed, 0)); // Move the enemy at a constant speed
+    this.setLinearVelocity(new Vec2(this.movingRight ? walkingSpeed : -walkingSpeed, 0)); // Move the enemy at a constant speed left or right
     updateImage();
   }
 
-  public void reverseDirection() {
+  /*public void reverseDirection() {
     if (getLinearVelocity().x > 0) {
         startWalking(-walkingSpeed);
     } else {
         startWalking(walkingSpeed);
     }
-  }
+  }*/
 
   private void updateImage() {
     this.removeAllImages(); // Remove all current images

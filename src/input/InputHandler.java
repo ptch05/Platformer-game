@@ -92,6 +92,12 @@ public class InputHandler implements KeyListener {
 
             case KeyEvent.VK_S:
                 player.crouch();
+                keySPressed = true;
+                if(keyAPressed || !keySPressed){
+                    player.runLeft();
+                } else if(keyDPressed || !keySPressed){
+                    player.runRight();
+                }
                 break;
 
             case KeyEvent.VK_D:

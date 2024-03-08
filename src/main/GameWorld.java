@@ -28,7 +28,7 @@ public class GameWorld extends World {
    // private static final int numberOfGhosts = 3;
     private static final int numberOfPotions = 2;
     private int []skeletonPatrolLeftBoundary = {25, 52, 91, 160,235,315, 380}; 
-    private int []skeletonPatrolRightBoundary = {35,75, 100, 175,245,335, 400 };
+    private int []skeletonPatrolRightBoundary = {35,75, 100, 175,245,335, 400};
     private int []houndPatrolLeftBoundary = {0,350}; 
     private int []houndPatrolRightBoundary = {20,370};
     /*private int []ghostPatrolUpperBoundary = {0,350}; 

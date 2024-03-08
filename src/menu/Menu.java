@@ -1,13 +1,14 @@
 package menu;
 
 import javax.swing.*;
+
+import audio.AudioHandler;
 import input.InputHandler;
 import main.GameView;
 import main.GameWorld;
 import utilities.PlayerListener;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu extends JPanel {
@@ -18,36 +19,46 @@ public class Menu extends JPanel {
 
     public Menu(JFrame frame, int width, int height) {
         this.frame = frame;
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setPreferredSize(new Dimension(800, 600));
         addMenuButtons();
+        AudioHandler.playMenuSound();
+        menu = new ImageIcon("./assets/images/misc/title-screen.png").getImage();
     }
 
     private void addMenuButtons() {
-        // Play button
-       JButton playButton = new JButton("Play");
-       //playButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        playButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        JButton playButton = createButton("./assets/images/misc/play.png", e -> {
+            AudioHandler.playButtonSound();
+            Timer timer = new Timer(500, evt -> {
                 startGame();
-            }
+                AudioHandler.stopMenuSound();
+            });
+            timer.setRepeats(false);
+            timer.start();
         });
 
-        // Quit button
-       JButton quitButton = new JButton("Quit");
-       //quitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
+        JButton quitButton = createButton("./assets/images/misc/quit.png", e -> {
+            AudioHandler.playButtonSound();
+            Timer timer = new Timer(500, evt -> System.exit(0));
+            timer.start();
         });
 
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(Box.createVerticalGlue());
         add(playButton);
-        add(Box.createRigidArea(new Dimension(800, 600)));
+        add(Box.createRigidArea(new Dimension(0, 25)));
         add(quitButton);
-        add(Box.createVerticalGlue());
+        add(Box.createRigidArea(new Dimension(0, 80)));
+    }
+
+    private JButton createButton(String imagePath, ActionListener listener) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        JButton button = new JButton(icon);
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.addActionListener(listener);
+        return button;
     }
 
     private void startGame() { //DO NOT TOUCH THIS
@@ -69,11 +80,9 @@ public class Menu extends JPanel {
         world.start();
     }
 
-  
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        menu = new ImageIcon("./assets/images/misc/title-screen.png").getImage();
         g.drawImage(menu, 0, 0, getWidth(), getHeight(), this);
     }
 }

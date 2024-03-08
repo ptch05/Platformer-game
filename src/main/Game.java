@@ -1,7 +1,5 @@
 package main;
 
-import java.awt.Dimension;
-
 import javax.swing.JFrame;
 
 import menu.Menu;
@@ -10,16 +8,23 @@ public class Game {
 	private JFrame frame;
 
 	public Game() {
-			frame = new JFrame("GothicVania Cemetery");
+			//create a Java window (frame) and add the game
+			frame = new JFrame("Gothic Cemetery");
+
+			// enable the frame to quit the application
+			// when the x button is pressed
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLocationByPlatform(true);
-			frame.setResizable(true);
-			frame.setSize(new Dimension(800, 600));
-
+			// don't let the frame be resized
+			frame.setResizable(false);
+			// size the frame to fit the world view
+			
 			Menu menu = new Menu(frame, 800, 600);
 			frame.add(menu);
 			frame.pack();
-			frame.setVisible(true);
+			 // finally, make the frame visible
+			 frame.setVisible(true);
+			 
 	}
 
 	public static void main(String[] args) {
