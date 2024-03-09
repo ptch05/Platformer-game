@@ -28,7 +28,7 @@ public class Menu extends JPanel {
     private void addMenuButtons() {
         JButton playButton = createButton("./assets/images/start-screen/play.png", e -> {
             AudioHandler.playButtonSound();
-            Timer timer = new Timer(500, evt -> {
+            Timer timer = new Timer(500, evt -> { //I added these 2 timers so that there's a little bit of a delay between clicking the button and actually loading into the game, to make it feel a little more game-like.
                 startGame();
                 AudioHandler.stopMenuSound();
             });

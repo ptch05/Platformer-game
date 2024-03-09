@@ -23,9 +23,10 @@ public class Player extends Walker {
     private Fixture attackFixture;
     private Fixture crouchFixture;
     private int health;
-    private int damageAmount = 40;
+    private int healthLossAmount = 40;
     private long lastDamageTime;
     private static final long DAMAGE_COOLDOWN = 1000;
+    private boolean specialOn = false;
     
     private static final Shape characterShape = new BoxShape(xNum, yNum);
     private static final Shape attackShape = new BoxShape((float) 5.7, yNum);
@@ -36,12 +37,14 @@ public class Player extends Walker {
     private static final BodyImage ATTACK_RIGHT = new BodyImage("./assets/images/hero/hero-attack-right.gif", playerSize);
     private static final BodyImage HURT_RIGHT = new BodyImage("./assets/images/hero/hero-hurt-right.png",(float) (playerSize*1.3));
     private static final BodyImage CROUCH_RIGHT = new BodyImage("./assets/images/hero/hero-crouch-right.png", (float)(playerSize*1.4));
+    private static final BodyImage SPECIAL_RIGHT = new BodyImage("./assets/images/hero/hero-special-attack-right.gif", (float)(playerSize*1.4));
     private static final BodyImage IDLE_LEFT = new BodyImage("./assets/images/hero/hero-idle-left.gif", playerSize);
     private static final BodyImage RUN_LEFT = new BodyImage("./assets/images/hero/hero-run-left.gif", playerSize);
     private static final BodyImage JUMP_LEFT = new BodyImage("./assets/images/hero/hero-jump-left.gif", playerSize);
     private static final BodyImage ATTACK_LEFT = new BodyImage("./assets/images/hero/hero-attack-left.gif", playerSize);
     private static final BodyImage HURT_LEFT = new BodyImage("./assets/images/hero/hero-hurt-left.png",(float) (playerSize*1.3));
     private static final BodyImage CROUCH_LEFT = new BodyImage("./assets/images/hero/hero-crouch-left.png", (float)(playerSize*1.4));
+    private static final BodyImage SPECIAL_LEFT = new BodyImage("./assets/images/hero/hero-special-attack-right.gif", (float)(playerSize*1.4));
     
 
     private GameWorld world;
@@ -91,13 +94,11 @@ public class Player extends Walker {
     public void idleRight() {
         removeAllImages();
         addImage(IDLE_RIGHT);
-        facingRight = true;
     }
 
     public void idleLeft() {
         removeAllImages();
         addImage(IDLE_LEFT);
-        facingRight = false;
     }
 
     public void hurtLeft(){
@@ -197,7 +198,7 @@ public class Player extends Walker {
     }
 
     public void gainHealth(int i){
-        health = health + 20;
+        health -= 20;
         if(health + 20 >100){
             health = 100;
         }
@@ -207,8 +208,8 @@ public class Player extends Walker {
         return health;
     }
 
-    public int getDamageAmount(){
-        return damageAmount;
+    public int getHealthLossAmount(){
+        return healthLossAmount;
     }
 
 
@@ -220,7 +221,7 @@ public class Player extends Walker {
 
     public boolean gainArmour() {
         if (!armourOn) { 
-            damageAmount /= 2; 
+            healthLossAmount /= 2; 
             armourOn = true;     
             return true;         
         }
@@ -229,15 +230,36 @@ public class Player extends Walker {
 
     public boolean loseArmour(){
         if(armourOn){
-            damageAmount *=2 ;
+            healthLossAmount *=2 ;
             armourOn = false;
-            return false;
+            return true;
         }
         return false;
     }
 
     public boolean isArmourOn() {
         return armourOn;
+    }
+
+    public boolean isSpecialOn(){
+        return specialOn;
+    }
+
+    public boolean gainSpecial(){
+        if (!specialOn) { 
+            specialOn = true;
+            AudioHandler.playGainSpecialSound();     
+            return true;         
+        }
+        return false; 
+    }
+
+    public boolean loseSpecial(){
+        if(specialOn){
+            specialOn = false;
+            return true;
+        }
+        return false;
     }
 
     public int getKillCounter(){

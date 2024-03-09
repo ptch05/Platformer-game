@@ -19,13 +19,16 @@ public class AudioHandler {
     private static final SoundClip CROUCH_SOUND_CLIP = loadSoundClip("./assets/sounds/player/crouch.wav");
     private static final SoundClip MENU_SOUND_CLIP = loadSoundClip("./assets/music/menu-music-loop.wav");
     private static final SoundClip BUTTON_SOUND_CLIP = loadSoundClip("./assets/sounds/misc/button.wav");
+    private static final SoundClip GAIN_SPECIAL_SOUND_CLIP = loadSoundClip("./assets/sounds/player/gain-special.wav");
+    private static final SoundClip SPECIAL_ATTACK_SOUND_CLIP = loadSoundClip("./assets/sounds/player/special-attack.wav");
 
-    private static final double GAME_VOLUME = 0.6;
+    private static final double GAME_VOLUME = 0.5;
     private static final double POTION_VOLUME = 2;
     private static final double ARMOUR_VOLUME = 1.5;
     private static final double VICTORY_VOLUME = 2;
     private static final double CROUCH_VOLUME = 1.2;
     private static final double MENU_VOLUME = 2;
+    private static final double SPECIAL_ATTACK_VOLUME = 2;
 
     private static SoundClip loadSoundClip(String filePath) {
         try {
@@ -99,5 +102,15 @@ public class AudioHandler {
 
     public static void playButtonSound() {
         BUTTON_SOUND_CLIP.play();
+    }
+
+    public static void playGainSpecialSound() {
+        GAIN_SPECIAL_SOUND_CLIP.play();
+    }
+
+    public static void playSpecialAttackSound() {
+        SPECIAL_ATTACK_SOUND_CLIP.setVolume(SPECIAL_ATTACK_VOLUME);
+        SPECIAL_ATTACK_SOUND_CLIP.play();
+        
     }
 }

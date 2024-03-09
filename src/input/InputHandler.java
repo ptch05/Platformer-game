@@ -1,6 +1,8 @@
 package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import audio.AudioHandler;
 import entities.Player;
 import main.GameWorld;
 
@@ -10,31 +12,12 @@ public class InputHandler implements KeyListener {
     private boolean keyDPressed = false;
     private boolean keySPressed = false;
     private boolean keyKPressed = false;
+    private boolean keyGPressed = false;
     private Player player;
     private GameWorld world;
 
     public InputHandler(GameWorld world) {
         this.world = world;
-    }
-
-    public boolean isKeyWPressed() {
-        return keyWPressed;
-    }
-
-    public boolean isKeyAPressed() {
-        return keyAPressed;
-    }
-
-    public boolean isKeySPressed() {
-        return keySPressed;
-    }
-
-    public boolean isKeyDPressed() {
-        return keyDPressed;
-    }
-
-    public boolean isKeyKPressed() {
-        return keyKPressed;
     }
 
     private Player getPlayer() {
@@ -59,6 +42,7 @@ public class InputHandler implements KeyListener {
                 } else {
                     player.jumpLeft();
                 }
+                keyWPressed = true;
                 break;
             case KeyEvent.VK_A:
                 if (!keyDPressed) { // Don't start walking left if D is already pressed
@@ -76,6 +60,7 @@ public class InputHandler implements KeyListener {
                 } else if(keyDPressed || !keySPressed){
                     player.runRight();
                 }
+                keySPressed = true;
                 break;
 
             case KeyEvent.VK_D:
@@ -98,8 +83,11 @@ public class InputHandler implements KeyListener {
                     keyAPressed = false;
                     keyDPressed = false;
                 }
+                keyKPressed = true;
                 player.attack();
                 break;
+            case KeyEvent.VK_G:
+                AudioHandler.playSpecialAttackSound();   
         }
     }
 
@@ -109,40 +97,23 @@ public class InputHandler implements KeyListener {
         int code = e.getKeyCode();
         switch (code) {
             case KeyEvent.VK_W:
-                if(keyAPressed){
-                    player.runLeft();
-                } else if(keyDPressed){
-                    player.runRight();
-                }
                 break;
             case KeyEvent.VK_A:
                 player.stopWalking();
-                player.idleLeft();
                 keyAPressed = false;
                 break;
             case KeyEvent.VK_S:
                 player.endCrouch();
-                if(keyAPressed){
-                    player.runLeft();
-                } else if(keyDPressed){
-                    player.runRight();
-                }
                 break;
             case KeyEvent.VK_D:
                 player.stopWalking();
-                player.idleRight();
                 keyDPressed = false;
                 break;
             case KeyEvent.VK_K:
                 player.endAttack();
-                if(keyDPressed){
-                    player.runRight();
-                }else if(keyAPressed){
-                    player.runLeft();
-                }
                 break;
-            
-
+            case KeyEvent.VK_G:
+                break;
         }   
         // If no keys are pressed and the player is not moving horizontally, this sets idle animation based on the last direction the player was facing
         if (!keyAPressed && !keyDPressed) {

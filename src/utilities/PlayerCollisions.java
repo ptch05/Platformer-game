@@ -50,9 +50,9 @@ public class PlayerCollisions implements CollisionListener {
               player.hurtLeft();
           }
   
-          int damageAmount = (e.getOtherBody() instanceof Skeleton) ? player.getDamageAmount()/2 : player.getDamageAmount(); //Skeleton attacks do half as much damage as Hound attacks
+          int healthLossAmount = (e.getOtherBody() instanceof Skeleton) ? player.getHealthLossAmount()/2 : player.getHealthLossAmount(); //Skeleton attacks do half as much damage as Hound attacks
           player.applyForce(new Vec2(enemyIsLeft ? 30 : -30, 10));
-          player.reduceHealth(damageAmount);
+          player.reduceHealth(healthLossAmount);
   
           Vec2 enemyVelocity = enemy.getLinearVelocity();
           enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y)); //So that the enemy doesn't also move after colliding
