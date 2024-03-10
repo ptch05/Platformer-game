@@ -1,8 +1,6 @@
 package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import audio.AudioHandler;
 import entities.Player;
 import main.GameWorld;
 
@@ -87,7 +85,8 @@ public class InputHandler implements KeyListener {
                 player.attack();
                 break;
             case KeyEvent.VK_G:
-                AudioHandler.playSpecialAttackSound();   
+                player.specialAttack();
+                break;
         }
     }
 
@@ -97,6 +96,11 @@ public class InputHandler implements KeyListener {
         int code = e.getKeyCode();
         switch (code) {
             case KeyEvent.VK_W:
+                if(keyAPressed){
+                    player.runLeft();
+                } else if(keyDPressed){
+                    player.runRight();
+                } // These are here as otherwise when W is released, the player doesn't return to normal running animations
                 break;
             case KeyEvent.VK_A:
                 player.stopWalking();
@@ -113,6 +117,7 @@ public class InputHandler implements KeyListener {
                 player.endAttack();
                 break;
             case KeyEvent.VK_G:
+                player.endSpecialAttack();
                 break;
         }   
         // If no keys are pressed and the player is not moving horizontally, this sets idle animation based on the last direction the player was facing

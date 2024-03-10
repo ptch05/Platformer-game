@@ -6,8 +6,8 @@ import java.awt.*;
 import entities.Player;
 
 public class GameView extends UserView {
-  private Image background, mountains, graveyard, skulls;
-  public static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
+  private Image background, mountains, graveyard, skulls, bloodthirsty;
+  private static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
 
   public GameView(World world, int width, int height) {
       super(world, width, height);
@@ -15,10 +15,11 @@ public class GameView extends UserView {
       mountains = new ImageIcon("./assets/images/level-data/mountains.png").getImage();
       graveyard = new ImageIcon("./assets/images/level-data/graveyard.png").getImage();
       skulls = new ImageIcon("./assets/images/misc/skulls.gif").getImage();
+      bloodthirsty = new ImageIcon("./assets/images/misc/bloodthirsty.gif").getImage();
   }
 
-  @Override
-protected void paintBackground(Graphics2D g) {
+    @Override
+    protected void paintBackground(Graphics2D g) {
     Player player = ((GameWorld) getWorld()).getPlayer();
     float playerX = player.getPosition().x;
 
@@ -44,6 +45,9 @@ protected void paintBackground(Graphics2D g) {
     drawHealthBar(g, player);
     if (player.isArmourOn()) {
         drawArmourBar(g);
+    }
+    if(player.isSpecialAttackOn()){
+      drawBloodthirsty(g);
     }
     drawKillCounter(g, player);
   }
@@ -90,5 +94,9 @@ protected void paintBackground(Graphics2D g) {
     int textX = x + (width - textWidth) / 2;
     int textY = y + ((height - metrics.getHeight()) / 2) + metrics.getAscent();
     g.drawString(text, textX, textY);
+  }
+
+  private void drawBloodthirsty(Graphics2D g){
+    g.drawImage(bloodthirsty, 535, 75, 155, 45, this);
   }
 }

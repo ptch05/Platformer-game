@@ -111,6 +111,6 @@ public class AudioHandler {
     public static void playSpecialAttackSound() {
         SPECIAL_ATTACK_SOUND_CLIP.setVolume(SPECIAL_ATTACK_VOLUME);
         SPECIAL_ATTACK_SOUND_CLIP.play();
-        
     }
+
 }

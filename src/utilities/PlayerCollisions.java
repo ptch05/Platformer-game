@@ -29,7 +29,7 @@ public class PlayerCollisions implements CollisionListener {
   public void collide(CollisionEvent e) {
     if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound) {
       Enemy enemy = (Enemy) e.getOtherBody();
-      if(player.isAttacking()){
+      if(player.isAttacking() || player.isSpecialAttacking()){
           enemy.enemyDie();
           player.addKill();
           AudioHandler.playKillSound();
@@ -69,18 +69,18 @@ public class PlayerCollisions implements CollisionListener {
           e.getOtherBody().destroy();
         }
 
-        if (e.getOtherBody() instanceof Armour){
+        else if (e.getOtherBody() instanceof Armour){
           player.gainArmour();
           e.getOtherBody().destroy();
           view.repaint();
         }
 
-        if(e.getOtherBody() instanceof Spikes){
+        else if(e.getOtherBody() instanceof Spikes){
           AudioHandler.playHurtSound();
           player.handleDeath();
         }
 
-        if(e.getOtherBody() instanceof Trophy){
+        else if(e.getOtherBody() instanceof Trophy){
           e.getOtherBody().destroy();
           AudioHandler.playVictorySound();
           try {

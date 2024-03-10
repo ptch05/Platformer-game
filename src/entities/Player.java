@@ -22,29 +22,33 @@ public class Player extends Walker {
     private int killCounter = 0;
     private Fixture attackFixture;
     private Fixture crouchFixture;
+    private Fixture specialAttackFixture;
     private int health;
     private int healthLossAmount = 40;
     private long lastDamageTime;
     private static final long DAMAGE_COOLDOWN = 1000;
-    private boolean specialOn = false;
+    private boolean specialAttackOn = false;
+    private boolean specialAttackUsed = false;
+    private boolean specialSoundPlayed = false; 
     
     private static final Shape characterShape = new BoxShape(xNum, yNum);
-    private static final Shape attackShape = new BoxShape((float) 5.7, yNum);
-    private static final Shape crouchShape = new BoxShape(xNum, (float)4);
+    private static final Shape attackShape = new BoxShape(5.7f, yNum);
+    private static final Shape crouchShape = new BoxShape(xNum, 4f);
+    private static final Shape specialAttackShape = new BoxShape(5.7f, 5f);
     private static final BodyImage IDLE_RIGHT = new BodyImage("./assets/images/hero/hero-idle-right.gif", playerSize);
     private static final BodyImage RUN_RIGHT = new BodyImage("./assets/images/hero/hero-run-right.gif", playerSize);
     private static final BodyImage JUMP_RIGHT = new BodyImage("./assets/images/hero/hero-jump-right.gif", playerSize);
     private static final BodyImage ATTACK_RIGHT = new BodyImage("./assets/images/hero/hero-attack-right.gif", playerSize);
     private static final BodyImage HURT_RIGHT = new BodyImage("./assets/images/hero/hero-hurt-right.png",(float) (playerSize*1.3));
     private static final BodyImage CROUCH_RIGHT = new BodyImage("./assets/images/hero/hero-crouch-right.png", (float)(playerSize*1.4));
-    private static final BodyImage SPECIAL_RIGHT = new BodyImage("./assets/images/hero/hero-special-attack-right.gif", (float)(playerSize*1.4));
+    private static final BodyImage SPECIAL_ATTACK_RIGHT = new BodyImage("./assets/images/hero/hero-special-attack-right.gif", (float)(playerSize*1.6));
     private static final BodyImage IDLE_LEFT = new BodyImage("./assets/images/hero/hero-idle-left.gif", playerSize);
     private static final BodyImage RUN_LEFT = new BodyImage("./assets/images/hero/hero-run-left.gif", playerSize);
     private static final BodyImage JUMP_LEFT = new BodyImage("./assets/images/hero/hero-jump-left.gif", playerSize);
     private static final BodyImage ATTACK_LEFT = new BodyImage("./assets/images/hero/hero-attack-left.gif", playerSize);
     private static final BodyImage HURT_LEFT = new BodyImage("./assets/images/hero/hero-hurt-left.png",(float) (playerSize*1.3));
     private static final BodyImage CROUCH_LEFT = new BodyImage("./assets/images/hero/hero-crouch-left.png", (float)(playerSize*1.4));
-    private static final BodyImage SPECIAL_LEFT = new BodyImage("./assets/images/hero/hero-special-attack-right.gif", (float)(playerSize*1.4));
+    private static final BodyImage SPECIAL_ATTACK_LEFT = new BodyImage("./assets/images/hero/hero-special-attack-left.gif", (float)(playerSize*1.6));
     
 
     private GameWorld world;
@@ -148,16 +152,12 @@ public class Player extends Walker {
     }
 
     private void createAttackHitbox(Shape attackShape) {
-        if (attackFixture != null) {
-            attackFixture.destroy(); // Use destroy() method directly on the fixture
-            attackFixture = null; // Clear the reference after destruction
-        }
         attackFixture = new SolidFixture(this, attackShape); // Create a new attack hitbox
         
     }
     
     public void endAttack() {
-        if (isAttacking) {
+        if (isAttacking()) {
             isAttacking = false;
             if (attackFixture != null) {
                 attackFixture.destroy(); // Remove the attack hitbox using destroy()
@@ -165,7 +165,6 @@ public class Player extends Walker {
             }
         }
     }
-    
 
     public boolean isAttacking() {
         return isAttacking;
@@ -198,7 +197,7 @@ public class Player extends Walker {
     }
 
     public void gainHealth(int i){
-        health -= 20;
+        health += 20;
         if(health + 20 >100){
             health = 100;
         }
@@ -241,33 +240,64 @@ public class Player extends Walker {
         return armourOn;
     }
 
-    public boolean isSpecialOn(){
-        return specialOn;
+    public boolean isSpecialAttackOn(){
+        return specialAttackOn;
     }
-
-    public boolean gainSpecial(){
-        if (!specialOn) { 
-            specialOn = true;
-            AudioHandler.playGainSpecialSound();     
-            return true;         
+    public boolean gainSpecialAttack() {
+        if (killCounter == 5 && !specialAttackOn) {
+            specialAttackOn = true;
+            if(!specialSoundPlayed){
+                AudioHandler.playGainSpecialSound(); // Plays sound only when the special attack is gained
+                specialSoundPlayed = true;
+            }
+            return true;
         }
         return false; 
     }
 
-    public boolean loseSpecial(){
-        if(specialOn){
-            specialOn = false;
-            return true;
+    public boolean isSpecialAttacking(){
+        return specialAttackUsed;
+    }
+
+    public void specialAttack(){
+        if(specialAttackOn && !specialAttackUsed){
+            if (!isSpecialAttacking()) {
+                specialAttackUsed = true;
+                removeAllImages();
+                if (facingRight) {
+                    currentImage = SPECIAL_ATTACK_RIGHT;
+                } else {
+                    currentImage = SPECIAL_ATTACK_LEFT;
+                }
+                addImage(currentImage);
+                createSpecialAttackHitbox(specialAttackShape);
+                AudioHandler.playSpecialAttackSound();
+                
+            }
         }
-        return false;
+    }
+
+    private void createSpecialAttackHitbox(Shape attackShape) {
+        specialAttackFixture = new SolidFixture(this, specialAttackShape); // Create a new special attack hitbox
+    }
+
+    public void endSpecialAttack(){
+        if(isSpecialAttacking()){
+            specialAttackFixture.destroy(); 
+            specialAttackOn = false;
+            specialAttackUsed = false;
+        }
     }
 
     public int getKillCounter(){
         return killCounter;
     }
-
-    public void addKill(){
-         killCounter++;
+    
+    public void addKill() {
+        killCounter++;
+        if (killCounter == 5) {
+            gainSpecialAttack();
+        }
     }
 
     public boolean isCrouching(){
