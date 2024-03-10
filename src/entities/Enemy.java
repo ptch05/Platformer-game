@@ -38,14 +38,6 @@ public class Enemy extends Walker{
     updateImage();
   }
 
-  /*public void reverseDirection() {
-    if (getLinearVelocity().x > 0) {
-        startWalking(-walkingSpeed);
-    } else {
-        startWalking(walkingSpeed);
-    }
-  }*/
-
   private void updateImage() {
     this.removeAllImages(); // Remove all current images
     BodyImage newImage = this.movingRight ? this.imageRight : this.imageLeft;

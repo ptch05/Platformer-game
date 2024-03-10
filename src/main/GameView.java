@@ -6,7 +6,7 @@ import java.awt.*;
 import entities.Player;
 
 public class GameView extends UserView {
-  private Image background, mountains, graveyard, skulls, bloodthirsty, win;
+  private final Image background, mountains, graveyard, skulls, bloodthirsty, win;
   private static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
 
   public GameView(GameWorld world, int width, int height) {
