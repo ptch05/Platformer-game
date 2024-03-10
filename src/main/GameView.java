@@ -6,50 +6,58 @@ import java.awt.*;
 import entities.Player;
 
 public class GameView extends UserView {
-  private Image background, mountains, graveyard, skulls, bloodthirsty;
+  private Image background, mountains, graveyard, skulls, bloodthirsty, win;
   private static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
 
-  public GameView(World world, int width, int height) {
+  public GameView(GameWorld world, int width, int height) {
       super(world, width, height);
       background = new ImageIcon("./assets/images/level-data/background.png").getImage();
       mountains = new ImageIcon("./assets/images/level-data/mountains.png").getImage();
       graveyard = new ImageIcon("./assets/images/level-data/graveyard.png").getImage();
       skulls = new ImageIcon("./assets/images/misc/skulls.gif").getImage();
       bloodthirsty = new ImageIcon("./assets/images/misc/bloodthirsty.gif").getImage();
+      win = new ImageIcon("./assets/images/misc/win.png").getImage();
   }
 
     @Override
     protected void paintBackground(Graphics2D g) {
     Player player = ((GameWorld) getWorld()).getPlayer();
-    float playerX = player.getPosition().x;
+    if (player.isVictorious()) {
+      drawWin(g);
+      return;
+    } else{
+      float playerX = player.getPosition().x;
 
-    // Implemented parallax scrolling, so these are the scrolling factors
-    float backgroundParallaxFactor = 0.001f;
-    float mountainsParallaxFactor = 2f;
-    float graveyardParallaxFactor = 7f;
+      // Implemented parallax scrolling, so these are the scrolling factors
+      float backgroundParallaxFactor = 0.001f;
+      float mountainsParallaxFactor = 2f;
+      float graveyardParallaxFactor = 7f;
 
-    // Calculated the new positions for each background layer
-    int backgroundX = (int) (playerX * backgroundParallaxFactor) % getWidth();
-    int mountainsX = (int) (playerX * mountainsParallaxFactor) % getWidth();
-    int graveyardX = (int) (playerX * graveyardParallaxFactor) % getWidth();
+      // Calculated the new positions for each background layer
+      int backgroundX = (int) (playerX * backgroundParallaxFactor) % getWidth();
+      int mountainsX = (int) (playerX * mountainsParallaxFactor) % getWidth();
+      int graveyardX = (int) (playerX * graveyardParallaxFactor) % getWidth();
 
-    g.drawImage(background, -backgroundX, -55, getWidth()+20, getHeight()+15, this);
-    g.drawImage(mountains, -mountainsX -100, 120, getWidth()*6, getHeight()/11*10, this);
-    g.drawImage(graveyard, -graveyardX - 200, 270, getWidth()*5, getHeight()/11*9, this);
+      g.drawImage(background, -backgroundX, -55, getWidth()+20, getHeight()+15, this);
+      g.drawImage(mountains, -mountainsX -100, 120, getWidth()*6, getHeight()/11*10, this);
+      g.drawImage(graveyard, -graveyardX - 200, 270, getWidth()*5, getHeight()/11*9, this);
+
+    }
 }
 
 
   @Override
   protected void paintForeground(Graphics2D g) {
     Player player = ((GameWorld) getWorld()).getPlayer();
-    drawHealthBar(g, player);
-    if (player.isArmourOn()) {
-        drawArmourBar(g);
+    if (!player.isVictorious()) {
+      drawHealthBar(g, player);
+      if (player.isArmourOn()) {
+          drawArmourBar(g);
+      } if(player.isSpecialAttackOn()){
+        drawBloodthirsty(g);
+      } 
+      drawKillCounter(g, player);
     }
-    if(player.isSpecialAttackOn()){
-      drawBloodthirsty(g);
-    }
-    drawKillCounter(g, player);
   }
 
   private void drawHealthBar(Graphics2D g, Player player) {
@@ -98,5 +106,9 @@ public class GameView extends UserView {
 
   private void drawBloodthirsty(Graphics2D g){
     g.drawImage(bloodthirsty, 535, 75, 155, 45, this);
+  }
+
+  private void drawWin(Graphics2D g){
+    g.drawImage(win, 0, 0, getWidth(), getHeight(), this);
   }
 }

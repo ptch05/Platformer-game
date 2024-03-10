@@ -34,6 +34,7 @@ public class PlayerCollisions implements CollisionListener {
           player.addKill();
           AudioHandler.playKillSound();
       } else {
+          AudioHandler.playHurtSound();
           // Logic to knock the player back
           player.setLinearVelocity(new Vec2(0, 0)); //Initially sets player velocity to 0 so that it kills off all the player's velocity
           Vec2 knockback = new Vec2(-15, 15);
@@ -56,8 +57,7 @@ public class PlayerCollisions implements CollisionListener {
   
           Vec2 enemyVelocity = enemy.getLinearVelocity();
           enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y)); //So that the enemy doesn't also move after colliding
-          AudioHandler.playHurtSound();
-
+          
           
       }
   }
@@ -88,7 +88,8 @@ public class PlayerCollisions implements CollisionListener {
           } catch (InterruptedException e1) {
             e1.printStackTrace();
           }
-          world.restartGame();
+          world.clearBodies();
+          player.setVictorious();
         }
       }
   }

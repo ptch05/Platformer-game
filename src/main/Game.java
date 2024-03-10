@@ -16,7 +16,7 @@ public class Game {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.setLocationByPlatform(true);
 			// don't let the frame be resized
-			frame.setResizable(false);
+			frame.setResizable(true);
 			// size the frame to fit the world view
 			
 			Menu menu = new Menu(frame, 800, 600);

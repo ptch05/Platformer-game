@@ -13,7 +13,7 @@ public class AudioHandler {
     private static final SoundClip GAME_SOUND_CLIP = loadSoundClip("./assets/music/game-music-loop.wav");
     private static final SoundClip POTION_SOUND_CLIP = loadSoundClip("./assets/sounds/collectibles/potion.wav");
     private static final SoundClip ARMOUR_SOUND_CLIP = loadSoundClip("./assets/sounds/collectibles/armour.wav");
-    private static final SoundClip VICTORY_SOUND_CLIP = loadSoundClip("./assets/sounds/collectibles/victory.wav");
+    private static final SoundClip VICTORY_SOUND_CLIP = loadSoundClip("./assets/music/victory.wav");
     private static final SoundClip SPAWN_SOUND_CLIP = loadSoundClip("./assets/sounds/player/spawn.wav");
     private static final SoundClip LOSE_ARMOUR_SOUND_CLIP = loadSoundClip("./assets/sounds/collectibles/lose-armour.wav");
     private static final SoundClip CROUCH_SOUND_CLIP = loadSoundClip("./assets/sounds/player/crouch.wav");

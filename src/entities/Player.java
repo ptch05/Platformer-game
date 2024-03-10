@@ -30,6 +30,7 @@ public class Player extends Walker {
     private boolean specialAttackOn = false;
     private boolean specialAttackUsed = false;
     private boolean specialSoundPlayed = false; 
+    private boolean isVictorious = false; 
     
     private static final Shape characterShape = new BoxShape(xNum, yNum);
     private static final Shape attackShape = new BoxShape(5.7f, yNum);
@@ -339,7 +340,14 @@ public class Player extends Walker {
             }
         }
     }
-    
+
+    public boolean isVictorious(){
+        return isVictorious;
+    }
+
+    public void setVictorious(){
+        isVictorious = true;
+    }
 }
 
 

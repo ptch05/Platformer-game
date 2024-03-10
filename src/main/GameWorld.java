@@ -75,7 +75,7 @@ public class GameWorld extends World {
     }
     
 
-    private void clearBodies() {
+    public void clearBodies() {
         //Deletes all bodies in the world at once
         List<DynamicBody> dynamicBodies = this.getDynamicBodies();
         for (DynamicBody body : dynamicBodies) {
