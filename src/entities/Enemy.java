@@ -50,6 +50,6 @@ public class Enemy extends Walker{
         DeathAnimation deathAnimation = new DeathAnimation(this.getWorld(), position, new BodyImage("./assets/images/misc/enemy-death.gif", 4));
         deathAnimation.setPosition(position);
         this.destroy(); //Destroys the actual enemy itself
-    }
+  }
 
 }

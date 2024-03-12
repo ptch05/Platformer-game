@@ -188,7 +188,8 @@ public class Player extends Walker {
         if (currentTime - lastDamageTime > DAMAGE_COOLDOWN) {
             this.health -= damageAmount;
             lastDamageTime = currentTime;
-
+            AudioHandler.playHurtSound();
+        
             if (this.health <= 0) {
                 health = 0;
                 handleDeath();
@@ -215,7 +216,6 @@ public class Player extends Walker {
 
    public void handleDeath() {
         health = 0;
-        System.out.println("Player has died. Restarting game.");
         world.restartGame();
     }
 

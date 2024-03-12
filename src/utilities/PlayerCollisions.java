@@ -5,20 +5,14 @@ import entities.Hound;
 import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
-import city.cs.engine.CollisionEvent;
-import city.cs.engine.CollisionListener;
-import city.cs.engine.UserView;
-import entities.Player;
-import entities.Skeleton;
+import city.cs.engine.*;
+import entities.*;
 import main.GameWorld;
-import objects.Armour;
-import objects.Potion;
-import objects.Spikes;
-import objects.Trophy;
+import objects.*;
+import projectiles.Fireball;
 
 public class PlayerCollisions implements CollisionListener {
   private Player player;
-  private UserView view;
   private GameWorld world;
   public PlayerCollisions(Player p, GameWorld world){
       this.player = p;
@@ -34,7 +28,6 @@ public class PlayerCollisions implements CollisionListener {
           player.addKill();
           AudioHandler.playKillSound();
       } else {
-          AudioHandler.playHurtSound();
           // Logic to knock the player back
           player.setLinearVelocity(new Vec2(0, 0)); //Initially sets player velocity to 0 so that it kills off all the player's velocity
           Vec2 knockback = new Vec2(-15, 15);
@@ -63,19 +56,7 @@ public class PlayerCollisions implements CollisionListener {
   }
   
       if (e.getReportingBody() instanceof Player) {  //So that enemy doesn't interfere with any of these
-      
-        if (e.getOtherBody() instanceof Potion){
-          player.gainHealth(20);
-          e.getOtherBody().destroy();
-        }
-
-        else if (e.getOtherBody() instanceof Armour){
-          player.gainArmour();
-          e.getOtherBody().destroy();
-          view.repaint();
-        }
-
-        else if(e.getOtherBody() instanceof Spikes){
+        if(e.getOtherBody() instanceof Spikes){
           AudioHandler.playHurtSound();
           player.handleDeath();
         }
@@ -90,6 +71,11 @@ public class PlayerCollisions implements CollisionListener {
           }
           world.clearBodies();
           player.setVictorious();
+        }
+
+        else if(e.getOtherBody() instanceof Fireball){
+          player.reduceHealth(30);
+          e.getOtherBody().destroy();
         }
       }
   }

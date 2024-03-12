@@ -11,9 +11,9 @@ public class GameView extends UserView {
 
   public GameView(GameWorld world, int width, int height) {
       super(world, width, height);
-      background = new ImageIcon("./assets/images/level-data/background.png").getImage();
-      mountains = new ImageIcon("./assets/images/level-data/mountains.png").getImage();
-      graveyard = new ImageIcon("./assets/images/level-data/graveyard.png").getImage();
+      background = new ImageIcon("./assets/images/level-data/level1/background.png").getImage();
+      mountains = new ImageIcon("./assets/images/level-data/level1/mountains.png").getImage();
+      graveyard = new ImageIcon("./assets/images/level-data/level1/graveyard.png").getImage();
       skulls = new ImageIcon("./assets/images/misc/skulls.gif").getImage();
       bloodthirsty = new ImageIcon("./assets/images/misc/bloodthirsty.gif").getImage();
       win = new ImageIcon("./assets/images/misc/win.png").getImage();

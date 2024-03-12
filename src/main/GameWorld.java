@@ -111,8 +111,7 @@ public class GameWorld extends World {
         
         Armour armour = new Armour(this);
         armour.setPosition(new Vec2(230, 17));
-        AudioHandler.playSpawnSound();
-        AudioHandler.playGameMusic();
+        AudioHandler.playLevel1Music();
 
         Trophy trophy = new Trophy(this);
         trophy.setPosition(new Vec2(410,27));
@@ -122,7 +121,7 @@ public class GameWorld extends World {
         Shape groundShape = new BoxShape((float) 4.7, 5.4f);
         StaticBody ground = new StaticBody(this, groundShape);
         ground.setPosition(new Vec2(XPos, YPos));
-        ground.addImage(new BodyImage("./assets/images/level-data/ground.png", 11.5f));
+        ground.addImage(new BodyImage("./assets/images/level-data/level1/ground.png", 11.5f));
         XPos +=7f;
     }
 

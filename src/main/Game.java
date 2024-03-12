@@ -1,7 +1,6 @@
 package main;
 
 import javax.swing.JFrame;
-
 import menu.Menu;
 
 public class Game {
@@ -22,9 +21,8 @@ public class Game {
 			Menu menu = new Menu(frame, 800, 600);
 			frame.add(menu);
 			frame.pack();
-			 // finally, make the frame visible
-			 frame.setVisible(true);
-			 
+			// finally, make the frame visible
+			frame.setVisible(true);
 	}
 
 	public static void main(String[] args) {
