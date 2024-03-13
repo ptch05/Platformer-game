@@ -13,6 +13,7 @@ public class GameView extends UserView {
 
   public GameView(GameLevel gameLevel, int width, int height) {
       super(gameLevel, width, height);
+      this.gameLevel = gameLevel;
       background = new ImageIcon("./assets/images/level-data/level1/background.png").getImage();
       mountains = new ImageIcon("./assets/images/level-data/level1/mountains.png").getImage();
       graveyard = new ImageIcon("./assets/images/level-data/level1/graveyard.png").getImage();

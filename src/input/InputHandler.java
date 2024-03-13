@@ -18,8 +18,9 @@ public class InputHandler implements KeyListener {
     private GameLevel gameLevel;
     private World world;
 
-    public InputHandler(Player p) {
+    public InputHandler(Player p, GameLevel gameLevel) {
         player = p;
+        this.gameLevel = gameLevel;
     }
 
     @Override
@@ -92,7 +93,7 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        Player player = gameLevel.getPlayer(); 
+        Player player = ((GameLevel)gameLevel).getPlayer(); 
         int code = e.getKeyCode();
         switch (code) {
             case KeyEvent.VK_W:

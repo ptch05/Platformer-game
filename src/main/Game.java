@@ -24,15 +24,12 @@ public class Game {
 			// don't let the frame be resized
 			frame.setResizable(false);
 			// size the frame to fit the world view
-
-			level = new Level1(this);
-			view = new GameView(level, 800, 600);
-			
-			Menu menu = new Menu(frame, 800, 600, level);
-			frame.add(view);
+			Menu menu = new Menu(frame, 600, 800, this); // Pass 'this' to the Menu
+			frame.add(menu); // Add the menu to the frame
+	
 			frame.pack();
-			// finally, make the frame visible
 			frame.setVisible(true);
+	
 
 			
 	}

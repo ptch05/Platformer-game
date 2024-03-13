@@ -4,8 +4,7 @@ import javax.swing.*;
 
 import audio.AudioHandler;
 import input.InputHandler;
-import levels.GameLevel;
-import levels.Level1;
+import levels.*;
 import main.Game;
 import main.GameView;
 import utilities.PlayerListener;
@@ -25,8 +24,9 @@ public class Menu extends JPanel {
     private Player player;
     GameLevel currentLevel;
 
-    public Menu(JFrame frame, int width, int height, GameLevel gameLevel) {
+    public Menu(JFrame frame, int width, int height, Game game) {
         this.frame = frame;
+        this.game = game;
         this.setPreferredSize(new Dimension(800, 600));
         addMenuButtons();
         AudioHandler.playMenuSound();
@@ -69,22 +69,24 @@ public class Menu extends JPanel {
         return button;
     }
 
-    private void startGame() { //DO NOT TOUCH THIS
-        currentLevel = new Level1(game);
-        view = new GameView(gameLevel, 800, 600);
-
+    private void startGame() {
         frame.getContentPane().removeAll();
+        currentLevel = new Level1(game);
+        view = new GameView(currentLevel, 800, 600); // Using currentLevel which is now not null
+
         frame.add(view);
         frame.revalidate();
         frame.repaint();
 
-        InputHandler inputHandler = new InputHandler(player);
+        // Set up the input handler for the player
+        InputHandler inputHandler = new InputHandler(currentLevel.getPlayer(), currentLevel);
         view.addKeyListener(inputHandler);
         view.requestFocusInWindow();
 
+        // Set up the world and start the game
+        world = currentLevel;
         PlayerListener playerListener = new PlayerListener(world, view);
         world.addStepListener(playerListener);
-
         world.start();
     }
 

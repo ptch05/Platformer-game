@@ -44,7 +44,7 @@ public abstract class GameLevel extends World {
     this.game = game;
 
     player = new Player(this);
-    inputHandler = new InputHandler(player);
+    inputHandler = new InputHandler(player, this);
     player.addFriction();
 
     PlayerCollisions collision = new PlayerCollisions(player, this, game);
@@ -56,134 +56,86 @@ public abstract class GameLevel extends World {
   }
 
 
-  protected void addSkeletons() {
-    //Adds the enemies into the world 
-    for (int i = 0; i < numberOfSkeletons; i++) {
-        Skeleton newSkeleton = new Skeleton(this, skeletonPatrolLeftBoundary[i], skeletonPatrolRightBoundary[i]);
-        createEnemy(newSkeleton, skeletonPositions[i]);
-    }
-}
-
-protected void addHounds(){
-    for (int i = 0; i < numberOfHounds; i++) {
-        Hound newHound = new Hound(this, houndPatrolLeftBoundary[i], houndPatrolRightBoundary[i]);
-        createEnemy(newHound, houndPositions[i]);
-    }
-}
-
-protected void addGhosts(){
-    for (int i = 0; i < numberOfGhosts; i++) {
-        Ghost newGhost = new Ghost(this, player);
-        createEnemy(newGhost, ghostPositions[i]);
-    }
-}
-
-private void createEnemy(Enemy enemy, Vec2 position) {
-        enemy.setPosition(position); // Sets initial position of the enemies
-        enemies.add(enemy);
-
-        PatrolListener listener = new PatrolListener(enemy);
-        patrolListeners.add(listener);
-        this.addStepListener(listener); // Then it adds the listeners for each of the enemies to the world
+    protected void addSkeletons() {
+        //Adds the enemies into the world 
+        for (int i = 0; i < numberOfSkeletons; i++) {
+            Skeleton newSkeleton = new Skeleton(this, skeletonPatrolLeftBoundary[i], skeletonPatrolRightBoundary[i]);
+            createEnemy(newSkeleton, skeletonPositions[i]);
+        }
     }
 
+    protected void addHounds(){
+        for (int i = 0; i < numberOfHounds; i++) {
+            Hound newHound = new Hound(this, houndPatrolLeftBoundary[i], houndPatrolRightBoundary[i]);
+            createEnemy(newHound, houndPositions[i]);
+        }
+    }
 
-  public void restartGame() {
-      this.stop();
-      clearBodies();
-      initializeWorld();
-      inputHandler.setPlayer(player);
-      this.start();
-  }
-  
+    protected void addGhosts(){
+        for (int i = 0; i < numberOfGhosts; i++) {
+            Ghost newGhost = new Ghost(this, player);
+            createEnemy(newGhost, ghostPositions[i]);
+        }
+    }
 
-  public void clearBodies() {
-      //Deletes all bodies in the world at once
-      List<DynamicBody> dynamicBodies = this.getDynamicBodies();
-      for (DynamicBody body : dynamicBodies) {
-          body.destroy();
-      }
-      List<StaticBody> staticBodies = this.getStaticBodies();
-      for (StaticBody body : staticBodies) {
-          body.destroy();
-      }
-  }
+    protected void createEnemy(Enemy enemy, Vec2 position) {
+            enemy.setPosition(position); // Sets initial position of the enemies
+            enemies.add(enemy);
 
-  public void initializeWorld() { 
-      //Uses this method to make the world every time
-      XPos = -68.15f; // Resets X position for ground creation
-      YPos = -13f; // Resets Y position for ground creation
-      createEnvironment();
+            PatrolListener listener = new PatrolListener(enemy);
+            patrolListeners.add(listener);
+            this.addStepListener(listener); // Then it adds the listeners for each of the enemies to the world
+        }
 
-      addSkeletons();
-      addHounds();
 
-      for(int i=0; i<numberOfPotions; i++){
-          Potion potion = new Potion(this);
-          potion.setPosition(new Vec2(potionXPos[i], potionYPos[i]));
-      }
-  }
+    protected void restartGame() {
+        this.stop();
+        clearBodies();
+        inputHandler.setPlayer(player);
+        this.start();
+    }
+    
 
-  public void createGround(){
-      Shape groundShape = new BoxShape((float) 4.7, 5.4f);
-      StaticBody ground = new StaticBody(this, groundShape);
-      ground.setPosition(new Vec2(XPos, YPos));
-      ground.addImage(new BodyImage("./assets/images/level-data/level1/ground.png", 11.5f));
-      XPos +=7f;
-  }
+    public void clearBodies() {
+        //Deletes all bodies in the world at once
+        List<DynamicBody> dynamicBodies = this.getDynamicBodies();
+        for (DynamicBody body : dynamicBodies) {
+            body.destroy();
+        }
+        List<StaticBody> staticBodies = this.getStaticBodies();
+        for (StaticBody body : staticBodies) {
+            body.destroy();
+        }
+    }
 
-  public void createSpikes(){
-      Spikes spikes = new Spikes(this);
-      spikes.setPosition(new Vec2(XPos, YPos));
-      XPos+=3f;
-  }
 
-    public void createEnvironment() {
-      // Logic for the first level
-      addSpikes(18);
-      addGround(14);
+    protected void createGround(){
+        Shape groundShape = new BoxShape((float) 4.7, 5.4f);
+        StaticBody ground = new StaticBody(this, groundShape);
+        ground.setPosition(new Vec2(XPos, YPos));
+        ground.addImage(new BodyImage("./assets/images/level-data/level1/ground.png", 11.5f));
+        XPos +=7f;
+    }
 
-      YPos = -8f;
-      addGround(4);
+    protected void createSpikes(){
+        Spikes spikes = new Spikes(this);
+        spikes.setPosition(new Vec2(XPos, YPos));
+        XPos+=3f;
+    }
 
-      YPos = -9f;
-      addSpikes(16);
-  
-      XPos -= 20f;
-      YPos = -8f;
-      addGround(1);
-      XPos += 16f;
-      addGround(4);
-      
-      for(int i=0; i<4; i++){
-          addGround(1);
-          YPos +=4.5f;
-      }
-      addGround(7);
-      YPos=9;
-      addSpikes(14);
-  
-      YPos = 15.3f;
-      XPos -= 25;
-      addGround(1);
-      XPos += 20f;
-      YPos= 11;
-      addGround(15);
-      YPos =10;
-      addSpikes(18);
-  }
-  
-  public void addGround(int times) {
-      //Adds in ground every time it's called
-      for (int i = 0; i < times; i++) {
-          createGround();
-      }
-  }
+    
+    public void addGround(int times) {
+        //Adds in ground every time it's called
+        for (int i = 0; i < times; i++) {
+            createGround();
+        }
+    }
 
-  public void addSpikes(int times) {
-      //Adds in spikes every time it's called
-      for (int i = 0; i < times; i++) {
-          createSpikes();
-      }
-  }
+    public void addSpikes(int times) {
+        //Adds in spikes every time it's called
+        for (int i = 0; i < times; i++) {
+            createSpikes();
+        }
+    }
+
 }

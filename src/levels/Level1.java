@@ -5,6 +5,7 @@ import org.jbox2d.common.Vec2;
 import audio.AudioHandler;
 import main.Game;
 import objects.Armour;
+import objects.Potion;
 import objects.Trophy;
 
 public class Level1 extends GameLevel{  
@@ -46,7 +47,58 @@ public class Level1 extends GameLevel{
     armour.setPosition(new Vec2(230, 17));
     trophy = new Trophy(this);
     trophy.setPosition(new Vec2(410,27));
-    AudioHandler.playLevel1Music();
+    //AudioHandler.playLevel1Music();
+    initializeWorld();
   }
+
+  protected void initializeWorld() { 
+      //Uses this method to make the world every time
+      XPos = -68.15f; // Resets X position for ground creation
+      YPos = -13f; // Resets Y position for ground creation
+      createEnvironment();
+
+      addSkeletons();
+      addHounds();
+
+      for(int i=0; i<numberOfPotions; i++){
+          Potion potion = new Potion(this);
+          potion.setPosition(new Vec2(potionXPos[i], potionYPos[i]));
+      }
+  }
+
+  public void createEnvironment() {
+    // Logic for the first level
+    addSpikes(18);
+    addGround(14);
+
+    YPos = -8f;
+    addGround(4);
+
+    YPos = -9f;
+    addSpikes(16);
+
+    XPos -= 20f;
+    YPos = -8f;
+    addGround(1);
+    XPos += 16f;
+    addGround(4);
+    
+    for(int i=0; i<4; i++){
+        addGround(1);
+        YPos +=4.5f;
+    }
+    addGround(7);
+    YPos=9;
+    addSpikes(14);
+
+    YPos = 15.3f;
+    XPos -= 25;
+    addGround(1);
+    XPos += 20f;
+    YPos= 11;
+    addGround(15);
+    YPos =10;
+    addSpikes(18);
+}
   
 }
