@@ -4,7 +4,6 @@ import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
 import city.cs.engine.*;
-import main.GameWorld;
 import input.InputHandler;
 
 
@@ -31,6 +30,7 @@ public class Player extends Walker {
     private boolean specialAttackUsed = false;
     private boolean specialSoundPlayed = false; 
     private boolean isVictorious = false; 
+    private int lives = 3;
     
     private static final Shape characterShape = new BoxShape(xNum, yNum);
     private static final Shape attackShape = new BoxShape(5.7f, yNum);
@@ -51,14 +51,11 @@ public class Player extends Walker {
     private static final BodyImage CROUCH_LEFT = new BodyImage("./assets/images/hero/hero-crouch-left.png", (float)(playerSize*1.4));
     private static final BodyImage SPECIAL_ATTACK_LEFT = new BodyImage("./assets/images/hero/hero-special-attack-left.gif", (float)(playerSize*1.6));
     
-
-    private GameWorld world;
     private BodyImage currentImage;
     private InputHandler inputHandler;
 
-    public Player(GameWorld world) {
+    public Player(World world) {
         super(world, characterShape);
-        this.world = world;
         addImage(IDLE_RIGHT);
         addFriction();
         setGravityScale(GRAVITY_FORCE);
@@ -213,10 +210,22 @@ public class Player extends Walker {
         return healthLossAmount;
     }
 
+    public int getLives(){
+        return lives;
+    }
+
+    public void loseLives(){
+        lives--;
+    }
+
+    public void gainLives(){
+        lives++;
+    }
+
 
    public void handleDeath() {
         health = 0;
-        world.restartGame();
+        loseLives();
     }
 
     public boolean gainArmour() {

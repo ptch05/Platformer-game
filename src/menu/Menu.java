@@ -4,9 +4,13 @@ import javax.swing.*;
 
 import audio.AudioHandler;
 import input.InputHandler;
+import levels.GameLevel;
+import levels.Level1;
+import main.Game;
 import main.GameView;
-import main.GameWorld;
 import utilities.PlayerListener;
+import city.cs.engine.*;
+import entities.Player;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -14,10 +18,14 @@ import java.awt.event.ActionListener;
 public class Menu extends JPanel {
     private JFrame frame;
     private Image menu;
-    private GameWorld world;
+    private World world;
     private GameView view;
+    private GameLevel gameLevel;
+    private Game game;
+    private Player player;
+    GameLevel currentLevel;
 
-    public Menu(JFrame frame, int width, int height) {
+    public Menu(JFrame frame, int width, int height, GameLevel gameLevel) {
         this.frame = frame;
         this.setPreferredSize(new Dimension(800, 600));
         addMenuButtons();
@@ -62,15 +70,15 @@ public class Menu extends JPanel {
     }
 
     private void startGame() { //DO NOT TOUCH THIS
-        world = new GameWorld();
-        view = new GameView(world, 800, 600);
+        currentLevel = new Level1(game);
+        view = new GameView(gameLevel, 800, 600);
 
         frame.getContentPane().removeAll();
         frame.add(view);
         frame.revalidate();
         frame.repaint();
 
-        InputHandler inputHandler = new InputHandler(world);
+        InputHandler inputHandler = new InputHandler(player);
         view.addKeyListener(inputHandler);
         view.requestFocusInWindow();
 

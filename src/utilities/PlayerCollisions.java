@@ -1,22 +1,26 @@
 package utilities;
 
-import entities.Enemy;
-import entities.Hound;
+import entities.*;
+import levels.GameLevel;
+import main.Game;
+
 import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
 import city.cs.engine.*;
-import entities.*;
-import main.GameWorld;
 import objects.*;
 import projectiles.Fireball;
 
 public class PlayerCollisions implements CollisionListener {
   private Player player;
-  private GameWorld world;
-  public PlayerCollisions(Player p, GameWorld world){
+  private World world;
+  private Game game;
+  
+  private GameLevel gameLevel;
+  public PlayerCollisions(Player p, GameLevel gameLevel, Game game){
       this.player = p;
-      this.world = world;
+      this.gameLevel = gameLevel;
+      this.game = game;
   }
 
   @Override
@@ -69,7 +73,8 @@ public class PlayerCollisions implements CollisionListener {
           } catch (InterruptedException e1) {
             e1.printStackTrace();
           }
-          world.clearBodies();
+          gameLevel.clearBodies();
+          game.goToNextLevel();
           player.setVictorious();
         }
 

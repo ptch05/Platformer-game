@@ -1,8 +1,11 @@
 package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+import city.cs.engine.World;
 import entities.Player;
-import main.GameWorld;
+import levels.GameLevel;
+//import city.cs.engine.*;
 
 public class InputHandler implements KeyListener {
     private boolean keyWPressed = false;
@@ -12,14 +15,11 @@ public class InputHandler implements KeyListener {
     private boolean keyKPressed = false;
     private boolean keyGPressed = false;
     private Player player;
-    private GameWorld world;
+    private GameLevel gameLevel;
+    private World world;
 
-    public InputHandler(GameWorld world) {
-        this.world = world;
-    }
-
-    private Player getPlayer() {
-        return (Player) world.getPlayer();
+    public InputHandler(Player p) {
+        player = p;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        Player player = getPlayer(); 
+        Player player = gameLevel.getPlayer(); 
         int code = e.getKeyCode();
         switch (code) {
             case KeyEvent.VK_W:
@@ -92,7 +92,7 @@ public class InputHandler implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        Player player = getPlayer(); 
+        Player player = gameLevel.getPlayer(); 
         int code = e.getKeyCode();
         switch (code) {
             case KeyEvent.VK_W:

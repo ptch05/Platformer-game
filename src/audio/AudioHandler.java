@@ -53,7 +53,7 @@ public class AudioHandler {
     }
 
     public static void playLevel1Music() {
-            LEVEL2_SOUND_CLIP.loop();
+            LEVEL1_SOUND_CLIP.loop();
         
     }
 

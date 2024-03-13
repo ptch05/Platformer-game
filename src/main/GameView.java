@@ -4,13 +4,15 @@ import javax.swing.*;
 
 import java.awt.*;
 import entities.Player;
+import levels.GameLevel;
 
 public class GameView extends UserView {
   private final Image background, mountains, graveyard, skulls, bloodthirsty, win;
   private static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
+  private GameLevel gameLevel;
 
-  public GameView(GameWorld world, int width, int height) {
-      super(world, width, height);
+  public GameView(GameLevel gameLevel, int width, int height) {
+      super(gameLevel, width, height);
       background = new ImageIcon("./assets/images/level-data/level1/background.png").getImage();
       mountains = new ImageIcon("./assets/images/level-data/level1/mountains.png").getImage();
       graveyard = new ImageIcon("./assets/images/level-data/level1/graveyard.png").getImage();
@@ -21,7 +23,7 @@ public class GameView extends UserView {
 
     @Override
     protected void paintBackground(Graphics2D g) {
-    Player player = ((GameWorld) getWorld()).getPlayer();
+    Player player = gameLevel.getPlayer();
     if (player.isVictorious()) {
       drawWin(g);
       return;
@@ -48,7 +50,7 @@ public class GameView extends UserView {
 
   @Override
   protected void paintForeground(Graphics2D g) {
-    Player player = ((GameWorld) getWorld()).getPlayer();
+    Player player = gameLevel.getPlayer();
     if (!player.isVictorious()) {
       drawHealthBar(g, player);
       if (player.isArmourOn()) {

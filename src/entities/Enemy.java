@@ -3,7 +3,6 @@ package entities;
 import org.jbox2d.common.Vec2;
 import city.cs.engine.*;
 import effects.DeathAnimation;
-import main.GameWorld;
 
 public class Enemy extends Walker{
   protected Shape shape;
@@ -15,7 +14,7 @@ public class Enemy extends Walker{
   private final int walkingSpeed;
   private boolean movingRight;
 
-  public Enemy(GameWorld world, Shape shape, BodyImage imageRight, BodyImage imageLeft, int leftBoundary, int rightBoundary, int walkingSpeed) {
+  public Enemy(World world, Shape shape, BodyImage imageRight, BodyImage imageLeft, int leftBoundary, int rightBoundary, int walkingSpeed) {
     super(world, shape);
     this.shape = shape;
     this.imageRight = imageRight;

@@ -9,10 +9,5 @@ public class Level2 extends GameLevel{
     //TODO Auto-generated constructor stub
   }
 
-  @Override
-  public boolean isComplete() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'isComplete'");
-  }
   
 }

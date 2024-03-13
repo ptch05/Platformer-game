@@ -3,8 +3,6 @@ package projectiles;
 import org.jbox2d.common.Vec2;
 
 import city.cs.engine.*;
-import main.GameWorld;
-
 public class Fireball extends DynamicBody {
 
   private static final Shape fireballShape = new BoxShape(2f, 0.5f);
@@ -12,6 +10,7 @@ public class Fireball extends DynamicBody {
 
   public Fireball(World world, Vec2 position) {
     super(world, fireballShape);
+    addImage(fireballImage);
   }
   
 }

@@ -3,7 +3,6 @@ package entities;
 import org.jbox2d.common.Vec2;
 
 import city.cs.engine.*;
-import main.GameWorld;
 import projectiles.Fireball;
 
 public class Ghost extends Enemy implements StepListener{
@@ -16,7 +15,7 @@ public class Ghost extends Enemy implements StepListener{
   private Player player;
   private World world;
     public Ghost(World world, Player player) {
-        super((GameWorld) world, ghostShape, null, null, 0, 0, 0);
+        super(world, ghostShape, null, null, 0, 0, 0);
         addImage(ghostImage);
         this.world.addStepListener(this);
     }
@@ -42,6 +41,5 @@ public class Ghost extends Enemy implements StepListener{
       fireball.setLinearVelocity(new Vec2(FIREBALL_SPEED, 0)); // Shoot left
       fireball.setGravityScale(0);
     }
-
-
+    
 }
