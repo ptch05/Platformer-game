@@ -8,5 +8,11 @@ public class Level3 extends GameLevel{
     super(game);
     //TODO Auto-generated constructor stub
   }
+
+  @Override
+  public String getLevelName() {
+    return "Level 3";
+  }
+
   
 }

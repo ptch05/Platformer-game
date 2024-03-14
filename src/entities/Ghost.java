@@ -17,7 +17,6 @@ public class Ghost extends Enemy implements StepListener{
     public Ghost(World world, Player player) {
         super(world, ghostShape, null, null, 0, 0, 0);
         addImage(ghostImage);
-        this.world.addStepListener(this);
     }
     @Override
     public void postStep(StepEvent e) {

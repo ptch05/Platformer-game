@@ -79,22 +79,13 @@ public abstract class GameLevel extends World {
     }
 
     protected void createEnemy(Enemy enemy, Vec2 position) {
-            enemy.setPosition(position); // Sets initial position of the enemies
-            enemies.add(enemy);
+        enemy.setPosition(position); // Sets initial position of the enemies
+        enemies.add(enemy);
 
-            PatrolListener listener = new PatrolListener(enemy);
-            patrolListeners.add(listener);
-            this.addStepListener(listener); // Then it adds the listeners for each of the enemies to the world
-        }
-
-
-    protected void restartGame() {
-        this.stop();
-        clearBodies();
-        inputHandler.setPlayer(player);
-        this.start();
+        PatrolListener listener = new PatrolListener(enemy);
+        patrolListeners.add(listener);
+        this.addStepListener(listener); // Then it adds the listeners for each of the enemies to the world
     }
-    
 
     public void clearBodies() {
         //Deletes all bodies in the world at once
@@ -137,5 +128,7 @@ public abstract class GameLevel extends World {
             createSpikes();
         }
     }
+
+    public abstract String getLevelName();
 
 }

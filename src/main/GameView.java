@@ -7,19 +7,50 @@ import entities.Player;
 import levels.GameLevel;
 
 public class GameView extends UserView {
-  private final Image background, mountains, graveyard, skulls, bloodthirsty, win;
+  private final Image skulls, bloodthirsty, win;
+  private Image background, middleground, foreground;
   private static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
   private GameLevel gameLevel;
 
   public GameView(GameLevel gameLevel, int width, int height) {
       super(gameLevel, width, height);
       this.gameLevel = gameLevel;
-      background = new ImageIcon("./assets/images/level-data/level1/background.png").getImage();
-      mountains = new ImageIcon("./assets/images/level-data/level1/mountains.png").getImage();
-      graveyard = new ImageIcon("./assets/images/level-data/level1/graveyard.png").getImage();
       skulls = new ImageIcon("./assets/images/misc/skulls.gif").getImage();
       bloodthirsty = new ImageIcon("./assets/images/misc/bloodthirsty.gif").getImage();
       win = new ImageIcon("./assets/images/misc/win.png").getImage();
+      loadBackgroundImages();
+  }
+
+  private void loadBackgroundImages() {
+    String levelName = gameLevel.getLevelName(); // Get the name of the current level
+    ImageIcon bgIcon, midIcon, fgIcon;
+    switch (levelName) {
+        case "Level 1":
+            bgIcon = new ImageIcon("./assets/images/level-data/level1/background.png");
+            background = bgIcon.getImage();
+            midIcon = new ImageIcon("./assets/images/level-data/level1/mountains.png");
+            middleground = midIcon.getImage();
+            fgIcon = new ImageIcon("./assets/images/level-data/level1/graveyard.png");
+            foreground = fgIcon.getImage();
+            break;
+        /*case "Level 2":
+            background = new ImageIcon("./assets/images/level-data/level2/background1.png").getImage();
+            middleground = new ImageIcon("./assets/images/level-data/level2/background2.png").getImage();
+            foreground = new ImageIcon("./assets/images/level-data/level2/background3.png").getImage();
+            System.out.println("!");
+            break;
+        case "Level 3":
+            background = new ImageIcon("./assets/images/level-data/level3/background.png").getImage();
+            middleground = new ImageIcon("./assets/images/level-data/level3/pillars.png").getImage();
+            foreground = new ImageIcon("./assets/images/level-data/level3/ceiling.png").getImage();*/
+
+    }
+  }
+
+  public void updateLevel(GameLevel newLevel) {
+      this.gameLevel = newLevel;
+      loadBackgroundImages();
+      repaint(); // Refresh the view with new backgrounds
   }
 
     @Override
@@ -33,17 +64,17 @@ public class GameView extends UserView {
 
       // Implemented parallax scrolling, so these are the scrolling factors
       float backgroundParallaxFactor = 0.001f;
-      float mountainsParallaxFactor = 2f;
-      float graveyardParallaxFactor = 7f;
+      float middlegroundParallaxFactor = 2f;
+      float foregroundParallaxFactor = 7f;
 
       // Calculated the new positions for each background layer
       int backgroundX = (int) (playerX * backgroundParallaxFactor) % getWidth();
-      int mountainsX = (int) (playerX * mountainsParallaxFactor) % getWidth();
-      int graveyardX = (int) (playerX * graveyardParallaxFactor) % getWidth();
+      int middlegroundX = (int) (playerX * middlegroundParallaxFactor) % getWidth();
+      int foregroundX = (int) (playerX * foregroundParallaxFactor) % getWidth();
 
       g.drawImage(background, -backgroundX, -55, getWidth()+20, getHeight()+15, this);
-      g.drawImage(mountains, -mountainsX -100, 120, getWidth()*6, getHeight()/11*10, this);
-      g.drawImage(graveyard, -graveyardX - 200, 270, getWidth()*5, getHeight()/11*9, this);
+      g.drawImage(middleground, -middlegroundX -100, 120, getWidth()*6, getHeight()/11*10, this);
+      g.drawImage(foreground, -foregroundX - 200, 270, getWidth()*5, getHeight()/11*9, this);
 
     }
 }

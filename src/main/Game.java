@@ -2,6 +2,7 @@ package main;
 
 import javax.swing.JFrame;
 
+import city.cs.engine.World;
 import input.InputHandler;
 import levels.*;
 import menu.Menu;
@@ -11,6 +12,7 @@ public class Game {
 	private GameLevel level;
 	private GameView view;
 	private InputHandler inputHandler;
+	private World world;
 
 
 	public Game() {
@@ -39,7 +41,7 @@ public class Game {
 					level.stop();
 					level = new Level2(this);
 					//level now refer to the new level
-					view.setWorld(level);
+					view.updateLevel(level);
 					inputHandler.setPlayer(level.getPlayer());
 					level.start();
 			}
