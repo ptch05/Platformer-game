@@ -5,8 +5,6 @@ import java.awt.event.KeyListener;
 import city.cs.engine.World;
 import entities.Player;
 import levels.GameLevel;
-//import city.cs.engine.*;
-
 public class InputHandler implements KeyListener {
     private boolean keyWPressed = false;
     private boolean keyAPressed = false;

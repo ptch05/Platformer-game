@@ -75,6 +75,7 @@ public class PlayerCollisions implements CollisionListener {
           }
           gameLevel.clearBodies();
           game.goToNextLevel();
+          player.setVictorious();
         }
 
         else if(e.getOtherBody() instanceof Fireball){

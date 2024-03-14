@@ -358,6 +358,3 @@ public class Player extends Walker {
         isVictorious = true;
     }
 }
-
-
-
