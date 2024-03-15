@@ -85,7 +85,7 @@ public abstract class GameLevel extends World {
             PatrolListener listener = new PatrolListener(enemy);
             patrolListeners.add(listener);
             this.addStepListener(listener); // Then it adds the listeners for each of the enemies to the world
-        }
+    }
 
 
     protected void restartGame() {
@@ -137,5 +137,7 @@ public abstract class GameLevel extends World {
             createSpikes();
         }
     }
+
+    public abstract String getLevelName();
 
 }

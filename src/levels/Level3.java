@@ -9,4 +9,8 @@ public class Level3 extends GameLevel{
     //TODO Auto-generated constructor stub
   }
   
+  @Override
+    public String getLevelName() {
+        return "Level3";
+    }
 }

@@ -47,7 +47,7 @@ public class Level1 extends GameLevel{
     armour.setPosition(new Vec2(230, 17));
     trophy = new Trophy(this);
     trophy.setPosition(new Vec2(410,27));
-    //AudioHandler.playLevel1Music();
+    AudioHandler.playLevel1Music();
     initializeWorld();
   }
 
@@ -100,6 +100,11 @@ public class Level1 extends GameLevel{
     YPos =10;
     addSpikes(18);
 }
+
+@Override
+public String getLevelName() {
+        return "Level1";
+    }
   
 }
 
