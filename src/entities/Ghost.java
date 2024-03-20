@@ -1,45 +1,40 @@
 package entities;
-
-import org.jbox2d.common.Vec2;
-
 import city.cs.engine.*;
-import projectiles.Fireball;
+import utilities.GhostListener;
 
-public class Ghost extends Enemy implements StepListener{
+public class Ghost extends Enemy{
+  private boolean isGhostAlive = true;
+  private int hitsTaken;
   
   private static final Shape ghostShape = new BoxShape(1.5f, 4.5f);
-  private static final BodyImage ghostImage = new BodyImage("./assets/images/ghost/ghost.gif", 5.1f);
-  private static final float FIRE_RANGE = 60.0f; // The range at which the ghost will start shooting.
-  private static final float FIREBALL_SPEED = -10.0f; // Negative for left
-  private float timeSinceLastShot = 0.0f;
+  private static final BodyImage ghostImage = new BodyImage("./assets/images/ghost/ghost.gif", 7f);
   private Player player;
-  private World world;
-    public Ghost(World world, Player player) {
-        super(world, ghostShape, null, null, 0, 0, 0);
-        addImage(ghostImage);
-        this.world.addStepListener(this);
-    }
-    @Override
-    public void postStep(StepEvent e) {
-      // N.A
-    }
-    @Override
-    public void preStep(StepEvent e) {
-      timeSinceLastShot += e.getStep();
-      Vec2 playerPosition = player.getPosition();
-      Vec2 ghostPosition = getPosition();
-      if (Math.abs(ghostPosition.x - playerPosition.x) < FIRE_RANGE && timeSinceLastShot >= 0.5f) {
-          shootFireball();
-          timeSinceLastShot = 0.0f; // Reset the timer after shooting
+  
+  public Ghost(World world, Player player) {
+    super(world, ghostShape, ghostImage, ghostImage, 0, 0, 0);
+    addImage(ghostImage);
+    this.player = player;
+    GhostListener listener = new GhostListener(this, player);
+    world.addStepListener(listener);
+  }
+
+  public boolean isGhostAlive(){
+    return isGhostAlive;
+  }
+
+  public void setGhostDead(){
+    isGhostAlive = false;
+  }
+
+  public void hitByAttack(boolean isSpecialAttack) {
+    if (isSpecialAttack) {
+      setGhostDead(); // Special attack kills immediately
+    } else {
+      hitsTaken++;
+      if (hitsTaken >= 2) {
+        setGhostDead(); // Normal attack kills after 2 hits
       }
     }
-
-    private void shootFireball(){
-      Vec2 position = this.getPosition();
-      Fireball fireball = new Fireball(this.getWorld(), position);
-      fireball.setPosition(position.add(new Vec2(-1.5f, 0))); // Start the fireball slightly to the left
-      fireball.setLinearVelocity(new Vec2(FIREBALL_SPEED, 0)); // Shoot left
-      fireball.setGravityScale(0);
-    }
-    
+  }
+   
 }

@@ -13,7 +13,7 @@ public class Level1 extends GameLevel{
     super(game);
     numberOfSkeletons = 7;
     numberOfHounds = 2;
-    numberOfGhosts = 3;
+    numberOfGhosts = 2;
     numberOfPotions = 2;
     skeletonPatrolLeftBoundary = new int[] {25, 52, 91, 160,235,315, 380}; 
     skeletonPatrolRightBoundary = new int[]{35,75, 100, 175,245,335, 400};
@@ -59,6 +59,7 @@ public class Level1 extends GameLevel{
 
       addSkeletons();
       addHounds();
+      addGhosts();
 
       for(int i=0; i<numberOfPotions; i++){
           Potion potion = new Potion(this);

@@ -2,8 +2,6 @@ package main;
 import city.cs.engine.*;
 import javax.swing.*;
 
-import static java.lang.StringTemplate.STR;
-
 import java.awt.*;
 import entities.Player;
 import levels.GameLevel;
@@ -95,7 +93,7 @@ private void drawBackground(String levelName, Graphics2D g){
           break;
   
         case "Level3":
-        g.drawImage(background, -backgroundX, 55, getWidth()*5, getHeight(), this);
+        g.drawImage(background, -backgroundX-100, 55, getWidth()*5, getHeight(), this);
         g.drawImage(middleground1, -middlegroundX -100, 60, getWidth()*6, getHeight()/11*10, this);
         g.drawImage(foreground, -foregroundX - 200, -55, getWidth()*5, getHeight()/11*9, this);
         break;
@@ -168,4 +166,12 @@ private void drawBackground(String levelName, Graphics2D g){
   private void drawWin(Graphics2D g){
     g.drawImage(win, 0, 0, getWidth(), getHeight(), this);
   }
+
+  public void setGameLevel(GameLevel gameLevel) {
+    this.gameLevel = gameLevel;
+    loadBackgroundImages(gameLevel.getLevelName()); // Reloads background images for the new level
+    this.repaint(); 
+  }
+
+
 }

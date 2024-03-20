@@ -25,12 +25,21 @@ public class PlayerCollisions implements CollisionListener {
 
   @Override
   public void collide(CollisionEvent e) {
-    if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound) {
+    if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound || e.getOtherBody() instanceof Ghost) {
       Enemy enemy = (Enemy) e.getOtherBody();
       if(player.isAttacking() || player.isSpecialAttacking()){
-          enemy.enemyDie();
-          player.addKill();
-          AudioHandler.playKillSound();
+        boolean wasGhostAlreadyDead = false;
+        if (enemy instanceof Ghost) {
+            Ghost ghost = (Ghost) enemy;
+            wasGhostAlreadyDead = !ghost.isGhostAlive(); // Check if the ghost was already dead before this attack
+            ghost.hitByAttack(player.isSpecialAttacking()); // Handle the hit appropriately
+            if (ghost.isGhostAlive() && !wasGhostAlreadyDead) {
+                return; // If the ghost survived the hit, don't add kill or play sound yet
+            }
+        }
+        enemy.enemyDie();
+        player.addKill();
+        AudioHandler.playKillSound();
       } else {
           // Logic to knock the player back
           player.setLinearVelocity(new Vec2(0, 0)); //Initially sets player velocity to 0 so that it kills off all the player's velocity
@@ -75,7 +84,6 @@ public class PlayerCollisions implements CollisionListener {
           }
           gameLevel.clearBodies();
           game.goToNextLevel();
-          player.setVictorious();
         }
 
         else if(e.getOtherBody() instanceof Fireball){

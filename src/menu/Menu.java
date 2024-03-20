@@ -9,8 +9,6 @@ import main.Game;
 import main.GameView;
 import utilities.PlayerListener;
 import city.cs.engine.*;
-import entities.Player;
-
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -19,10 +17,8 @@ public class Menu extends JPanel {
     private Image menu;
     private World world;
     private GameView view;
-    private GameLevel gameLevel;
     private Game game;
-    private Player player;
-    GameLevel currentLevel;
+    private GameLevel gameLevel;
 
     public Menu(JFrame frame, int width, int height, Game game) {
         this.frame = frame;
@@ -71,20 +67,20 @@ public class Menu extends JPanel {
 
     private void startGame() {
         frame.getContentPane().removeAll();
-        currentLevel = new Level1(game);
-        view = new GameView(currentLevel, 800, 600); // Using currentLevel which is now not null
+        gameLevel = new Level1(game);
+        view = new GameView(gameLevel, 800, 600); // Using currentLevel which is now not null
 
         frame.add(view);
         frame.revalidate();
         frame.repaint();
 
         // Set up the input handler for the player
-        InputHandler inputHandler = new InputHandler(currentLevel.getPlayer(), currentLevel);
+        InputHandler inputHandler = new InputHandler(gameLevel.getPlayer(), gameLevel);
         view.addKeyListener(inputHandler);
         view.requestFocusInWindow();
 
         // Set up the world and start the game
-        world = currentLevel;
+        world = gameLevel;
         PlayerListener playerListener = new PlayerListener(world, view);
         world.addStepListener(playerListener);
         world.start();

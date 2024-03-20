@@ -88,7 +88,7 @@ public abstract class GameLevel extends World {
     }
 
 
-    protected void restartGame() {
+    public void restartGame() {
         this.stop();
         clearBodies();
         inputHandler.setPlayer(player);

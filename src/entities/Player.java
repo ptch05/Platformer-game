@@ -34,7 +34,7 @@ public class Player extends Walker {
     
     private static final Shape characterShape = new BoxShape(xNum, yNum);
     private static final Shape attackShape = new BoxShape(5.7f, yNum);
-    private static final Shape crouchShape = new BoxShape(xNum, 4f);
+    private static final Shape crouchShape = new BoxShape(xNum, 4.2f);
     private static final Shape specialAttackShape = new BoxShape(5.7f, 5f);
     private static final BodyImage IDLE_RIGHT = new BodyImage("./assets/images/hero/hero-idle-right.gif", playerSize);
     private static final BodyImage RUN_RIGHT = new BodyImage("./assets/images/hero/hero-run-right.gif", playerSize);
@@ -42,14 +42,14 @@ public class Player extends Walker {
     private static final BodyImage ATTACK_RIGHT = new BodyImage("./assets/images/hero/hero-attack-right.gif", playerSize);
     private static final BodyImage HURT_RIGHT = new BodyImage("./assets/images/hero/hero-hurt-right.png",(float) (playerSize*1.3));
     private static final BodyImage CROUCH_RIGHT = new BodyImage("./assets/images/hero/hero-crouch-right.png", (float)(playerSize*1.4));
-    private static final BodyImage SPECIAL_ATTACK_RIGHT = new BodyImage("./assets/images/hero/hero-special-attack-right.gif", (float)(playerSize*1.6));
+    private static final BodyImage SPECIAL_ATTACK_RIGHT = new BodyImage("./assets/images/hero/hero-special-attack-right.gif", (float)(playerSize*1.45));
     private static final BodyImage IDLE_LEFT = new BodyImage("./assets/images/hero/hero-idle-left.gif", playerSize);
     private static final BodyImage RUN_LEFT = new BodyImage("./assets/images/hero/hero-run-left.gif", playerSize);
     private static final BodyImage JUMP_LEFT = new BodyImage("./assets/images/hero/hero-jump-left.gif", playerSize);
     private static final BodyImage ATTACK_LEFT = new BodyImage("./assets/images/hero/hero-attack-left.gif", playerSize);
     private static final BodyImage HURT_LEFT = new BodyImage("./assets/images/hero/hero-hurt-left.png",(float) (playerSize*1.3));
     private static final BodyImage CROUCH_LEFT = new BodyImage("./assets/images/hero/hero-crouch-left.png", (float)(playerSize*1.4));
-    private static final BodyImage SPECIAL_ATTACK_LEFT = new BodyImage("./assets/images/hero/hero-special-attack-left.gif", (float)(playerSize*1.6));
+    private static final BodyImage SPECIAL_ATTACK_LEFT = new BodyImage("./assets/images/hero/hero-special-attack-left.gif", (float)(playerSize*1.45));
     
     private BodyImage currentImage;
     private InputHandler inputHandler;
@@ -78,19 +78,19 @@ public class Player extends Walker {
     }
     
     public void jumpRight() {
-            removeAllImages();
-            addImage(JUMP_RIGHT);
-            inAir = true;
-            facingRight = true;
-            AudioHandler.playJumpSound();
+        removeAllImages();
+        addImage(JUMP_RIGHT);
+        inAir = true;
+        facingRight = true;
+        AudioHandler.playJumpSound();
     }
 
     public void jumpLeft() {
-            removeAllImages();
-            addImage(JUMP_LEFT);
-            facingRight = false;
-            inAir = true;
-           AudioHandler.playJumpSound();
+        removeAllImages();
+        addImage(JUMP_LEFT);
+        facingRight = false;
+        inAir = true;
+        AudioHandler.playJumpSound();
     }
 
     public void idleRight() {

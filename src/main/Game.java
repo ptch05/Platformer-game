@@ -2,14 +2,16 @@ package main;
 
 import javax.swing.JFrame;
 
+import entities.Player;
 import input.InputHandler;
 import levels.*;
 import menu.Menu;
 
 public class Game {
 	private JFrame frame;
-	private GameLevel level;
+	private GameLevel gameLevel;
 	private GameView view;
+	private Player player;
 	private InputHandler inputHandler;
 
 
@@ -30,27 +32,24 @@ public class Game {
 			frame.pack();
 			frame.setVisible(true);
 	
-
-			
 	}
+	
 
 	 public void goToNextLevel(){
-			if (level instanceof Level1){
-					level.stop();
-					level = new Level2(this);
+			if (gameLevel instanceof Level1){
+					gameLevel.stop();
+					GameLevel gameLevel = new Level2(this);
 					//level now refer to the new level
-					view.setWorld(level);
-					inputHandler.setPlayer(level.getPlayer());
-					level.start();
+					view.setWorld(gameLevel);
+					inputHandler.setPlayer(gameLevel.getPlayer());
+					gameLevel.start();
 			}
-			else if (level instanceof Level2){
-				level.stop();
-				level = new Level3(this);
-				view.setWorld(level);
-				inputHandler.setPlayer(level.getPlayer());
-				level.start();
+			else if (gameLevel instanceof Level2){
+					gameLevel.stop();
+					GameLevel gameLevel = new Level3(this);
+					gameLevel.start();
 			}
-    }
+	 }
 
 	public static void main(String[] args) {
 		  new Game();			
