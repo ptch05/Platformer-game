@@ -12,54 +12,43 @@ public class Level2 extends GameLevel{
 
   public Level2(Game game) {
     super(game);
-    numberOfSkeletons = 7;
-    numberOfHounds = 2;
-    numberOfGhosts = 3;
-    numberOfPotions = 2;
-    skeletonPatrolLeftBoundary = new int[] {25, 52, 91, 160,235,315, 380}; 
-    skeletonPatrolRightBoundary = new int[]{35,75, 100, 175,245,335, 400};
-    houndPatrolLeftBoundary = new int[]{0,350};
-    houndPatrolRightBoundary = new int[]{20,370};
-    XPos = -68.15f;
-    YPos = -13f;
+    //numberOfSkeletons = 5;
+    //numberOfHounds = 6;
+    //numberOfGhosts = 4;
+    numberOfSkeletons = 0;
+    numberOfHounds = 0;
+    numberOfGhosts = 0;
+    numberOfPotions = 0;
+    skeletonPatrolLeftBoundary = new int[] {}; 
+    skeletonPatrolRightBoundary = new int[]{};
+    houndPatrolLeftBoundary = new int[]{};
+    houndPatrolRightBoundary = new int[]{};
     skeletonPositions = new Vec2[]{
-      new Vec2(30, -7.3f),
-      new Vec2(60, -7.3f),
-      new Vec2(95, 1f),
-      new Vec2(170, -3),
-      new Vec2(240, 15),
-      new Vec2(325, 22),
-      new Vec2(390, 22)
     };
     houndPositions = new Vec2[]{
-      new Vec2(10, -5.8f),
-      new Vec2(352, 20)
     };
     ghostPositions = new Vec2[]{
-      new Vec2(10, -5.8f),
-      new Vec2(352, 20)
     };
-    potionXPos = new float[]{60, 175};
-    potionYPos = new float[]{-6, -1};
-    
+    potionXPos = new float[]{};
+    potionYPos = new float[]{};
   
-    player.setPosition(new Vec2(-3, -5));
+    player.setPosition(new Vec2(200,-6));
     armour = new Armour(this);
-    armour.setPosition(new Vec2(230, 17));
+    armour.setPosition(new Vec2(500,-6));
     trophy = new Trophy(this);
-    trophy.setPosition(new Vec2(410,27));
-    AudioHandler.playLevel1Music();
+    trophy.setPosition(new Vec2(100,0));
+    AudioHandler.playLevel2Music();
     initializeWorld();
   }
 
   protected void initializeWorld() { 
       //Uses this method to make the world every time
-      XPos = -68.15f; // Resets X position for ground creation
-      YPos = -13f; // Resets Y position for ground creation
+      XPos = 100; // Resets X position for ground creation
       createEnvironment();
-
+      
       addSkeletons();
       addHounds();
+      addGhosts();
 
       for(int i=0; i<numberOfPotions; i++){
           Potion potion = new Potion(this);
@@ -68,43 +57,21 @@ public class Level2 extends GameLevel{
   }
 
   public void createEnvironment() {
-    // Logic for the first level
-    addSpikes(18);
-    addGround(14);
-
-    YPos = -8f;
-    addGround(4);
-
-    YPos = -9f;
-    addSpikes(16);
-
-    XPos -= 20f;
-    YPos = -8f;
-    addGround(1);
-    XPos += 16f;
-    addGround(4);
-    
-    for(int i=0; i<4; i++){
-        addGround(1);
-        YPos +=4.5f;
-    }
-    addGround(7);
-    YPos=9;
+    // Logic for the second level
+    YPos = -10f;
     addSpikes(14);
-
-    YPos = 15.3f;
-    XPos -= 25;
-    addGround(1);
-    XPos += 20f;
-    YPos= 11;
+    YPos = -9f;
     addGround(15);
-    YPos =10;
-    addSpikes(18);
-}
+  }
 
   @Override
-    public String getLevelName() {
-        return "Level2";
-    }
+  public String getLevelName() {
+      return "Level2";
+  }
+
+  @Override
+  public boolean isComplete() {
+      return getPlayer().getKillCounter() > 15;
+  }
 
 }

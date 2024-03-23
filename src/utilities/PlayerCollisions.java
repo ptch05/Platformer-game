@@ -13,14 +13,13 @@ import projectiles.Fireball;
 
 public class PlayerCollisions implements CollisionListener {
   private Player player;
-  private World world;
-  private Game game;
+  private Game g;
   
   private GameLevel gameLevel;
   public PlayerCollisions(Player p, GameLevel gameLevel, Game game){
       this.player = p;
       this.gameLevel = gameLevel;
-      this.game = game;
+      g = game;
   }
 
   @Override
@@ -78,13 +77,18 @@ public class PlayerCollisions implements CollisionListener {
           e.getOtherBody().destroy();
           AudioHandler.playVictorySound();
           try {
-            Thread.sleep(4000,500);
-          } catch (InterruptedException e1) {
-            e1.printStackTrace();
+              Thread.sleep(4000,500);
+              
+              if(gameLevel.isComplete()){
+                gameLevel.clearBodies();
+                g.goToNextLevel();
+              }
+
+          } catch (Exception exception) {
+              exception.printStackTrace(); // This will print any exception that occurs
           }
-          gameLevel.clearBodies();
-          game.goToNextLevel();
-        }
+      }
+      
 
         else if(e.getOtherBody() instanceof Fireball){
           player.reduceHealth(30);

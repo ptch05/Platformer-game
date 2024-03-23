@@ -39,6 +39,7 @@ public abstract class GameLevel extends World {
   protected Vec2[] ghostPositions;
   protected float[] potionXPos;
   protected float[] potionYPos;
+  protected boolean levelCleared;
 
   public GameLevel(Game game){
     this.game = game;
@@ -79,12 +80,12 @@ public abstract class GameLevel extends World {
     }
 
     protected void createEnemy(Enemy enemy, Vec2 position) {
-            enemy.setPosition(position); // Sets initial position of the enemies
-            enemies.add(enemy);
+        enemy.setPosition(position); // Sets initial position of the enemies
+        enemies.add(enemy);
 
-            PatrolListener listener = new PatrolListener(enemy);
-            patrolListeners.add(listener);
-            this.addStepListener(listener); // Then it adds the listeners for each of the enemies to the world
+        PatrolListener listener = new PatrolListener(enemy);
+        patrolListeners.add(listener);
+        this.addStepListener(listener); // Then it adds the listeners for each of the enemies to the world
     }
 
 
@@ -109,25 +110,55 @@ public abstract class GameLevel extends World {
     }
 
 
-    protected void createGround(){
-        Shape groundShape = new BoxShape((float) 4.7, 5.4f);
+    protected void createGround(String levelName) {
+        Shape groundShape;
+        BodyImage groundImage;
+        float groundWidth = 4.7f, groundHeight, imageHeight;
+        String imagePath;
+    
+        switch (levelName) {
+            case "Level1":
+                groundHeight = 5.4f;
+                imagePath = "./assets/images/level-data/level1/ground.png";
+                imageHeight = 11.5f;
+                break;
+            case "Level2":
+                groundHeight = 4.1f;
+                imagePath = "./assets/images/level-data/level2/ground.png";
+                imageHeight = 9f;
+                break;
+            case "Level3":
+                groundHeight = 3.5f;
+                imagePath = "./assets/images/level-data/level3/ground.png";
+                imageHeight = 11.5f;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid level name: " + levelName);
+        }
+    
+        groundShape = new BoxShape(groundWidth, groundHeight);
         StaticBody ground = new StaticBody(this, groundShape);
         ground.setPosition(new Vec2(XPos, YPos));
-        ground.addImage(new BodyImage("./assets/images/level-data/level1/ground.png", 11.5f));
-        XPos +=7f;
+        groundImage = new BodyImage(imagePath, imageHeight);
+        ground.addImage(groundImage);
+        XPos += 7f;
     }
 
     protected void createSpikes(){
-        Spikes spikes = new Spikes(this);
-        spikes.setPosition(new Vec2(XPos, YPos));
-        XPos+=3f;
+        Spikes spikes = new Spikes(this, this);
+        spikes.setPosition(new Vec2(XPos, YPos+1f));
+        if(getLevelName() == "Level1"){
+            XPos+=3f;
+        } else if(getLevelName() == "Level2"){
+            XPos+=3.5f;
+        }
     }
 
     
     public void addGround(int times) {
         //Adds in ground every time it's called
         for (int i = 0; i < times; i++) {
-            createGround();
+            createGround(getLevelName());
         }
     }
 
@@ -139,5 +170,7 @@ public abstract class GameLevel extends World {
     }
 
     public abstract String getLevelName();
+
+    public abstract boolean isComplete();
 
 }

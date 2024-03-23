@@ -3,22 +3,14 @@ package menu;
 import javax.swing.*;
 
 import audio.AudioHandler;
-import input.InputHandler;
-import levels.*;
 import main.Game;
-import main.GameView;
-import utilities.PlayerListener;
-import city.cs.engine.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class Menu extends JPanel {
     private JFrame frame;
     private Image menu;
-    private World world;
-    private GameView view;
     private Game game;
-    private GameLevel gameLevel;
 
     public Menu(JFrame frame, int width, int height, Game game) {
         this.frame = frame;
@@ -33,7 +25,7 @@ public class Menu extends JPanel {
         JButton playButton = createButton("./assets/images/start-screen/play.png", e -> {
             AudioHandler.playButtonSound();
             Timer timer = new Timer(500, evt -> { //I added these 2 timers so that there's a little bit of a delay between clicking the button and actually loading into the game, to make it feel a little more game-like.
-                startGame();
+                game.startGame();
                 AudioHandler.stopMenuSound();
             });
             timer.setRepeats(false);
@@ -63,27 +55,6 @@ public class Menu extends JPanel {
         button.setBorderPainted(false);
         button.addActionListener(listener);
         return button;
-    }
-
-    private void startGame() {
-        frame.getContentPane().removeAll();
-        gameLevel = new Level1(game);
-        view = new GameView(gameLevel, 800, 600); // Using currentLevel which is now not null
-
-        frame.add(view);
-        frame.revalidate();
-        frame.repaint();
-
-        // Set up the input handler for the player
-        InputHandler inputHandler = new InputHandler(gameLevel.getPlayer(), gameLevel);
-        view.addKeyListener(inputHandler);
-        view.requestFocusInWindow();
-
-        // Set up the world and start the game
-        world = gameLevel;
-        PlayerListener playerListener = new PlayerListener(world, view);
-        world.addStepListener(playerListener);
-        world.start();
     }
 
     @Override

@@ -11,7 +11,6 @@ public class PlayerListener implements StepListener {
     private World world;
     private UserView view;
     private Player player;
-    private GameLevel gameLevel;
 
     public PlayerListener(World world, GameView view) { 
         this.world = world;
@@ -25,7 +24,7 @@ public class PlayerListener implements StepListener {
     public void postStep(StepEvent e) {
         Player player = ((GameLevel) world).getPlayer();
         Vec2 position = player.getPosition(); // Get the current position of the player
-        Vec2 viewCentre = new Vec2(position.x, position.y + (float)3.2);
+        Vec2 viewCentre = new Vec2(position.x, position.y + 5.3f);
         view.setCentre(viewCentre); // Now the camera follows the player but is offset 3.2units above
     }
     

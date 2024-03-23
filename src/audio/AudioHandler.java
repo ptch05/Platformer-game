@@ -59,7 +59,7 @@ public class AudioHandler {
 
 public static void playLevel2Music() {
         LEVEL2_SOUND_CLIP.setVolume(2);
-        LEVEL2_SOUND_CLIP.loop();
+        //LEVEL2_SOUND_CLIP.loop();
         
     }
 

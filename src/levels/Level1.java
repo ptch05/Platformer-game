@@ -13,14 +13,12 @@ public class Level1 extends GameLevel{
     super(game);
     numberOfSkeletons = 7;
     numberOfHounds = 2;
-    numberOfGhosts = 2;
     numberOfPotions = 2;
+    levelCleared = false;
     skeletonPatrolLeftBoundary = new int[] {25, 52, 91, 160,235,315, 380}; 
     skeletonPatrolRightBoundary = new int[]{35,75, 100, 175,245,335, 400};
     houndPatrolLeftBoundary = new int[]{0,350};
     houndPatrolRightBoundary = new int[]{20,370};
-    XPos = -68.15f;
-    YPos = -13f;
     skeletonPositions = new Vec2[]{
       new Vec2(30, -7.3f),
       new Vec2(60, -7.3f),
@@ -34,14 +32,9 @@ public class Level1 extends GameLevel{
       new Vec2(10, -5.8f),
       new Vec2(352, 20)
     };
-    ghostPositions = new Vec2[]{
-      new Vec2(10, -5.8f),
-      new Vec2(352, 20)
-    };
     potionXPos = new float[]{60, 175};
     potionYPos = new float[]{-6, -1};
     
-  
     player.setPosition(new Vec2(-3, -5));
     armour = new Armour(this);
     armour.setPosition(new Vec2(230, 17));
@@ -59,7 +52,6 @@ public class Level1 extends GameLevel{
 
       addSkeletons();
       addHounds();
-      addGhosts();
 
       for(int i=0; i<numberOfPotions; i++){
           Potion potion = new Potion(this);
@@ -102,10 +94,15 @@ public class Level1 extends GameLevel{
     addSpikes(18);
 }
 
-@Override
-public String getLevelName() {
-        return "Level1";
-    }
+  @Override
+  public String getLevelName() {
+      return "Level1";
+  }
+
+  @Override
+  public boolean isComplete() {
+      return getPlayer().getKillCounter() > 8;
+  }
   
 }
 
