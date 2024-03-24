@@ -89,9 +89,8 @@ public class PlayerCollisions implements CollisionListener {
           }
       }
       
-
         else if(e.getOtherBody() instanceof Fireball){
-          player.reduceHealth(30);
+          player.reduceHealth(player.getHealthLossAmount()/4*3);
           e.getOtherBody().destroy();
         }
       }

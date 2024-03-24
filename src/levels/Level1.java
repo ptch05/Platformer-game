@@ -36,10 +36,6 @@ public class Level1 extends GameLevel{
     potionYPos = new float[]{-6, -1};
     
     player.setPosition(new Vec2(-3, -5));
-    armour = new Armour(this);
-    armour.setPosition(new Vec2(230, 17));
-    trophy = new Trophy(this);
-    trophy.setPosition(new Vec2(410,27));
     AudioHandler.playLevel1Music();
     initializeWorld();
   }
@@ -57,6 +53,11 @@ public class Level1 extends GameLevel{
           Potion potion = new Potion(this);
           potion.setPosition(new Vec2(potionXPos[i], potionYPos[i]));
       }
+      
+      armour = new Armour(this);
+      armour.setPosition(new Vec2(230, 17));
+      trophy = new Trophy(this);
+      trophy.setPosition(new Vec2(410,27));
   }
 
   public void createEnvironment() {

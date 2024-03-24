@@ -7,10 +7,16 @@ public class Fireball extends DynamicBody {
 
   private static final Shape fireballShape = new BoxShape(0.25f, 0.5f);
   private static final BodyImage fireballImage = new BodyImage("./assets/images/ghost/fireball.gif", 5.5f);
+  private Vec2 startPosition;
 
   public Fireball(World world, Vec2 position) {
     super(world, fireballShape);
     addImage(fireballImage);
+    this.startPosition = position.clone();
+  }
+
+  public float getDistanceTraveled() {
+    return getPosition().sub(startPosition).length();
   }
   
 }

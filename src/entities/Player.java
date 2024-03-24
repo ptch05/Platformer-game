@@ -5,6 +5,7 @@ import org.jbox2d.common.Vec2;
 import audio.AudioHandler;
 import city.cs.engine.*;
 import input.InputHandler;
+import levels.GameLevel;
 
 
 public class Player extends Walker {
@@ -53,6 +54,7 @@ public class Player extends Walker {
     
     private BodyImage currentImage;
     private InputHandler inputHandler;
+    private GameLevel gameLevel;
 
     public Player(World world) {
         super(world, characterShape);
@@ -222,9 +224,13 @@ public class Player extends Walker {
         lives++;
     }
 
+    public void setGameLevel(GameLevel gameLevel) {
+        this.gameLevel = gameLevel;
+    }
 
-   public void handleDeath() {
+    public void handleDeath() {
         health = 0;
+        gameLevel.restartGame();
         loseLives();
     }
 

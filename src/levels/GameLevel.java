@@ -43,13 +43,7 @@ public abstract class GameLevel extends World {
 
   public GameLevel(Game game){
     this.game = game;
-
-    player = new Player(this);
-    inputHandler = new InputHandler(player, this);
-    player.addFriction();
-
-    PlayerCollisions collision = new PlayerCollisions(player, this, game);
-    player.addCollisionListener(collision);
+    this.addWorldComponents();
   }
 
   public Player getPlayer() {
@@ -92,6 +86,8 @@ public abstract class GameLevel extends World {
     public void restartGame() {
         this.stop();
         clearBodies();
+        initializeWorld();
+        addWorldComponents();
         inputHandler.setPlayer(player);
         this.start();
     }
@@ -146,10 +142,11 @@ public abstract class GameLevel extends World {
 
     protected void createSpikes(){
         Spikes spikes = new Spikes(this, this);
-        spikes.setPosition(new Vec2(XPos, YPos+1f));
         if(getLevelName() == "Level1"){
+            spikes.setPosition(new Vec2(XPos, YPos+1f));
             XPos+=3f;
         } else if(getLevelName() == "Level2"){
+            spikes.setPosition(new Vec2(XPos, YPos));
             XPos+=3.5f;
         }
     }
@@ -172,5 +169,17 @@ public abstract class GameLevel extends World {
     public abstract String getLevelName();
 
     public abstract boolean isComplete();
+
+    protected void addWorldComponents() {
+        player = new Player(this);
+        player.setGameLevel(this);
+        inputHandler = new InputHandler(player, this);
+        player.addFriction();
+
+        PlayerCollisions collision = new PlayerCollisions(player, this, game);
+        player.addCollisionListener(collision);
+    }
+
+    protected abstract void initializeWorld();
 
 }

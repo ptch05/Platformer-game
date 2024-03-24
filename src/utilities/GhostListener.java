@@ -9,7 +9,7 @@ import projectiles.Fireball;
 
 public class GhostListener implements StepListener{
   
-  private static final float FIRE_RANGE = 20f; // The range at which the ghost will start shooting.
+  private static final float FIRE_RANGE = 25f; // The range at which the ghost will start shooting.
   private static final float FIREBALL_SPEED = -12.0f; // Negative for left
   private float timeSinceLastShot = 0.0f;
   private Player player;
@@ -35,6 +35,16 @@ public class GhostListener implements StepListener{
       if (Math.abs(ghostPosition.x - playerPosition.x) < FIRE_RANGE && timeSinceLastShot >= 2.5f) {
           shootFireball();
           timeSinceLastShot = 0.0f; // Reset the timer after shooting
+      }
+
+      // Check each fireball's distance and destroy if beyond range
+      for (Body body : ghost.getWorld().getDynamicBodies()) {
+        if (body instanceof Fireball) {
+            Fireball fireball = (Fireball) body;
+            if (fireball.getDistanceTraveled() > FIRE_RANGE) {
+                fireball.destroy();
+            }
+        }
       }
     }
 
