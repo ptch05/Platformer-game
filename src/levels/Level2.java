@@ -117,7 +117,7 @@ public class Level2 extends GameLevel{
 
   @Override
   public boolean isComplete() {
-      return getPlayer().getKillCounter() > -1;
+      return getPlayer().getKillCounter() > 13;
   }
 
 }

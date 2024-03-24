@@ -54,10 +54,7 @@ public class GameView extends UserView {
       drawWin(g);
       return;
     } else{
-      
       drawBackground(gameLevel.getLevelName(), g);
-
-      
     }
 }
 
@@ -88,8 +85,8 @@ private void drawBackground(String levelName, Graphics2D g){
         case "Level2":
         g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
         g.drawImage(middleground1, -middlegroundX -100, -40, getWidth()*6, getHeight(), this);
-        g.drawImage(middleground2, -middleground2X -100, 5, getWidth()*6, getHeight(), this);
-        g.drawImage(foreground, -foregroundX*(int)1.15 - 200, 0, getWidth()*5, getHeight(), this);
+        g.drawImage(middleground2, -middleground2X*(int)1.85 -100, 5, getWidth()*6, getHeight(), this);
+        g.drawImage(foreground, -foregroundX*(int)2 - 200, 10, getWidth()*5, getHeight(), this);
           break;
   
         case "Level3":

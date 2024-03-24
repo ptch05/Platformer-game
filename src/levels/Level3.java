@@ -34,7 +34,7 @@ public class Level3 extends GameLevel{
   
     player.setPosition(new Vec2());
     armour = new Armour(this);
-    armour.setPosition(new Vec2());
+    armour.setPosition(new Vec2(1000,0));
     trophy = new Trophy(this);
     trophy.setPosition(new Vec2(1000,0));
     AudioHandler.playLevel3Music();

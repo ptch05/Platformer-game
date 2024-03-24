@@ -69,14 +69,14 @@ public class Game {
 	
 
 	public void goToNextLevel() {
-		if (currentLevel instanceof Level2) {
-				setupLevel(new Level3(this));
+		if (currentLevel instanceof Level1) {
+				setupLevel(new Level2(this));
 				//level now refers to the new level
 		} else if (currentLevel instanceof Level2) {
-				setupLevel(new Level3(this));
+				setupLevel(new Level3(this));		
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		  new Game();			
 	}

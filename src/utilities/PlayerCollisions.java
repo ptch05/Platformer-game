@@ -1,7 +1,7 @@
 package utilities;
 
 import entities.*;
-import levels.GameLevel;
+import levels.*;
 import main.Game;
 
 import org.jbox2d.common.Vec2;
@@ -78,11 +78,12 @@ public class PlayerCollisions implements CollisionListener {
           AudioHandler.playVictorySound();
           try {
               Thread.sleep(4000,500);
-              
-              if(gameLevel.isComplete()){
                 gameLevel.clearBodies();
-                g.goToNextLevel();
-              }
+                if(gameLevel.getLevelName().equals("Level3") && gameLevel.isComplete()){
+                  player.setVictorious(true);
+                } else {
+                  g.goToNextLevel();
+                }
 
           } catch (Exception exception) {
               exception.printStackTrace(); // This will print any exception that occurs

@@ -2,7 +2,6 @@ package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import city.cs.engine.World;
 import entities.Player;
 import levels.GameLevel;
 public class InputHandler implements KeyListener {
@@ -11,10 +10,8 @@ public class InputHandler implements KeyListener {
     private boolean keyDPressed = false;
     private boolean keySPressed = false;
     private boolean keyKPressed = false;
-    private boolean keyGPressed = false;
     private Player player;
     private GameLevel gameLevel;
-    private World world;
 
     public InputHandler(Player p, GameLevel gameLevel) {
         player = p;
