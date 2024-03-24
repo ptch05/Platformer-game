@@ -2,6 +2,9 @@ package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import entities.Player;
 import levels.GameLevel;
 public class InputHandler implements KeyListener {
@@ -10,6 +13,7 @@ public class InputHandler implements KeyListener {
     private boolean keyDPressed = false;
     private boolean keySPressed = false;
     private boolean keyKPressed = false;
+    private boolean keyGPressed = false;
     private Player player;
     private GameLevel gameLevel;
 
@@ -67,21 +71,21 @@ public class InputHandler implements KeyListener {
 
             case KeyEvent.VK_K:
                 // Stop running when attacking
-                if (!keyAPressed || !keyDPressed) {
-                    player.stopWalking();
-                    if (keyAPressed) {
-                        player.idleLeft();
-                    } else if (keyDPressed) {
-                        player.idleRight();
-                    }
-                    keyAPressed = false;
-                    keyDPressed = false;
-                }
+                stopMoving();
                 keyKPressed = true;
                 player.attack();
                 break;
             case KeyEvent.VK_G:
+                stopMoving();
+                keyGPressed = true;
                 player.specialAttack();
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        player.endSpecialAttack();
+                    }
+                }, 650); // Special attack no matter what is finished within 650ms and player can't keep doing it
                 break;
         }
     }
@@ -128,5 +132,18 @@ public class InputHandler implements KeyListener {
     
     public void setPlayer(Player newPlayer) {
         this.player = newPlayer;
+    }
+
+    private void stopMoving(){
+        if (!keyAPressed || !keyDPressed) {
+            player.stopWalking();
+            if (keyAPressed) {
+                player.idleLeft();
+            } else if (keyDPressed) {
+                player.idleRight();
+            }
+            keyAPressed = false;
+            keyDPressed = false;
+        }
     }
 }

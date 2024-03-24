@@ -65,7 +65,7 @@ public static void playLevel2Music() {
 
     public static void playLevel3Music() {
         LEVEL3_SOUND_CLIP.setVolume(2);
-        //LEVEL3_SOUND_CLIP.loop();
+        LEVEL3_SOUND_CLIP.loop();
         
     }
 

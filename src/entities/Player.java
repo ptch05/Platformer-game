@@ -36,7 +36,7 @@ public class Player extends Walker {
     private static final Shape characterShape = new BoxShape(xNum, yNum);
     private static final Shape attackShape = new BoxShape(5.7f, yNum);
     private static final Shape crouchShape = new BoxShape(xNum, 4.2f);
-    private static final Shape specialAttackShape = new BoxShape(5.7f, 5f);
+    private static final Shape specialAttackShape = new BoxShape(5.7f, 5.5f);
     private static final BodyImage IDLE_RIGHT = new BodyImage("./assets/images/hero/hero-idle-right.gif", playerSize);
     private static final BodyImage RUN_RIGHT = new BodyImage("./assets/images/hero/hero-run-right.gif", playerSize);
     private static final BodyImage JUMP_RIGHT = new BodyImage("./assets/images/hero/hero-jump-right.gif", playerSize);
@@ -302,6 +302,13 @@ public class Player extends Walker {
             specialAttackFixture.destroy(); 
             specialAttackOn = false;
             specialAttackUsed = false;
+
+            removeAllImages();
+            if (facingRight) {
+                addImage(IDLE_RIGHT);
+            } else {
+                addImage(IDLE_LEFT);
+            } // Changes player state back to idle after doing the attack
         }
     }
 

@@ -86,9 +86,9 @@ public abstract class GameLevel extends World {
     public void restartGame() {
         this.stop();
         clearBodies();
-        initializeWorld();
         addWorldComponents();
         inputHandler.setPlayer(player);
+        initializeWorld();
         this.start();
     }
     
@@ -109,7 +109,7 @@ public abstract class GameLevel extends World {
     protected void createGround(String levelName) {
         Shape groundShape;
         BodyImage groundImage;
-        float groundWidth = 4.7f, groundHeight, imageHeight;
+        float groundWidth, groundHeight, imageHeight;
         String imagePath;
     
         switch (levelName) {
@@ -117,16 +117,19 @@ public abstract class GameLevel extends World {
                 groundHeight = 5.4f;
                 imagePath = "./assets/images/level-data/level1/ground.png";
                 imageHeight = 11.5f;
+                groundWidth = 4.7f;
                 break;
             case "Level2":
                 groundHeight = 4.1f;
                 imagePath = "./assets/images/level-data/level2/ground.png";
                 imageHeight = 9f;
+                groundWidth = 4.7f;
                 break;
             case "Level3":
-                groundHeight = 3.5f;
+                groundHeight = 3.3f;
                 imagePath = "./assets/images/level-data/level3/ground.png";
-                imageHeight = 11.5f;
+                imageHeight = 7.3f;
+                groundWidth = 5.7f;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid level name: " + levelName);

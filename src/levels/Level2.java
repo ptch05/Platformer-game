@@ -10,7 +10,6 @@ import objects.Potion;
 import objects.Trophy;
 
 public class Level2 extends GameLevel{
-
   public Level2(Game game) {
     super(game);
     numberOfSkeletons = 5;
@@ -50,12 +49,12 @@ public class Level2 extends GameLevel{
     initializeWorld();
   }
 
+  @Override
   protected void initializeWorld() { 
     //Uses this method to make the world every time
     XPos = 100; // Resets X position for ground creation
     YPos = -10f;
     createEnvironment();
-    
     addSkeletons();
     addHounds();
     addGhosts();

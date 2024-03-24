@@ -90,9 +90,9 @@ private void drawBackground(String levelName, Graphics2D g){
           break;
   
         case "Level3":
-        g.drawImage(background, -backgroundX-100, 55, getWidth()*5, getHeight(), this);
-        g.drawImage(middleground1, -middlegroundX -100, 60, getWidth()*6, getHeight()/11*10, this);
-        g.drawImage(foreground, -foregroundX - 200, -55, getWidth()*5, getHeight()/11*9, this);
+        g.drawImage(background, -backgroundX*(int)1.5-100, 0, getWidth()*6, getHeight(), this);
+        g.drawImage(middleground1, -middlegroundX*(int)2 -100, 50, getWidth()*6, getHeight()/12*11, this);
+        g.drawImage(foreground, -foregroundX*(int)2.1 - 200, -55, getWidth()*5, getHeight()/12*9, this);
         break;
       }
     }
@@ -130,9 +130,9 @@ private void drawBackground(String levelName, Graphics2D g){
   private void drawKillCounter(Graphics2D g, Player player) {
     int killCounter = player.getKillCounter();
     g.setColor(Color.BLACK);
-    g.fillRect(550, 40, 150, 20);
-    g.drawImage(skulls, 475, 10, 140, 90, this);
-    drawCenteredText(g, "Kill Count: " + killCounter, 550, 40, 150, 20, Color.RED);
+    g.fillRect(590, 40, 150, 20);
+    g.drawImage(skulls, 515, 10, 140, 90, this);
+    drawCenteredText(g, "Kill Count: " + killCounter, 590, 40, 150, 20, Color.RED);
   }
 
   private void drawStatusBar(Graphics2D g, int x, int y, int value, int maxValue, Color barColor, String text,int maxWidth) {

@@ -40,12 +40,12 @@ public class Level1 extends GameLevel{
     initializeWorld();
   }
 
+  @Override
   protected void initializeWorld() { 
       //Uses this method to make the world every time
       XPos = -68.15f; // Resets X position for ground creation
       YPos = -13f; // Resets Y position for ground creation
       createEnvironment();
-
       addSkeletons();
       addHounds();
 

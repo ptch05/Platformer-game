@@ -32,7 +32,7 @@ public class Level3 extends GameLevel{
     potionYPos = new float[]{};
     
   
-    player.setPosition(new Vec2());
+    player.setPosition(new Vec2(30,-5));
     armour = new Armour(this);
     armour.setPosition(new Vec2(1000,0));
     trophy = new Trophy(this);
@@ -41,9 +41,11 @@ public class Level3 extends GameLevel{
     initializeWorld();
   }
 
+  
+  @Override
   protected void initializeWorld() { 
       //Uses this method to make the world every time
-      XPos = -68.15f; // Resets X position for ground creation
+      XPos = 0; // Resets X position for ground creation
       YPos = -13f; // Resets Y position for ground creation
       createEnvironment();
 
@@ -58,7 +60,13 @@ public class Level3 extends GameLevel{
   }
 
   public void createEnvironment() {
-    // Logic for the second level
+    // Logic for the third level
+    addGround(15);
+    for(int i=0;i <10;i++){
+      XPos = -10;
+      addGround(1);
+      YPos+=7f;
+    }
 
   }
 
