@@ -3,26 +3,26 @@ package levels;
 import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
+import collectibles.Armour;
+import collectibles.Potion;
+import collectibles.Trophy;
 import main.Game;
-import objects.Armour;
-import objects.Potion;
-import objects.Trophy;
+import objects.Lava;
 
 public class Level3 extends GameLevel{
 
   public Level3(Game game) {
     super(game);
-    numberOfSkeletons = 0;
+    numberOfSkeletons = 1;
     numberOfHounds = 0;
     numberOfGhosts = 0;
     numberOfPotions = 0;
-    skeletonPatrolLeftBoundary = new int[] {}; 
-    skeletonPatrolRightBoundary = new int[]{};
+    skeletonPatrolLeftBoundary = new int[] {155}; 
+    skeletonPatrolRightBoundary = new int[]{165};
     houndPatrolLeftBoundary = new int[]{};
     houndPatrolRightBoundary = new int[]{};
-    XPos = -68.15f;
-    YPos = -13f;
     skeletonPositions = new Vec2[]{
+      new Vec2(175, -7.25f)
     };
     houndPositions = new Vec2[]{
     };
@@ -31,12 +31,6 @@ public class Level3 extends GameLevel{
     potionXPos = new float[]{};
     potionYPos = new float[]{};
     
-  
-    player.setPosition(new Vec2(30,-5));
-    armour = new Armour(this);
-    armour.setPosition(new Vec2(1000,0));
-    trophy = new Trophy(this);
-    trophy.setPosition(new Vec2(1000,0));
     AudioHandler.playLevel3Music();
     initializeWorld();
   }
@@ -57,16 +51,19 @@ public class Level3 extends GameLevel{
           Potion potion = new Potion(this);
           potion.setPosition(new Vec2(potionXPos[i], potionYPos[i]));
       }
+
+      armour = new Armour(this);
+      armour.setPosition(new Vec2(1000,0));
+      trophy = new Trophy(this);
+      trophy.setPosition(new Vec2(170,0));
   }
 
   public void createEnvironment() {
     // Logic for the third level
-    addGround(15);
-    for(int i=0;i <10;i++){
-      XPos = -10;
-      addGround(1);
-      YPos+=7f;
-    }
+    addLava(10);
+    addGround(10);   
+    addLava(2); 
+    addGround(10);
 
   }
 
@@ -77,7 +74,23 @@ public class Level3 extends GameLevel{
 
   @Override
   public boolean isComplete() {
-      return getPlayer().getKillCounter() > 15;
+      return getPlayer().getKillCounter() > 14;
   }
+
+  private void createLava(){
+      XPos+=5.8f;
+      Lava lava = new Lava(this);
+      lava.setPosition(new Vec2(XPos, YPos-0.75f));
+      XPos+=6.4f;
+  }
+  
+  private void addLava(int times) {
+    //Adds in lava every time it's called
+    for (int i = 0; i < times; i++) {
+        createLava();
+    }
+    XPos+=6.3f;
+  }
+
 
 }

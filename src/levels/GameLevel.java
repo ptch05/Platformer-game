@@ -6,6 +6,8 @@ import java.util.List;
 import org.jbox2d.common.Vec2;
 
 import city.cs.engine.*;
+import collectibles.Armour;
+import collectibles.Trophy;
 import entities.*;
 import input.InputHandler;
 import main.Game;
@@ -84,12 +86,12 @@ public abstract class GameLevel extends World {
 
 
     public void restartGame() {
-        this.stop();
-        clearBodies();
-        addWorldComponents();
-        inputHandler.setPlayer(player);
-        initializeWorld();
-        this.start();
+            this.stop(); 
+            clearBodies(); 
+            addWorldComponents(); 
+            inputHandler.setPlayer(player); 
+            initializeWorld(); 
+            this.start();    
     }
     
 
@@ -126,9 +128,9 @@ public abstract class GameLevel extends World {
                 groundWidth = 4.7f;
                 break;
             case "Level3":
-                groundHeight = 3.3f;
+                groundHeight = 2.8f;
                 imagePath = "./assets/images/level-data/level3/ground.png";
-                imageHeight = 7.3f;
+                imageHeight = 6.6f;
                 groundWidth = 5.7f;
                 break;
             default:
@@ -155,14 +157,14 @@ public abstract class GameLevel extends World {
     }
 
     
-    public void addGround(int times) {
+    protected void addGround(int times) {
         //Adds in ground every time it's called
         for (int i = 0; i < times; i++) {
             createGround(getLevelName());
         }
     }
 
-    public void addSpikes(int times) {
+    protected void addSpikes(int times) {
         //Adds in spikes every time it's called
         for (int i = 0; i < times; i++) {
             createSpikes();
@@ -176,6 +178,14 @@ public abstract class GameLevel extends World {
     protected void addWorldComponents() {
         player = new Player(this);
         player.setGameLevel(this);
+
+        if(getLevelName() == "Level1"){
+            player.setPosition(new Vec2(-3, -5));
+        } else if(getLevelName() == "Level2"){
+            player.setPosition(new Vec2(200,-6));
+        } else if(getLevelName() == "Level3"){
+            player.setPosition(new Vec2(135,-5));
+        }
         inputHandler = new InputHandler(player, this);
         player.addFriction();
 

@@ -1,4 +1,4 @@
-package objects;
+package collectibles;
 
 import java.util.Timer;
 import java.util.TimerTask;

@@ -8,6 +8,7 @@ import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
 import city.cs.engine.*;
+import collectibles.Trophy;
 import objects.*;
 import projectiles.Fireball;
 
@@ -68,7 +69,7 @@ public class PlayerCollisions implements CollisionListener {
   }
   
       if (e.getReportingBody() instanceof Player) {  //So that enemy doesn't interfere with any of these
-        if(e.getOtherBody() instanceof Spikes){
+        if(e.getOtherBody() instanceof Spikes || e.getOtherBody() instanceof Lava){
           AudioHandler.playHurtSound();
           player.handleDeath();
         }

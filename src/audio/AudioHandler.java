@@ -58,21 +58,21 @@ public class AudioHandler {
     }
 
 public static void playLevel2Music() {
-        LEVEL2_SOUND_CLIP.setVolume(2);
+        LEVEL2_SOUND_CLIP.setVolume(1.5);
         //LEVEL2_SOUND_CLIP.loop();
         
     }
 
     public static void playLevel3Music() {
-        LEVEL3_SOUND_CLIP.setVolume(2);
-        LEVEL3_SOUND_CLIP.loop();
+        LEVEL3_SOUND_CLIP.setVolume(1.5);
+        //LEVEL3_SOUND_CLIP.loop();
         
     }
 
     public static void stopAllGameMusic() {
-        LEVEL1_SOUND_CLIP.stop();
-        LEVEL2_SOUND_CLIP.stop();
-        LEVEL3_SOUND_CLIP.stop();
+        //LEVEL1_SOUND_CLIP.stop();
+        //LEVEL2_SOUND_CLIP.stop();
+        //LEVEL3_SOUND_CLIP.stop();
     }
 
     public static void playPotionSound() {
@@ -104,11 +104,11 @@ public static void playLevel2Music() {
 
     public static void playMenuSound() {
         MENU_SOUND_CLIP.setVolume(2);
-        //MENU_SOUND_CLIP.loop();
+       // MENU_SOUND_CLIP.loop();
     }
 
     public static void stopMenuSound() {
-        //MENU_SOUND_CLIP.stop();
+        MENU_SOUND_CLIP.stop();
     }
 
     public static void playButtonSound() {

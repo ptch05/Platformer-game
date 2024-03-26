@@ -3,10 +3,10 @@ package levels;
 import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
+import collectibles.Armour;
+import collectibles.Potion;
+import collectibles.Trophy;
 import main.Game;
-import objects.Armour;
-import objects.Potion;
-import objects.Trophy;
 
 public class Level1 extends GameLevel{  
   public Level1(Game game) {
@@ -35,7 +35,6 @@ public class Level1 extends GameLevel{
     potionXPos = new float[]{60, 175};
     potionYPos = new float[]{-6, -1};
     
-    player.setPosition(new Vec2(-3, -5));
     AudioHandler.playLevel1Music();
     initializeWorld();
   }

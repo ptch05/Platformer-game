@@ -3,11 +3,11 @@ package levels;
 import org.jbox2d.common.Vec2;
 
 import audio.AudioHandler;
+import collectibles.Armour;
+import collectibles.Potion;
+import collectibles.Trophy;
 import main.Game;
-import objects.Armour;
 import objects.MovingGround;
-import objects.Potion;
-import objects.Trophy;
 
 public class Level2 extends GameLevel{
   public Level2(Game game) {
@@ -19,7 +19,7 @@ public class Level2 extends GameLevel{
     skeletonPatrolLeftBoundary = new int[] {225, 260, 650, 740, 885}; 
     skeletonPatrolRightBoundary = new int[]{265, 285, 675, 770, 920};
     houndPatrolLeftBoundary = new int[]{165, 365, 405, 590, 795, 850};
-    houndPatrolRightBoundary = new int[]{210, 390, 425, 620, 830, 875};
+    houndPatrolRightBoundary = new int[]{210, 390, 425, 610, 825, 875};
     skeletonPositions = new Vec2[]{
       new Vec2(240, -3f),
       new Vec2(270, -3f),
@@ -85,9 +85,9 @@ public class Level2 extends GameLevel{
     YPos -=4f;
     addSpikes(35);
     XPos = 480;
-    addMovingGround(470, 515, 0.2f);
+    addMovingGround(470, 518, 0.2f);
     XPos = 540;
-    addMovingGround(525, 560, 0.2f);
+    addMovingGround(525, 567, 0.2f);
     YPos += 7f;
     XPos = 585;
     addGround(18);

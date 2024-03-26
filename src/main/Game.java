@@ -42,7 +42,7 @@ public class Game {
 	}
 
 	public void startGame(){
-		setupLevel(new Level1(this));
+		setupLevel(new Level3(this));
 	}
 
 	private void setupLevel(GameLevel level){
@@ -73,8 +73,8 @@ public class Game {
 				setupLevel(new Level2(this));
 				//level now refers to the new level
 		} else if (currentLevel instanceof Level2) {
-				setupLevel(new Level3(this));		
-		}
+				setupLevel(new Level3(this));	
+		} 
 	}
 
 	public static void main(String[] args) {

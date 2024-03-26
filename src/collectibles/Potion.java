@@ -1,4 +1,4 @@
-package objects;
+package collectibles;
 
 import audio.AudioHandler;
 import city.cs.engine.*;

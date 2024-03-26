@@ -92,7 +92,7 @@ private void drawBackground(String levelName, Graphics2D g){
         case "Level3":
         g.drawImage(background, -backgroundX*(int)1.5-100, 0, getWidth()*6, getHeight(), this);
         g.drawImage(middleground1, -middlegroundX*(int)2 -100, 50, getWidth()*6, getHeight()/12*11, this);
-        g.drawImage(foreground, -foregroundX*(int)2.1 - 200, -55, getWidth()*5, getHeight()/12*9, this);
+        g.drawImage(foreground, -foregroundX*(int)2.1 - 200, -55, getWidth()*5, getHeight()/11*8, this);
         break;
       }
     }

@@ -1,4 +1,4 @@
-package objects;
+package collectibles;
 
 import city.cs.engine.*;
 public class Trophy extends StaticBody {
