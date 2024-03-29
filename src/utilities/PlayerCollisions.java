@@ -25,7 +25,7 @@ public class PlayerCollisions implements CollisionListener {
 
   @Override
   public void collide(CollisionEvent e) {
-    if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound || e.getOtherBody() instanceof Ghost) {
+    if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound || e.getOtherBody() instanceof Ghost || e.getOtherBody() instanceof Demon) {
       Enemy enemy = (Enemy) e.getOtherBody();
       if(player.isAttacking() || player.isSpecialAttacking()){
         boolean wasGhostAlreadyDead = false;
@@ -36,6 +36,13 @@ public class PlayerCollisions implements CollisionListener {
             if (ghost.isGhostAlive() && !wasGhostAlreadyDead) {
                 return; // If the ghost survived the hit, don't add kill or play sound yet
             }
+        }
+        if(enemy instanceof Demon){
+          Demon demon = (Demon) enemy;
+          demon.hitByAttack(player.isSpecialAttacking()); // Here we pass if the attack was special or not
+          if(demon.isDemonAttacking()){ // Check if demon still attacking after hit
+              return; // Don't proceed with generic enemy death logic if demon is still alive
+          }
         }
         enemy.enemyDie();
         player.addKill();
@@ -63,6 +70,7 @@ public class PlayerCollisions implements CollisionListener {
   
           Vec2 enemyVelocity = enemy.getLinearVelocity();
           enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y)); //So that the enemy doesn't also move after colliding
+          AudioHandler.playHurtSound();
           
           
       }
@@ -89,11 +97,17 @@ public class PlayerCollisions implements CollisionListener {
           } catch (Exception exception) {
               exception.printStackTrace(); // This will print any exception that occurs
           }
-      }
+        }
       
         else if(e.getOtherBody() instanceof Fireball){
           player.reduceHealth(player.getHealthLossAmount()/4*3);
+          AudioHandler.playHurtSound();
           e.getOtherBody().destroy();
+        }
+
+        else if(e.getOtherBody() instanceof FireTrap){
+          player.reduceHealth(player.getHealthLossAmount()/2);
+          AudioHandler.playHurtSound();
         }
       }
   }

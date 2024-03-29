@@ -73,6 +73,7 @@ public class Player extends Walker {
         addImage(RUN_RIGHT);
         facingRight = true;
     }
+    
     public void runLeft() {
         removeAllImages();
         addImage(RUN_LEFT);
@@ -177,7 +178,7 @@ public class Player extends Walker {
 
     public void addFriction() {
         SolidFixture fixture = new SolidFixture(this, characterShape);
-        fixture.setFriction(270f); 
+        fixture.setFriction(300f); 
     }
 
     
@@ -293,7 +294,7 @@ public class Player extends Walker {
         }
     }
 
-    private void createSpecialAttackHitbox(Shape attackShape) {
+    private void createSpecialAttackHitbox(Shape specialAttackShape) {
         specialAttackFixture = new SolidFixture(this, specialAttackShape); // Create a new special attack hitbox
     }
 

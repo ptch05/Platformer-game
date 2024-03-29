@@ -6,10 +6,15 @@ import audio.AudioHandler;
 import collectibles.Armour;
 import collectibles.Potion;
 import collectibles.Trophy;
+import entities.Demon;
 import main.Game;
+import objects.FireTrap;
 import objects.Lava;
 
 public class Level3 extends GameLevel{
+  private final int numberOfFireTraps = 1;
+  private final float[] fireTrapXPos = new float[]{185};
+  private final float[] fireTrapYPos = new float[]{-5.2f};
 
   public Level3(Game game) {
     super(game);
@@ -17,12 +22,12 @@ public class Level3 extends GameLevel{
     numberOfHounds = 0;
     numberOfGhosts = 0;
     numberOfPotions = 0;
-    skeletonPatrolLeftBoundary = new int[] {155}; 
-    skeletonPatrolRightBoundary = new int[]{165};
+    skeletonPatrolLeftBoundary = new int[] {145}; 
+    skeletonPatrolRightBoundary = new int[]{155};
     houndPatrolLeftBoundary = new int[]{};
     houndPatrolRightBoundary = new int[]{};
     skeletonPositions = new Vec2[]{
-      new Vec2(175, -7.25f)
+      new Vec2(150, -7.25f)
     };
     houndPositions = new Vec2[]{
     };
@@ -52,10 +57,17 @@ public class Level3 extends GameLevel{
           potion.setPosition(new Vec2(potionXPos[i], potionYPos[i]));
       }
 
+      for(int i=0; i<numberOfFireTraps; i++){
+        FireTrap fireTrap = new FireTrap(this, player);
+        fireTrap.setPosition(new Vec2(fireTrapXPos[i], fireTrapYPos[i]));
+      }
+
       armour = new Armour(this);
       armour.setPosition(new Vec2(1000,0));
       trophy = new Trophy(this);
-      trophy.setPosition(new Vec2(170,0));
+      trophy.setPosition(new Vec2(1700,0));
+      demon = new Demon(this, player);
+      demon.setPosition(new Vec2(1650, 2));
   }
 
   public void createEnvironment() {

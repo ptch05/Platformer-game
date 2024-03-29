@@ -51,14 +51,13 @@ public class InputHandler implements KeyListener {
                 break;
 
             case KeyEvent.VK_S:
-                player.crouch();
                 keySPressed = true;
-                if(keyAPressed || !keySPressed){
-                    player.runLeft();
-                } else if(keyDPressed || !keySPressed){
-                    player.runRight();
+                if(!keyAPressed || !keySPressed){
+                    player.stopWalking();
+                    player.crouch();
+                } else{
+                    player.crouch();
                 }
-                keySPressed = true;
                 break;
 
             case KeyEvent.VK_D:

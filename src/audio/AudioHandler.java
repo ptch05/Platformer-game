@@ -25,6 +25,9 @@ public class AudioHandler {
     private static final SoundClip FIREBALL_SOUND_CLIP = loadSoundClip("./assets/sounds/misc/fireball.wav");
     private static final SoundClip LEVEL2_SOUND_CLIP = loadSoundClip("./assets/music/level2-game-music-loop.wav");
     private static final SoundClip LEVEL3_SOUND_CLIP = loadSoundClip("./assets/music/level3-game-music-loop.wav");
+    private static final SoundClip DEMON_IDLE_SOUND_CLIP = loadSoundClip("./assets/sounds/demon/demon-idle.wav");
+    private static final SoundClip DEMON_ATTACK_SOUND_CLIP = loadSoundClip("./assets/sounds/demon/demon-attack.wav");
+    private static final SoundClip FIRE_TRAP_SOUND_CLIP = loadSoundClip("./assets/sounds/misc/fire-trap.wav");
 
     private static SoundClip loadSoundClip(String filePath) {
         try {
@@ -45,7 +48,7 @@ public class AudioHandler {
     }
 
     public static void playHurtSound() {
-        //HURT_SOUND_CLIP.play();
+        HURT_SOUND_CLIP.play();
     }
 
     public static void playKillSound() {
@@ -57,14 +60,14 @@ public class AudioHandler {
         
     }
 
-public static void playLevel2Music() {
-        LEVEL2_SOUND_CLIP.setVolume(1.5);
+    public static void playLevel2Music() {
+        LEVEL2_SOUND_CLIP.setVolume(1.3);
         //LEVEL2_SOUND_CLIP.loop();
         
     }
 
     public static void playLevel3Music() {
-        LEVEL3_SOUND_CLIP.setVolume(1.5);
+        LEVEL3_SOUND_CLIP.setVolume(1.3);
         //LEVEL3_SOUND_CLIP.loop();
         
     }
@@ -129,5 +132,29 @@ public static void playLevel2Music() {
         FIREBALL_SOUND_CLIP.setVolume(1.25);
         //FIREBALL_SOUND_CLIP.play();
     }
+
+    public static void playDemonIdleSound() {
+        DEMON_IDLE_SOUND_CLIP.setVolume(2);
+        //DEMON_IDLE_SOUND_CLIP.loop();
+    }
+
+    public static void stopDemonIdleSound(){
+        DEMON_IDLE_SOUND_CLIP.stop();
+    }
+
+    public static void playDemonAttackSound() {
+        DEMON_ATTACK_SOUND_CLIP.setVolume(2);
+        //DEMON_ATTACK_SOUND_CLIP.loop();
+    }
+
+    public static void playFireTrapSound() {
+        FIRE_TRAP_SOUND_CLIP.setVolume(1.4);
+        //FIRE_TRAP_SOUND_CLIP.loop();
+    }
+
+    public static void stopFireTrapSound() {
+        //FIRE_TRAP_SOUND_CLIP.stop();
+    }
+
 
 }

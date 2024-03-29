@@ -24,6 +24,7 @@ public abstract class GameLevel extends World {
   protected InputHandler inputHandler;
   protected Armour armour;
   protected Trophy trophy;
+  protected Demon demon;
   protected List<Enemy> enemies = new ArrayList<>();
   protected List<PatrolListener> patrolListeners = new ArrayList<>();
   protected int numberOfSkeletons;
