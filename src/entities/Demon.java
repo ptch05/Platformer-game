@@ -46,7 +46,7 @@ public class Demon extends Enemy{
     if (demonAttackFixture != null) {
       demonAttackFixture.destroy(); // Remove the attack hitbox using destroy()
       demonAttackFixture = null; // Clear the reference after destruction
-  }
+    }
   }
 
   public void hitByAttack(boolean isSpecialAttack) {

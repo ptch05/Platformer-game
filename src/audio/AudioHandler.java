@@ -40,11 +40,11 @@ public class AudioHandler {
 
     //Added methods to play each sound clip
     public static void playJumpSound() {
-        //JUMP_SOUND_CLIP.play();
+        JUMP_SOUND_CLIP.play();
     }
 
     public static void playAttackSound() {
-        //ATTACK_SOUND_CLIP.play();
+        ATTACK_SOUND_CLIP.play();
     }
 
     public static void playHurtSound() {
@@ -52,62 +52,62 @@ public class AudioHandler {
     }
 
     public static void playKillSound() {
-        //KILL_SOUND_CLIP.play();
+        KILL_SOUND_CLIP.play();
     }
 
     public static void playLevel1Music() {
-        //LEVEL1_SOUND_CLIP.loop();
+        LEVEL1_SOUND_CLIP.loop();
         
     }
 
     public static void playLevel2Music() {
         LEVEL2_SOUND_CLIP.setVolume(1.3);
-        //LEVEL2_SOUND_CLIP.loop();
+        LEVEL2_SOUND_CLIP.loop();
         
     }
 
     public static void playLevel3Music() {
         LEVEL3_SOUND_CLIP.setVolume(1.3);
-        //LEVEL3_SOUND_CLIP.loop();
+        LEVEL3_SOUND_CLIP.loop();
         
     }
 
     public static void stopAllGameMusic() {
-        //LEVEL1_SOUND_CLIP.stop();
-        //LEVEL2_SOUND_CLIP.stop();
-        //LEVEL3_SOUND_CLIP.stop();
+        LEVEL1_SOUND_CLIP.stop();
+        LEVEL2_SOUND_CLIP.stop();
+        LEVEL3_SOUND_CLIP.stop();
     }
 
     public static void playPotionSound() {
         POTION_SOUND_CLIP.setVolume(2);
-        //POTION_SOUND_CLIP.play();
+        POTION_SOUND_CLIP.play();
     }
 
     public static void playArmourSound() {
         ARMOUR_SOUND_CLIP.setVolume(1.2);
-        //ARMOUR_SOUND_CLIP.play();
+        ARMOUR_SOUND_CLIP.play();
     }
 
     public static void loseArmourSound() {
         LOSE_ARMOUR_SOUND_CLIP.setVolume(1.2);
-        //LOSE_ARMOUR_SOUND_CLIP.play();
+        LOSE_ARMOUR_SOUND_CLIP.play();
     }
 
     public static void playVictorySound() {
         stopAllGameMusic();
         VICTORY_SOUND_CLIP.setVolume(2);
-        //VICTORY_SOUND_CLIP.play();
+        VICTORY_SOUND_CLIP.play();
         
     }
 
     public static void playCrouchSound() {
         CROUCH_SOUND_CLIP.setVolume(1.2);
-        //CROUCH_SOUND_CLIP.play();
+        CROUCH_SOUND_CLIP.play();
     }
 
     public static void playMenuSound() {
         MENU_SOUND_CLIP.setVolume(2);
-       // MENU_SOUND_CLIP.loop();
+        MENU_SOUND_CLIP.loop();
     }
 
     public static void stopMenuSound() {
@@ -115,27 +115,27 @@ public class AudioHandler {
     }
 
     public static void playButtonSound() {
-        //BUTTON_SOUND_CLIP.play();
+        BUTTON_SOUND_CLIP.play();
     }
 
     public static void playGainSpecialSound() {
         GAIN_SPECIAL_SOUND_CLIP.setVolume(0.7);
-        //GAIN_SPECIAL_SOUND_CLIP.play();
+        GAIN_SPECIAL_SOUND_CLIP.play();
     }
 
     public static void playSpecialAttackSound() {
         SPECIAL_ATTACK_SOUND_CLIP.setVolume(1.6);
-        //SPECIAL_ATTACK_SOUND_CLIP.play();
+        SPECIAL_ATTACK_SOUND_CLIP.play();
     }
 
     public static void playFireballSound() {
         FIREBALL_SOUND_CLIP.setVolume(1.25);
-        //FIREBALL_SOUND_CLIP.play();
+        FIREBALL_SOUND_CLIP.play();
     }
 
     public static void playDemonIdleSound() {
         DEMON_IDLE_SOUND_CLIP.setVolume(2);
-        //DEMON_IDLE_SOUND_CLIP.loop();
+        DEMON_IDLE_SOUND_CLIP.loop();
     }
 
     public static void stopDemonIdleSound(){
@@ -144,16 +144,16 @@ public class AudioHandler {
 
     public static void playDemonAttackSound() {
         DEMON_ATTACK_SOUND_CLIP.setVolume(2);
-        //DEMON_ATTACK_SOUND_CLIP.loop();
+        DEMON_ATTACK_SOUND_CLIP.play();
     }
 
     public static void playFireTrapSound() {
         FIRE_TRAP_SOUND_CLIP.setVolume(1.4);
-        //FIRE_TRAP_SOUND_CLIP.loop();
+        FIRE_TRAP_SOUND_CLIP.loop();
     }
 
     public static void stopFireTrapSound() {
-        //FIRE_TRAP_SOUND_CLIP.stop();
+        FIRE_TRAP_SOUND_CLIP.stop();
     }
 
 

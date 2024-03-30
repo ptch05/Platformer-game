@@ -12,29 +12,44 @@ import objects.FireTrap;
 import objects.Lava;
 
 public class Level3 extends GameLevel{
-  private final int numberOfFireTraps = 1;
-  private final float[] fireTrapXPos = new float[]{185};
-  private final float[] fireTrapYPos = new float[]{-5.2f};
+  private final int numberOfFireTraps = 7;
+  private final float[] fireTrapXPos = new float[]{185, 280, 320, 377, 415, 590, 700};
+  private final float[] fireTrapYPos = new float[]{-5.2f, -5.2f, -5.2f, -25.65f, 10.3f, 10.3f, -14.65f};
 
   public Level3(Game game) {
     super(game);
-    numberOfSkeletons = 1;
-    numberOfHounds = 0;
-    numberOfGhosts = 0;
-    numberOfPotions = 0;
-    skeletonPatrolLeftBoundary = new int[] {145}; 
-    skeletonPatrolRightBoundary = new int[]{155};
-    houndPatrolLeftBoundary = new int[]{};
-    houndPatrolRightBoundary = new int[]{};
+    numberOfSkeletons = 4;
+    numberOfHounds = 6;
+    numberOfGhosts = 6;
+    numberOfPotions = 2;
+    skeletonPatrolLeftBoundary = new int[] {145, 360, 460, 595}; 
+    skeletonPatrolRightBoundary = new int[]{155, 375, 480, 615};
+    houndPatrolLeftBoundary = new int[]{230, 290, 422, 555, (int) 638.5, 715};
+    houndPatrolRightBoundary = new int[]{250, 310, 435, 575, 650, 735};
     skeletonPositions = new Vec2[]{
-      new Vec2(150, -7.25f)
+      new Vec2(150, -7.25f),
+      new Vec2(372.5f, -27f),
+      new Vec2(470, 7f),
+      new Vec2(610, 7f)
     };
     houndPositions = new Vec2[]{
+      new Vec2(240, -7f),
+      new Vec2(300, -7f),
+      new Vec2(430, 8.5f),
+      new Vec2(565, 8.5f),
+      new Vec2(640, 8.5f),
+      new Vec2(725, -18.5f)
     };
     ghostPositions = new Vec2[]{
+      new Vec2(180, -7.5f),
+      new Vec2(265, -7.5f),
+      new Vec2(405, 6.5f),
+      new Vec2(450, 6.5f),
+      new Vec2(630, 6.5f),
+      new Vec2(750, -15f)
     };
-    potionXPos = new float[]{};
-    potionYPos = new float[]{};
+    potionXPos = new float[]{300, 385 };
+    potionYPos = new float[]{-8.5f, -29f};
     
     AudioHandler.playLevel3Music();
     initializeWorld();
@@ -63,11 +78,11 @@ public class Level3 extends GameLevel{
       }
 
       armour = new Armour(this);
-      armour.setPosition(new Vec2(1000,0));
+      armour.setPosition(new Vec2(580,7.05f));
       trophy = new Trophy(this);
-      trophy.setPosition(new Vec2(1700,0));
+      trophy.setPosition(new Vec2(840,0));
       demon = new Demon(this, player);
-      demon.setPosition(new Vec2(1650, 2));
+      demon.setPosition(new Vec2(820, -4));
   }
 
   public void createEnvironment() {
@@ -75,8 +90,42 @@ public class Level3 extends GameLevel{
     addLava(10);
     addGround(10);   
     addLava(2); 
-    addGround(10);
+    addGround(15);
+    
+    //Dead end code
+    YPos = -13.5f;
+    for(int i=0; i<4; i++){
+      YPos -= 5f;
+      addGround(1);
+    }
+    addGround(8);
+    addLava(4);
 
+    //Continue from here
+    XPos = 360;
+    YPos = -13.5f;
+    for(int i=0; i<4; i++){
+      YPos += 4f;
+      addGround(1);
+    }
+    addGround(15);
+    XPos = 510;
+    YPos += 5.5f;
+    addGround(1);
+    YPos -= 5.5f;
+    XPos = 493;
+    addLava(4);
+    addGround(15);
+    for(int i=0; i<5; i++){
+      YPos -= 5f;
+      addGround(1);
+    }
+    addGround(11);
+    for(int i=0; i<2; i++){
+      YPos += 4f;
+      addGround(1);
+    }
+    addGround(10);
   }
 
   @Override

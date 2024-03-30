@@ -34,9 +34,10 @@ public class DemonListener implements StepListener{
       timeSinceLastAttack = 0f;
     } else if (distance > 15 && demon.isDemonAttacking()) {
       demon.endDemonAttack();
-      if(distance > 25){
-         AudioHandler.playDemonIdleSound();
-      }
+    }
+
+    if(distance > 25){
+      AudioHandler.playDemonIdleSound();
     }
     demon.setLinearVelocity(new Vec2(0, 0));
 

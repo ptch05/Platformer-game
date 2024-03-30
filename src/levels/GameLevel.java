@@ -186,6 +186,7 @@ public abstract class GameLevel extends World {
             player.setPosition(new Vec2(200,-6));
         } else if(getLevelName() == "Level3"){
             player.setPosition(new Vec2(135,-5));
+            //player.setPosition(new Vec2(795,-10));
         }
         inputHandler = new InputHandler(player, this);
         player.addFriction();
