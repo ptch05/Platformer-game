@@ -9,13 +9,14 @@ public class Ghost extends Enemy{
   private static final Shape ghostShape = new BoxShape(1.5f, 4.5f);
   private static final BodyImage ghostImage = new BodyImage("./assets/images/ghost/ghost.gif", 7f);
   private Player player;
+  private GhostListener ghostListener;
   
   public Ghost(World world, Player player) {
     super(world, ghostShape, ghostImage, ghostImage, 0, 0, 0);
     addImage(ghostImage);
     this.player = player;
-    GhostListener listener = new GhostListener(this, player);
-    world.addStepListener(listener);
+    this.ghostListener = new GhostListener(this, player);
+    world.addStepListener(ghostListener);
   }
 
   public boolean isGhostAlive(){

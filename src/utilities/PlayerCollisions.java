@@ -17,7 +17,7 @@ public class PlayerCollisions implements CollisionListener {
   private Game g;
   
   private GameLevel gameLevel;
-  public PlayerCollisions(Player p, GameLevel gameLevel, Game game){
+  public PlayerCollisions(Player p, GameLevel gameLevel, Game game){  
       this.player = p;
       this.gameLevel = gameLevel;
       g = game;
@@ -28,8 +28,8 @@ public class PlayerCollisions implements CollisionListener {
     if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound || e.getOtherBody() instanceof Ghost || e.getOtherBody() instanceof Demon) {
       Enemy enemy = (Enemy) e.getOtherBody();
       if(player.isAttacking() || player.isSpecialAttacking()){
-        boolean wasGhostAlreadyDead = false;
         if (enemy instanceof Ghost) {
+            boolean wasGhostAlreadyDead = false;
             Ghost ghost = (Ghost) enemy;
             wasGhostAlreadyDead = !ghost.isGhostAlive(); // Check if the ghost was already dead before this attack
             ghost.hitByAttack(player.isSpecialAttacking()); // Handle the hit appropriately
@@ -38,78 +38,88 @@ public class PlayerCollisions implements CollisionListener {
             }
         }
         if(enemy instanceof Demon){
+          boolean wasDemonAlreadyDead = false;
           Demon demon = (Demon) enemy;
-          demon.hitByAttack(player.isSpecialAttacking()); // Here we pass if the attack was special or not
-          if(demon.isDemonAttacking()){ // Check if demon still attacking after hit
-              return; // Don't proceed with generic enemy death logic if demon is still alive
+          wasDemonAlreadyDead = !demon.isDemonAlive();
+          demon.hitByAttack(player.isSpecialAttacking());
+          if (demon.isDemonAlive() && !wasDemonAlreadyDead) {
+            return; 
           }
         }
         enemy.enemyDie();
         player.addKill();
         AudioHandler.playKillSound();
       } else {
-          // Logic to knock the player back
-          player.setLinearVelocity(new Vec2(0, 0)); //Initially sets player velocity to 0 so that it kills off all the player's velocity
-          Vec2 knockback = new Vec2(-15, 15);
-          player.setLinearVelocity(knockback);
-          Vec2 playerPosition = player.getPosition();
-          player.isInAir();
-          Vec2 enemyPosition = e.getOtherBody().getPosition();
-
-          // Determine the direction of the enemy relative to the player
-          boolean enemyIsLeft = enemyPosition.x < playerPosition.x;
-          if (enemyIsLeft) {
-              player.hurtRight();
-          } else {
-              player.hurtLeft();
-          }
-  
-          int healthLossAmount = (e.getOtherBody() instanceof Skeleton) ? player.getHealthLossAmount()/2 : player.getHealthLossAmount(); //Skeleton attacks do half as much damage as Hound attacks
-          player.applyForce(new Vec2(enemyIsLeft ? 30 : -30, 10));
-          player.reduceHealth(healthLossAmount);
-  
-          Vec2 enemyVelocity = enemy.getLinearVelocity();
-          enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y)); //So that the enemy doesn't also move after colliding
-          AudioHandler.playHurtSound();
-          
-          
+         performKnockback(e, enemy);
+         AudioHandler.playHurtSound();
       }
-  }
-  
-      if (e.getReportingBody() instanceof Player) {  //So that enemy doesn't interfere with any of these
-        if(e.getOtherBody() instanceof Spikes || e.getOtherBody() instanceof Lava){
-          AudioHandler.playHurtSound();
-          player.handleDeath();
-        }
-
-        else if(e.getOtherBody() instanceof Trophy){
-          e.getOtherBody().destroy();
-          AudioHandler.playVictorySound();
-          try {
-              Thread.sleep(4000,500);
-                gameLevel.clearBodies();
-                if(gameLevel.getLevelName().equals("Level3") && gameLevel.isComplete()){
-                  player.setVictorious(true);
-                } else {
-                  g.goToNextLevel();
-                }
-
-          } catch (Exception exception) {
-              exception.printStackTrace(); // This will print any exception that occurs
-          }
-        }
       
-        else if(e.getOtherBody() instanceof Fireball){
-          player.reduceHealth(player.getHealthLossAmount()/4*3);
-          AudioHandler.playHurtSound();
-          e.getOtherBody().destroy();
-        }
+    }
 
-        else if(e.getOtherBody() instanceof FireTrap){
-          player.reduceHealth(player.getHealthLossAmount()/2);
-          AudioHandler.playHurtSound();
+    if (e.getReportingBody() instanceof Player) {  //So that enemy doesn't interfere with any of these
+      if(e.getOtherBody() instanceof Spikes || e.getOtherBody() instanceof Lava){
+        AudioHandler.playHurtSound();
+        player.handleDeath();
+      }
+
+      else if(e.getOtherBody() instanceof Trophy){
+        e.getOtherBody().destroy();
+        AudioHandler.playVictorySound();
+        try {
+          Thread.sleep(4000,500);
+            gameLevel.clearBodies();
+            if(gameLevel.getLevelName().equals("Level3") && gameLevel.isComplete()){
+              player.setVictorious(true); //Player wins if they collide with the trophy and have the allocated number of kills to complete the level
+            } else {
+              g.goToNextLevel();
+            }
+        } catch (Exception exception) {
+            exception.printStackTrace(); // This will print any exception that occurs
         }
       }
+    
+      else if(e.getOtherBody() instanceof Fireball){
+        performKnockback(e, null);
+        player.reduceHealth(player.getHealthLossAmount()/4*3);
+        AudioHandler.playHurtSound();
+        e.getOtherBody().destroy();
+      }
+
+      else if(e.getOtherBody() instanceof FireTrap){
+        performKnockback(e, null);
+        player.reduceHealth(player.getHealthLossAmount()/2);
+        AudioHandler.playHurtSound();
+      }
+    }
+  }
+
+  private void performKnockback(CollisionEvent e, Enemy enemy){
+     // Logic to knock the player back
+     player.setLinearVelocity(new Vec2(0, 0)); //Initially sets player velocity to 0 so that it kills off all the player's velocity
+     Vec2 knockback = new Vec2(-15, 15);
+     player.setLinearVelocity(knockback);
+     Vec2 playerPosition = player.getPosition();
+     player.isInAir();
+     Vec2 enemyPosition = e.getOtherBody().getPosition();
+
+     // Determine the direction of the enemy relative to the player
+     boolean enemyIsLeft = enemyPosition.x < playerPosition.x;
+     if (enemyIsLeft) {
+         player.hurtRight();
+     } else {
+         player.hurtLeft();
+     }
+
+     if(enemy !=null){ //So that it only uses the above logic for the firetrap and fireball 
+      int healthLossAmount = (e.getOtherBody() instanceof Skeleton) ? player.getHealthLossAmount()/2 : player.getHealthLossAmount(); //Skeleton attacks do half as much damage as Hound attacks
+      player.applyForce(new Vec2(enemyIsLeft ? 30 : -30, 10));
+      player.reduceHealth(healthLossAmount);
+
+      Vec2 enemyVelocity = enemy.getLinearVelocity();
+      enemy.setLinearVelocity(new Vec2(0, enemyVelocity.y)); //So that the enemy doesn't also move after colliding
+      } else{
+        return;
+    }
   }
 }
 

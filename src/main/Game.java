@@ -42,7 +42,7 @@ public class Game {
 	}
 
 	public void startGame(){
-		setupLevel(new Level1(this));
+		setupLevel(new Level2(this));
 	}
 
 	private void setupLevel(GameLevel level){

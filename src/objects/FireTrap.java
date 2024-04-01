@@ -30,7 +30,7 @@ public class FireTrap extends StaticBody {
   
   private void startFiringSound(){
     float distance = Math.abs(this.getPosition().x-player.getPosition().x);
-    if(distance <=22.5 ){
+    if(distance <=30 ){
       AudioHandler.playFireTrapSound();
     } else{
       AudioHandler.stopFireTrapSound();

@@ -147,8 +147,12 @@ public class AudioHandler {
         DEMON_ATTACK_SOUND_CLIP.play();
     }
 
+    public static void stopDemonAttackSound(){
+        DEMON_ATTACK_SOUND_CLIP.stop();
+    }
+
     public static void playFireTrapSound() {
-        FIRE_TRAP_SOUND_CLIP.setVolume(1.4);
+        FIRE_TRAP_SOUND_CLIP.setVolume(2);
         FIRE_TRAP_SOUND_CLIP.loop();
     }
 

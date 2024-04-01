@@ -28,20 +28,20 @@ public class DemonListener implements StepListener{
     float distance = Math.abs(playerPosition.x - demonPosition.x);
 
     timeSinceLastAttack += e.getStep();
+    if(demon.isDemonAlive()){
+      if (distance <= 15 && !demon.isDemonAttacking()  && timeSinceLastAttack >= 2.5f) {
+        demon.demonAttack();
+        timeSinceLastAttack = 0f;
+      } else if (demon.isDemonAttacking() &&  timeSinceLastAttack >= 1f) {
+        // End the attack if currently attacking and it's been 0.5 seconds
+        demon.endDemonAttack();
+      }
 
-    if (distance <= 15 && !demon.isDemonAttacking()  && timeSinceLastAttack >= 2f) {
-      demon.demonAttack();
-      timeSinceLastAttack = 0f;
-    } else if (distance > 15 && demon.isDemonAttacking()) {
-      demon.endDemonAttack();
+      if(distance > 25){
+        AudioHandler.playDemonIdleSound();
+      }
+      demon.setLinearVelocity(new Vec2(0, 0));
     }
-
-    if(distance > 25){
-      AudioHandler.playDemonIdleSound();
-    }
-    demon.setLinearVelocity(new Vec2(0, 0));
-
   }
-
 }
 
