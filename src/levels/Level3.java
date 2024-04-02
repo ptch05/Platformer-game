@@ -126,6 +126,7 @@ public class Level3 extends GameLevel{
       addGround(1);
     }
     addGround(10);
+    addLava(5);
   }
 
   @Override

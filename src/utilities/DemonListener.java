@@ -29,11 +29,11 @@ public class DemonListener implements StepListener{
 
     timeSinceLastAttack += e.getStep();
     if(demon.isDemonAlive()){
-      if (distance <= 15 && !demon.isDemonAttacking()  && timeSinceLastAttack >= 2.5f) {
+      if (distance <= 20 && !demon.isDemonAttacking()  && timeSinceLastAttack >= 2f) {
         demon.demonAttack();
         timeSinceLastAttack = 0f;
       } else if (demon.isDemonAttacking() &&  timeSinceLastAttack >= 1f) {
-        // End the attack if currently attacking and it's been 0.5 seconds
+        // End the attack if currently attacking and it's been 1 seconds
         demon.endDemonAttack();
       }
 

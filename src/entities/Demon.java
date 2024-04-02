@@ -63,7 +63,7 @@ public class Demon extends Enemy{
       hitsTaken++; 
     } else {
       hitsTaken++;
-      if (hitsTaken >= 6) {
+      if (hitsTaken >= 10) {
         isDemonAlive = false;
         AudioHandler.stopDemonAttackSound();
         AudioHandler.stopDemonIdleSound();

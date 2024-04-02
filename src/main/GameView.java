@@ -40,8 +40,7 @@ public class GameView extends UserView {
         background = new ImageIcon("./assets/images/level-data/level3/background.png").getImage();
         middleground1 = new ImageIcon("./assets/images/level-data/level3/pillars.png").getImage();
         foreground = new ImageIcon("./assets/images/level-data/level3/ceiling.png").getImage();
-
-      break;
+        break;
     }
   }
 
@@ -93,7 +92,7 @@ private void drawBackground(String levelName, Graphics2D g){
         g.drawImage(background, -backgroundX*(int)1.5-100, 0, getWidth()*6, getHeight(), this);
         g.drawImage(middleground1, -middlegroundX*(int)2 -100, 50, getWidth()*6, getHeight()/12*11, this);
         g.drawImage(foreground, -foregroundX*(int)2.1 - 200, -55, getWidth()*5, getHeight()/11*8, this);
-        break;
+          break;
       }
     }
 
@@ -157,7 +156,7 @@ private void drawBackground(String levelName, Graphics2D g){
   }
 
   private void drawBloodthirsty(Graphics2D g){
-    g.drawImage(bloodthirsty, 535, 75, 155, 45, this);
+    g.drawImage(bloodthirsty, 565, 76, 155, 45, this);
   }
 
   private void drawWin(Graphics2D g){
@@ -169,6 +168,4 @@ private void drawBackground(String levelName, Graphics2D g){
     loadBackgroundImages(gameLevel.getLevelName()); // Reloads background images for the new level
     this.repaint(); 
   }
-
-
 }

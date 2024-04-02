@@ -87,12 +87,17 @@ public abstract class GameLevel extends World {
 
 
     public void restartGame() {
-            this.stop(); 
-            clearBodies(); 
-            addWorldComponents(); 
-            inputHandler.setPlayer(player); 
-            initializeWorld(); 
-            this.start();    
+        this.stop(); 
+        for (Enemy enemy : enemies) {
+            if (enemy instanceof Ghost) {
+                ((Ghost)enemy).removeListener(); // Remove all ghost listeners
+            }
+        }
+        clearBodies(); 
+        addWorldComponents(); 
+        inputHandler.setPlayer(player); 
+        initializeWorld(); 
+        this.start();    
     }
     
 
@@ -186,7 +191,6 @@ public abstract class GameLevel extends World {
             player.setPosition(new Vec2(200,-6));
         } else if(getLevelName() == "Level3"){
             player.setPosition(new Vec2(135,-5));
-            player.setPosition(new Vec2(800,-5));
         }
         inputHandler = new InputHandler(player, this);
         player.addFriction();

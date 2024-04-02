@@ -53,7 +53,6 @@ public class PlayerCollisions implements CollisionListener {
          performKnockback(e, enemy);
          AudioHandler.playHurtSound();
       }
-      
     }
 
     if (e.getReportingBody() instanceof Player) {  //So that enemy doesn't interfere with any of these

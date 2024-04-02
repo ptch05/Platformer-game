@@ -37,5 +37,8 @@ public class Ghost extends Enemy{
       }
     }
   }
-   
+
+  public void removeListener() {
+      this.getWorld().removeStepListener(ghostListener);
+  }
 }
