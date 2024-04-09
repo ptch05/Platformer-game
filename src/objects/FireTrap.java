@@ -8,7 +8,7 @@ import entities.Player;
 
 public class FireTrap extends StaticBody {
 
-  private static final Shape fireTrapShape = new BoxShape(0.05f,0.1f);
+  private static final Shape fireTrapShape = new BoxShape(0.04f,0.08f);
   private static BodyImage fireTrapImage = new BodyImage("./assets/images/level-data/level3/fire-trap.gif", 9f);
   private Player player;
   private Timer timer; 

@@ -35,7 +35,7 @@ public class Player extends Walker {
     
     private static final Shape characterShape = new BoxShape(xNum, yNum);
     private static final Shape attackShape = new BoxShape(5.7f, yNum);
-    private static final Shape crouchShape = new BoxShape(xNum, 4.2f);
+    private static final Shape crouchShape = new BoxShape(xNum, 0.2f);
     private static final Shape specialAttackShape = new BoxShape(5.7f, 5.5f);
     private static final BodyImage IDLE_RIGHT = new BodyImage("./assets/images/hero/hero-idle-right.gif", playerSize);
     private static final BodyImage RUN_RIGHT = new BodyImage("./assets/images/hero/hero-run-right.gif", playerSize);
@@ -346,12 +346,7 @@ public class Player extends Walker {
     }
 
     private void createCrouchHitbox(Shape crouchShape) {
-        if (crouchFixture != null) {
-            crouchFixture.destroy(); // Use destroy() method directly on the fixture
-            crouchFixture = null; // Clear the reference after destruction
-        }
-        crouchFixture = new SolidFixture(this, crouchShape); // Create a new attack hitbox
-        
+        crouchFixture = new SolidFixture(this, crouchShape); // Create a new crouch hitbox
     }
     
     public void endCrouch() {

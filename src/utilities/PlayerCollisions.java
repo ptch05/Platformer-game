@@ -41,6 +41,7 @@ public class PlayerCollisions implements CollisionListener {
           boolean wasDemonAlreadyDead = false;
           Demon demon = (Demon) enemy;
           wasDemonAlreadyDead = !demon.isDemonAlive();
+          if(demon.isDemonAttacking())
           demon.hitByAttack(player.isSpecialAttacking());
           if (demon.isDemonAlive() && !wasDemonAlreadyDead) {
             return; 
@@ -78,10 +79,12 @@ public class PlayerCollisions implements CollisionListener {
       }
     
       else if(e.getOtherBody() instanceof Fireball){
-        performKnockback(e, null);
-        player.reduceHealth(player.getHealthLossAmount()/4*3);
-        AudioHandler.playHurtSound();
-        e.getOtherBody().destroy();
+        if(!player.isCrouching()){
+          performKnockback(e, null);
+          player.reduceHealth(player.getHealthLossAmount()/4*3);
+          AudioHandler.playHurtSound();
+          e.getOtherBody().destroy();
+        }
       }
 
       else if(e.getOtherBody() instanceof FireTrap){

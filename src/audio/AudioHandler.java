@@ -6,8 +6,24 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
+/**
+ * This class handles all audio functionality for the game, including sound effects and music.
+ * It provides methods to play, loop, and stop various sound clips.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
+
 public class AudioHandler {
-    
+    /**
+     * Below are the SoundClip fields for the game's audio effects:
+    * - Player action sounds (jump, attack, hurt, kill, gain special, special attack)
+    * - Game music (menu music, level background music)
+    * - Collectible item sounds (potion, armour)
+    * - Environmental and enemy sounds (demon idle, demon attack, fire trap) 
+    */
+
     private static final SoundClip JUMP_SOUND_CLIP = loadSoundClip("./assets/sounds/player/jump.wav");
     private static final SoundClip ATTACK_SOUND_CLIP = loadSoundClip("./assets/sounds/player/attack.wav");
     private static final SoundClip HURT_SOUND_CLIP = loadSoundClip("./assets/sounds/player/hurt.wav");
@@ -29,6 +45,12 @@ public class AudioHandler {
     private static final SoundClip DEMON_ATTACK_SOUND_CLIP = loadSoundClip("./assets/sounds/demon/demon-attack.wav");
     private static final SoundClip FIRE_TRAP_SOUND_CLIP = loadSoundClip("./assets/sounds/misc/fire-trap.wav");
 
+    /**
+     * Loads a sound clip from a file path.
+     * @param filePath the relative path to the audio file.
+     * @return SoundClip object or null if an error occurs.
+     */
+
     private static SoundClip loadSoundClip(String filePath) {
         try {
             return new SoundClip(filePath);
@@ -38,7 +60,9 @@ public class AudioHandler {
         }
     }
 
-    //Added methods to play each sound clip
+    /**
+     * Added methods to handle playing each of the sounds
+    */
     public static void playJumpSound() {
         JUMP_SOUND_CLIP.play();
     }
@@ -159,6 +183,4 @@ public class AudioHandler {
     public static void stopFireTrapSound() {
         FIRE_TRAP_SOUND_CLIP.stop();
     }
-
-
 }

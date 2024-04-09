@@ -21,7 +21,7 @@ public class Level3 extends GameLevel{
     numberOfSkeletons = 4;
     numberOfHounds = 6;
     numberOfGhosts = 6;
-    numberOfPotions = 2;
+    numberOfPotions = 3;
     skeletonPatrolLeftBoundary = new int[] {145, 360, 460, 595}; 
     skeletonPatrolRightBoundary = new int[]{155, 375, 480, 615};
     houndPatrolLeftBoundary = new int[]{230, 290, 422, 555, (int) 638.5, 715};
@@ -48,8 +48,8 @@ public class Level3 extends GameLevel{
       new Vec2(630, 6.5f),
       new Vec2(750, -15f)
     };
-    potionXPos = new float[]{300, 385 };
-    potionYPos = new float[]{-8.5f, -29f};
+    potionXPos = new float[]{300, 385, 780};
+    potionYPos = new float[]{-8.5f, -29f, -10};
     
     AudioHandler.playLevel3Music();
     initializeWorld();

@@ -18,9 +18,8 @@ public class GameView extends UserView {
       skulls = new ImageIcon("./assets/images/misc/skulls.gif").getImage();
       bloodthirsty = new ImageIcon("./assets/images/misc/bloodthirsty.gif").getImage();
       win = new ImageIcon("./assets/images/misc/win.png").getImage();
-      
   }
-
+  
   private void loadBackgroundImages(String levelName){
     switch (levelName) {
       case "Level1":
