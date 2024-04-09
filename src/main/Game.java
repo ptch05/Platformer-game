@@ -9,6 +9,16 @@ import levels.*;
 import menu.Menu;
 import utilities.PlayerListener;
 
+/**
+ * The Game class is responsible for the main running of the game, 
+ * including the initialization of the game window (JFrame), handling 
+ * level setup, and transitions between menus and levels. It controls 
+ * the game loop, player input, and the display of the game world.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class Game {
 	private JFrame frame;
 	private GameLevel currentLevel;
@@ -22,6 +32,10 @@ public class Game {
 		initializeMenu();
 	}
 
+	/**
+	 * Initializes the main game window (JFrame), setting up necessary configurations
+	 * like size, close operation, and visibility.
+	 */
 	private void initializeFrame() {
 		//create a Java window (frame) and add the game
 		frame = new JFrame("GothicVania Cemetery");
@@ -35,6 +49,9 @@ public class Game {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Initializes the game's main menu and adds it to the game frame.
+	 */
 	private void initializeMenu() {
 		Menu menu = new Menu(frame, 800, 600, this);
 		frame.add(menu);
@@ -45,6 +62,13 @@ public class Game {
 		setupLevel(new Level1(this));
 	}
 
+	/**
+	 * Sets up the specified game level, transitioning from any current game state
+	 * to the new level. This includes configuring the game view, input handling,
+	 * and starting the game world's physics simulation.
+	 * 
+	 * @param level The game level to set up.
+	 */
 	private void setupLevel(GameLevel level){
 		frame.getContentPane().removeAll();
 		currentLevel = level;
@@ -66,8 +90,11 @@ public class Game {
 		world.addStepListener(playerListener);
 		world.start();
 	}
-	
 
+	/**
+	 * Advances the game to the next level, based on the current level. It determines
+	 * the next appropriate level and calls setupLevel to transition to it.
+	 */
 	public void goToNextLevel() {
 		if (currentLevel instanceof Level1) {
 				setupLevel(new Level2(this));

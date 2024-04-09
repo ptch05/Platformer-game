@@ -36,7 +36,14 @@ public class DemonListener implements StepListener{
     public void postStep(StepEvent e) {
       // N.A
     }
-
+  
+  /**
+   * Evaluates and executes the demon's attack logic before each world step. It checks the distance between
+   * the demon and the player, decides whether the demon should initiate or end an attack, and plays sound effects
+   * accordingly. Attack decisions are based on the demon's proximity to the player and the time elapsed since the last attack.
+   * 
+   * @param e The event object containing information about the step.
+   */
   @Override
   public void preStep(StepEvent e) {
     Vec2 playerPosition = player.getPosition();

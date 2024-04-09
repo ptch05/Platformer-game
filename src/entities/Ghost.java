@@ -2,6 +2,16 @@ package entities;
 import city.cs.engine.*;
 import utilities.GhostListener;
 
+/**
+ * The Ghost class extends the Enemy class and includes additional
+ * functionality specific to ghost enemies in the game. Ghosts can be
+ * killed instantly with special attacks or can take multiple hits
+ * before dying. They also have the ability to shoot fireballs.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@ac.city.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class Ghost extends Enemy{
   private boolean isGhostAlive = true;
   private int hitsTaken;
@@ -19,14 +29,29 @@ public class Ghost extends Enemy{
     world.addStepListener(ghostListener);
   }
 
+  /**
+   * Returns whether the ghost is currently alive.
+   * 
+   * @return true if the ghost is alive, false otherwise.
+   */
   public boolean isGhostAlive(){
     return isGhostAlive;
   }
 
+  /**
+   * Sets the ghost's status to dead.
+   */
   public void setGhostDead(){
     isGhostAlive = false;
   }
 
+  /**
+   * Processes a hit by an attack on the ghost. Special attacks
+   * will kill the ghost immediately, while normal attacks will
+   * require multiple hits.
+   * 
+   * @param isSpecialAttack true if the hit is by a special attack, false otherwise.
+   */
   public void hitByAttack(boolean isSpecialAttack) {
     if (isSpecialAttack) {
       setGhostDead(); // Special attack kills immediately
@@ -38,6 +63,10 @@ public class Ghost extends Enemy{
     }
   }
 
+  /**
+   * Removes the attached step listener from the ghost, ceasing its dynamic interactions
+   * with the game world and the player.
+   */
   public void removeListener() {
       this.getWorld().removeStepListener(ghostListener);
   }

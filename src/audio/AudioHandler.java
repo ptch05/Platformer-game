@@ -16,14 +16,6 @@ import java.io.IOException;
  */
 
 public class AudioHandler {
-    /**
-     * Below are the SoundClip fields for the game's audio effects:
-    * - Player action sounds (jump, attack, hurt, kill, gain special, special attack)
-    * - Game music (menu music, level background music)
-    * - Collectible item sounds (potion, armour)
-    * - Environmental and enemy sounds (demon idle, demon attack, fire trap) 
-    */
-
     private static final SoundClip JUMP_SOUND_CLIP = loadSoundClip("./assets/sounds/player/jump.wav");
     private static final SoundClip ATTACK_SOUND_CLIP = loadSoundClip("./assets/sounds/player/attack.wav");
     private static final SoundClip HURT_SOUND_CLIP = loadSoundClip("./assets/sounds/player/hurt.wav");
@@ -60,9 +52,6 @@ public class AudioHandler {
         }
     }
 
-    /**
-     * Added methods to handle playing each of the sounds
-    */
     public static void playJumpSound() {
         JUMP_SOUND_CLIP.play();
     }

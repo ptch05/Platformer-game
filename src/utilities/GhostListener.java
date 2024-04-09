@@ -7,6 +7,15 @@ import entities.Ghost;
 import entities.Player;
 import projectiles.Fireball;
 
+/**
+ * The GhostListener class implements StepListener to add functionality to
+ * the Ghost class. It allows the Ghost to shoot fireballs at intervals
+ * towards the player's position.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class GhostListener implements StepListener{
   
   private static final float FIRE_RANGE = 25f; // The range at which the ghost will start shooting.
@@ -20,12 +29,13 @@ public class GhostListener implements StepListener{
     this.player = player;
   }
   
-
-  @Override
-    public void postStep(StepEvent e) {
-      // N.A
-    }
-
+  /**
+   * Called before the simulation step is processed. It contains logic for the
+   * ghost to shoot fireballs if the player is within a certain range and a set
+   * amount of time has passed since the last shot.
+   * 
+   * @param e The event object containing information about the simulation step.
+   */
   @Override
   public void preStep(StepEvent e) {
     Vec2 playerPosition = player.getPosition();
@@ -47,7 +57,16 @@ public class GhostListener implements StepListener{
         }
       }
     }
+  }
 
+  /**
+   * Called after the simulation step is processed. Currently not utilized.
+   * 
+   * @param e The event object containing information about the simulation step.
+   */
+  @Override
+  public void postStep(StepEvent e) {
+      // This method is not used.
   }
 
   private void shootFireball(){

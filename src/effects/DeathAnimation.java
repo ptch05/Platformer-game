@@ -16,7 +16,6 @@ import java.awt.event.ActionListener;
  * @version 1.0
  * @since 1.0
  */
-
 public class DeathAnimation extends DynamicBody {
     private BodyImage deathImage;
     /**

@@ -1,12 +1,21 @@
 package input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import java.util.Timer;
 import java.util.TimerTask;
-
 import entities.Player;
 import levels.GameLevel;
+
+/**
+ * Handles keyboard input for controlling a Player object in the game.
+ * It listens for specific key events to perform actions such as moving,
+ * jumping, attacking, and special attacks. This class is responsible for
+ * linking player actions with corresponding keyboard keys.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class InputHandler implements KeyListener {
     private boolean keyWPressed = false;
     private boolean keyAPressed = false;
@@ -17,6 +26,12 @@ public class InputHandler implements KeyListener {
     private Player player;
     private GameLevel gameLevel;
 
+    /**
+     * Constructs an InputHandler with a specified Player and GameLevel.
+     * 
+     * @param p The player to be controlled.
+     * @param gameLevel The current level of the game.
+     */
     public InputHandler(Player p, GameLevel gameLevel) {
         player = p;
         this.gameLevel = gameLevel;
@@ -27,6 +42,13 @@ public class InputHandler implements KeyListener {
         // N.A.
     }
 
+    /**
+     * Handles key press events to perform player actions. Defines behavior
+     * for moving left, right, jumping, attacking, and special attacks based
+     * on the keys pressed.
+     * 
+     * @param e The KeyEvent triggered by pressing a key.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         Player player = gameLevel.getPlayer(); 
@@ -89,6 +111,12 @@ public class InputHandler implements KeyListener {
         }
     }
 
+    /**
+     * Handles key release events to stop or modify player actions. This includes
+     * stopping movement, ending attacks, or changing back to idle states.
+     * 
+     * @param e The KeyEvent triggered by releasing a key.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         Player player = ((GameLevel)gameLevel).getPlayer(); 
@@ -129,10 +157,21 @@ public class InputHandler implements KeyListener {
         }
     }
     
+    /**
+     * Sets a new Player object for the input handler to control. This method is
+     * used to update the player instance being controlled when switching levels.
+     * 
+     * @param newPlayer The new Player object to control.
+     */
     public void setPlayer(Player newPlayer) {
         this.player = newPlayer;
     }
 
+    /**
+     * Stops the player's movement and resets the key pressed states. This method
+     * is called before performing actions that require the player to stop, such as
+     * attacking or executing a special attack.
+     */
     private void stopMoving(){
         if (!keyAPressed || !keyDPressed) {
             player.stopWalking();

@@ -7,7 +7,15 @@ import city.cs.engine.*;
 import input.InputHandler;
 import levels.GameLevel;
 
-
+/**
+ * Represents the player character in the game, which is capable of multiple actions
+ * such as running, jumping, attacking, and special attacks. The player has health,
+ * lives, and can interact with the game world through various states and actions.
+ *
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class Player extends Walker {
     private static int xNum = 3;
     private static float yNum = (float)3.85;
@@ -64,22 +72,40 @@ public class Player extends Walker {
         this.health = 100;
     }
 
+    /**
+     * Sets the input handler for the player, allowing player actions to be
+     * controlled by external inputs.
+     * 
+     * @param newInputHandler The input handler to process player inputs.
+     */
     public void setInputHandler(InputHandler newInputHandler) {
         this.inputHandler = newInputHandler;
     }
 
+    /**
+     * Causes the player to run to the right, changing the player's visual representation
+     * to a running animation facing right.
+     */
     public void runRight() {
         removeAllImages();
         addImage(RUN_RIGHT);
         facingRight = true;
     }
     
+    /**
+     * Causes the player to run to the left, changing the player's visual representation
+     * to a running animation facing left.
+     */
     public void runLeft() {
         removeAllImages();
         addImage(RUN_LEFT);
         facingRight = false;
     }
-    
+
+    /**
+     * Initiates the player's jump to the right, changing the player's visual representation to
+     * a jumping animation facing right and playing the jump sound effect.
+     */
     public void jumpRight() {
         removeAllImages();
         addImage(JUMP_RIGHT);
@@ -88,6 +114,10 @@ public class Player extends Walker {
         AudioHandler.playJumpSound();
     }
 
+    /**
+     * Initiates the player's jump to the left, changing the player's visual representation to
+     * a jumping animation facing left and playing the jump sound effect.
+     */
     public void jumpLeft() {
         removeAllImages();
         addImage(JUMP_LEFT);
@@ -96,30 +126,52 @@ public class Player extends Walker {
         AudioHandler.playJumpSound();
     }
 
+    /**
+     * Changes the player's visual representation to an idle stance facing right.
+     */
     public void idleRight() {
         removeAllImages();
         addImage(IDLE_RIGHT);
     }
 
+    /**
+     * Changes the player's visual representation to an idle stance facing left.
+     */
     public void idleLeft() {
         removeAllImages();
         addImage(IDLE_LEFT);
     }
 
+    /**
+     * Changes the player's visual representation to a hurt animation facing left and triggers the hurt sound effect.
+     */
     public void hurtLeft(){
         removeAllImages();
         addImage(HURT_LEFT);
     }
 
+    /**
+     * Changes the player's visual representation to a hurt animation facing right and triggers the hurt sound effect.
+     */
     public void hurtRight(){
         removeAllImages();
         addImage(HURT_RIGHT);
     }
-   
+    
+     /**
+     * Checks if the player is currently facing right.
+     *
+     * @return true if the player is facing right, false otherwise.
+     */
     public boolean isFacingRight() {
         return facingRight;
     }
 
+    /**
+     * Checks if the player is currently in the air, implying a jump or fall.
+     *
+     * @return true if the player is in the air, false otherwise.
+     */
     public boolean isInAir() {
         return inAir;
     }
@@ -135,7 +187,9 @@ public class Player extends Walker {
         }
     }
     
-
+    /**
+     * Initiates the player's attack, creating an attack hitbox and playing the attack sound.
+     */
     public void attack() {
         if (!isAttacking()) {
             isAttacking = true;
@@ -156,7 +210,10 @@ public class Player extends Walker {
         attackFixture = new SolidFixture(this, attackShape); // Create a new attack hitbox
         
     }
-    
+
+    /**
+     * Ends the player's attack, removing the attack hitbox.
+     */
     public void endAttack() {
         if (isAttacking()) {
             isAttacking = false;
@@ -167,22 +224,38 @@ public class Player extends Walker {
         }
     }
 
+    /**
+     * Checks if the player is currently attacking.
+     *
+     * @return true if the player is in the process of attacking, false otherwise.
+     */
     public boolean isAttacking() {
         return isAttacking;
     }
 
-
+    /**
+     * Adjusts the player's gravity to the specified scale.
+     * 
+     * @param newGravityScale The new gravity scale to be set for the player.
+     */
     public void adjustGravity(float newGravityScale) {
         this.setGravityScale(newGravityScale);
     }
 
+    /**
+     * Applies friction to the player to simulate realistic movement.
+     */
     public void addFriction() {
         SolidFixture fixture = new SolidFixture(this, characterShape);
         fixture.setFriction(300f); 
     }
 
-    
-
+    /**
+     * Reduces the player's health by a specified amount and plays a hurt sound,
+     * implementing a cooldown between damages.
+     * 
+     * @param damageAmount The amount of health to be reduced from the player.
+     */
     public void reduceHealth(int damageAmount) {
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastDamageTime > DAMAGE_COOLDOWN) {
@@ -198,7 +271,12 @@ public class Player extends Walker {
         
     }
 
-    public void gainHealth(int i){
+    /**
+     * Increases the player's health by a specified amount, not exceeding the maximum health.
+     * 
+     * @param amount The amount of health to increase.
+     */
+    public void gainHealth(int amount){
         health += 20;
         if(health + 20 >100){
             health = 100;
@@ -253,10 +331,20 @@ public class Player extends Walker {
         return false;
     }
 
+    /**
+     * Checks if the player is currently wearing armour.
+     *
+     * @return true if the player is wearing armour, false otherwise.
+     */
     public boolean isArmourOn() {
         return armourOn;
     }
 
+    /**
+     * Checks if the player's special attack is currently active.
+     *
+     * @return true if the special attack is active, false otherwise.
+     */
     public boolean isSpecialAttackOn(){
         return specialAttackOn;
     }
@@ -272,6 +360,11 @@ public class Player extends Walker {
         return false; 
     }
 
+    /**
+     * Checks if the player is currently executing a special attack.
+     *
+     * @return true if the player is performing a special attack, false otherwise.
+     */
     public boolean isSpecialAttacking(){
         return specialAttackUsed;
     }
@@ -324,6 +417,11 @@ public class Player extends Walker {
         }
     }
 
+    /**
+     * Checks if the player is currently in a crouching position.
+     *
+     * @return true if the player is crouching, false otherwise.
+     */
     public boolean isCrouching(){
         return isCrouching;
         
@@ -348,7 +446,10 @@ public class Player extends Walker {
     private void createCrouchHitbox(Shape crouchShape) {
         crouchFixture = new SolidFixture(this, crouchShape); // Create a new crouch hitbox
     }
-    
+
+    /**
+     * Ends the player's crouching action, reverting the player to a standing position and removing the crouch hitbox.
+     */
     public void endCrouch() {
         if (isCrouching) {
             isCrouching = false;
@@ -359,10 +460,22 @@ public class Player extends Walker {
         }
     }
 
+    /**
+     * Checks if the player has achieved a victorious state, indicating the completion of a level.
+     *
+     * @return true if the player is victorious, false otherwise.
+     */
     public boolean isVictorious() {
         return isVictorious;
     }
 
+    /**
+     * Sets the player's victorious state. When set to true, it indicates that the player
+     * has completed the level. This state triggers
+     * a sound and transitions to new game levels, or a "YOU WIN" screen.
+     * 
+     * @param victorious A boolean indicating whether the player has won (true) or not (false).
+     */
     public void setVictorious(boolean victorious) {
         this.isVictorious = victorious;
     }

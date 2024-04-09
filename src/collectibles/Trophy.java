@@ -1,16 +1,15 @@
 package collectibles;
 
 import city.cs.engine.*;
+/**
+ * Represents a trophy collectible in the game. The trophy is an interactive
+ * static body that allows the player to progress to the next level.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class Trophy extends StaticBody {
-  /**
-   * Represents a trophy collectible in the game. The trophy is an interactive
-   * static body that allows the player to progress to the next level.
-   * 
-   * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
-   * @version 1.0
-   * @since 1.0
-   */
-
   /**
    * The shape of the trophy collectible, represented as a small box.
    */
@@ -21,12 +20,6 @@ public class Trophy extends StaticBody {
    */
   private static final BodyImage trophyImage = new BodyImage("./assets/images/collectibles/trophy.png", (float) 2.5);
 
-  /**
-   * Creates a trophy collectible in the game world.
-   * The trophy has a defined shape and image that is added to it upon creation.
-   * 
-   * @param world the game world where the trophy will exist
-   */
   public Trophy(World world) {
     super(world, trophyShape);
     addImage(trophyImage);

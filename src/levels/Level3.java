@@ -11,6 +11,15 @@ import main.Game;
 import objects.FireTrap;
 import objects.Lava;
 
+/**
+ * Level3 is the most challenging level with the introduction of lava and fire traps
+ * alongside a higher number of enemies. The level design includes more diverse obstacles
+ * and hazards, requiring careful navigation and strategy to complete.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class Level3 extends GameLevel{
   private final int numberOfFireTraps = 7;
   private final float[] fireTrapXPos = new float[]{185, 280, 320, 377, 415, 590, 700};
@@ -153,6 +162,4 @@ public class Level3 extends GameLevel{
     }
     XPos+=6.3f;
   }
-
-
 }

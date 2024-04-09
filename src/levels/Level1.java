@@ -8,6 +8,16 @@ import collectibles.Potion;
 import collectibles.Trophy;
 import main.Game;
 
+/**
+ * Level1 defines the first level of the game. It sets up the game environment
+ * specific to Level 1, including skeletons, hounds, potions, and the music.
+ * This level has a specific number of enemies and collectibles and uses
+ * superclass methods to add these elements to the level.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class Level1 extends GameLevel{  
   public Level1(Game game) {
     super(game);

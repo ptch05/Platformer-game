@@ -12,6 +12,16 @@ import collectibles.Trophy;
 import objects.*;
 import projectiles.Fireball;
 
+/**
+ * Handles collision events for the player character in the game. This class is responsible
+ * for determining the outcomes of collisions between the player and other game objects,
+ * such as enemies, environmental hazards, and collectibles. Actions may include applying
+ * damage, performing knockback effects, playing sound effects, and updating game state.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class PlayerCollisions implements CollisionListener {
   private Player player;
   private Game g;
@@ -23,6 +33,13 @@ public class PlayerCollisions implements CollisionListener {
       g = game;
   }
 
+  /**
+   * Responds to collision events involving the player. This method determines the type
+   * of the other body involved in the collision and executes appropriate actions such
+   * as applying damage to the player, destroying enemies, or triggering game events.
+   *
+   * @param e The collision event.
+   */
   @Override
   public void collide(CollisionEvent e) {
     if (e.getOtherBody() instanceof Skeleton || e.getOtherBody() instanceof Hound || e.getOtherBody() instanceof Ghost || e.getOtherBody() instanceof Demon) {
@@ -95,6 +112,13 @@ public class PlayerCollisions implements CollisionListener {
     }
   }
 
+  /**
+   * Applies a knockback effect to the player character upon collision with enemies or certain hazards.
+   * This method adjusts the player's velocity and position based on the direction and type of collision.
+   *
+   * @param e The collision event.
+   * @param enemy The enemy involved in the collision, if applicable. Can be null for non-enemy collisions.
+   */
   private void performKnockback(CollisionEvent e, Enemy enemy){
      // Logic to knock the player back
      player.setLinearVelocity(new Vec2(0, 0)); //Initially sets player velocity to 0 so that it kills off all the player's velocity

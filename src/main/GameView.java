@@ -6,11 +6,29 @@ import java.awt.*;
 import entities.Player;
 import levels.GameLevel;
 
+/**
+ * Provides a visual representation of a game level, including background layers, 
+ * player status indicators (health bar, armor status, kill count), and victory 
+ * or special condition images. Supports parallax scrolling for background layers 
+ * to create depth.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class GameView extends UserView {
   private Image background, middleground1, middleground2, foreground, skulls, bloodthirsty, win;
   private static final Font STATUS_FONT = new Font("Serif", Font.ITALIC, (int) 18.5);
   private GameLevel gameLevel;
 
+  /**
+   * Constructs a GameView with specified dimensions and associates it with a game level.
+   * It also loads background images based on the level name.
+   * 
+   * @param gameLevel The game level this view will render.
+   * @param width The width of the view.
+   * @param height The height of the view.
+   */
   public GameView(GameLevel gameLevel, int width, int height) {
       super(gameLevel, width, height);
       this.gameLevel = gameLevel;
@@ -20,6 +38,12 @@ public class GameView extends UserView {
       win = new ImageIcon("./assets/images/misc/win.png").getImage();
   }
   
+  /**
+   * Loads background images based on the level name. Supports different layers 
+   * for creating a parallax effect.
+   * 
+   * @param levelName The name of the level, used to determine which backgrounds to load.
+   */
   private void loadBackgroundImages(String levelName){
     switch (levelName) {
       case "Level1":
@@ -43,10 +67,14 @@ public class GameView extends UserView {
     }
   }
 
-
-
-    @Override
-    protected void paintBackground(Graphics2D g) {
+  /**
+   * Paints the background of the game view. Implements parallax scrolling based on 
+   * the player's position to create a sense of depth.
+   * 
+   * @param g The Graphics2D object used for drawing.
+   */
+  @Override
+  protected void paintBackground(Graphics2D g) {
     Player player = gameLevel.getPlayer();
     if (player.isVictorious()) {
       drawWin(g);
@@ -54,11 +82,11 @@ public class GameView extends UserView {
     } else{
       drawBackground(gameLevel.getLevelName(), g);
     }
-}
+  }
 
-private void drawBackground(String levelName, Graphics2D g){
-  Player player = gameLevel.getPlayer();
-  float playerX = player.getPosition().x;
+  private void drawBackground(String levelName, Graphics2D g){
+      Player player = gameLevel.getPlayer();
+      float playerX = player.getPosition().x;
 
       // Implemented parallax scrolling, so these are the scrolling factors
       float backgroundParallaxFactor = 1f;
@@ -95,7 +123,12 @@ private void drawBackground(String levelName, Graphics2D g){
       }
     }
 
-
+  /**
+   * Draws the game's foreground, including the player's health bar, armor status, 
+   * and kill count. Displays a victory image if the player has completed the level.
+   * 
+   * @param g The Graphics2D object used for drawing.
+   */
   @Override
   protected void paintForeground(Graphics2D g) {
     Player player = gameLevel.getPlayer();
@@ -154,6 +187,11 @@ private void drawBackground(String levelName, Graphics2D g){
     g.drawString(text, textX, textY);
   }
 
+  /**
+   * Draws a special "bloodthirsty" indicator when the player is able to perform a special attack.
+   * 
+   * @param g The Graphics2D object used for drawing.
+   */
   private void drawBloodthirsty(Graphics2D g){
     g.drawImage(bloodthirsty, 565, 76, 155, 45, this);
   }
@@ -162,6 +200,12 @@ private void drawBackground(String levelName, Graphics2D g){
     g.drawImage(win, 0, 0, getWidth(), getHeight(), this);
   }
 
+  /**
+   * Sets the current game level for the view and reloads the background images
+   * to match the new level's theme.
+   * 
+   * @param gameLevel The new game level to be set.
+   */
   public void setGameLevel(GameLevel gameLevel) {
     this.gameLevel = gameLevel;
     loadBackgroundImages(gameLevel.getLevelName()); // Reloads background images for the new level

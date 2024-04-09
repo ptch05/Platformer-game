@@ -9,6 +9,15 @@ import collectibles.Trophy;
 import main.Game;
 import objects.MovingGround;
 
+/**
+ * Level2 introduces more complexity with additional enemies including ghosts,
+ * more hounds, and skeletons. It also features moving ground platforms and
+ * requires the player to navigate through more challenging terrain.
+ * 
+ * @author Peiman Timaji, Peiman.Timaji@city.ac.uk
+ * @version 1.0
+ * @since 1.0
+ */
 public class Level2 extends GameLevel{
   public Level2(Game game) {
     super(game);
