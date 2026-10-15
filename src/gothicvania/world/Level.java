@@ -8,6 +8,7 @@ import gothicvania.engine.Lighting;
 import gothicvania.engine.Particles;
 import gothicvania.entity.Checkpoint;
 import gothicvania.entity.CrumbleBlock;
+import gothicvania.entity.Demon;
 import gothicvania.entity.Enemy;
 import gothicvania.entity.Entity;
 import gothicvania.entity.FireTrap;
@@ -74,6 +75,7 @@ public final class Level {
     private final List<int[]> hints = new ArrayList<>();
     private final List<Checkpoint> checkpoints = new ArrayList<>();
     private Player player;
+    private Demon boss;
 
     private Input input = NO_INPUT;
     private double time;
@@ -86,6 +88,10 @@ public final class Level {
     private double completeTimer = -1;
     private boolean debugHitboxes;
 
+    // boss arena
+    private int arenaLeftCol = -1, arenaRightCol = -1, arenaTopRow, arenaBottomRow;
+    private boolean arenaActive;
+    private double arenaFloorY;
 
     private int wallSwing = -1;
     private final Set<Integer> wallTilesHit = new HashSet<>();
@@ -136,6 +142,10 @@ public final class Level {
                     case 'h' -> add(new Hound(fx, fy));
                     case 'g' -> add(new Ghost(mx, my, false));
                     case 'G' -> add(new Ghost(mx, my, true));
+                    case 'D' -> {
+                        boss = new Demon(fx, fy);
+                        add(boss);
+                    }
                     case 'f', 'F' -> add(new FireTrap(fx, fy, (col * 0.61) % 2.8, c == 'F'));
                     case 'm', 'v' -> addMovingPlatform(col, row, c == 'v');
                     case 'p' -> addPickup(Pickup.Kind.POTION, mx, my, id);
@@ -150,6 +160,12 @@ public final class Level {
                     case '1', '2', '3', '4', '5', '6', '7', '8', '9' -> hints.add(new int[]{col, row, id, c});
                     case 'R' -> riseTrigger = col;
                     case 'Z' -> riseStopRow = row;
+                    case '[' -> {
+                        if (arenaLeftCol < 0) arenaTopRow = row;
+                        arenaLeftCol = col;
+                        arenaBottomRow = Math.max(arenaBottomRow, row);
+                    }
+                    case ']' -> arenaRightCol = col;
                     case 't' -> add(new Prop("props/tree-" + (1 + Math.floorMod(id * 7, 3)) + ".png", fx, fy, false, (id & 1) == 0));
                     case 'r' -> add(new Prop("props/stone-" + (1 + Math.floorMod(id * 5, 4)) + ".png", fx, fy, false, false));
                     case 'b' -> add(new Prop((id & 1) == 0 ? "props/bush-large.png" : "props/bush-small.png", fx, fy, false, (id & 2) == 0));
@@ -171,6 +187,11 @@ public final class Level {
         }
         if (riseTrigger >= 0) {
             add(new RisingLava(riseTrigger * T, map.heightPx() + 40, Math.max(0, riseStopRow) * T, map.widthPx()));
+        }
+        if (arenaLeftCol >= 0) {
+            int floorRow = arenaBottomRow + 1;
+            while (floorRow < map.rows && !map.solid(arenaLeftCol + 1, floorRow)) floorRow++;
+            arenaFloorY = floorRow * T;
         }
 
         player = new Player(startX, startY, maxHp);
@@ -258,6 +279,19 @@ public final class Level {
         listener.onBanner(title, subtitle);
     }
 
+    public int countSkeletons() {
+        int n = 0;
+        for (Entity e : entities) if (e instanceof Skeleton && !e.removed) n++;
+        return n;
+    }
+
+    public void wakeArenaTraps() {
+        int i = 0;
+        for (Entity e : entities) {
+            if (e instanceof FireTrap trap && trap.isBossControlled()) trap.wake((i++ * 0.7) % 2.8);
+        }
+    }
+
     public void onEnemyKilled(Enemy enemy, int souls) {
         progress.kills++;
         player.onHitLanded(true);
@@ -316,12 +350,38 @@ public final class Level {
             .colors(0xFFE27A, 0xFFFFFF, 0xFFB02E).size(1, 3));
     }
 
+    public void onBossDefeated(Demon demon) {
+        progress.kills++;
+        for (int row = 0; row < map.rows; row++) {
+            for (int col = 0; col < map.cols; col++) {
+                if (map.get(col, row) == Tile.GATE) map.set(col, row, Tile.EMPTY);
+            }
+        }
+        for (Entity e : entities) {
+            if (e instanceof FireTrap trap) trap.sleep();
+            if (e instanceof Skeleton s) s.damage(99, s.cx());
+            if (e instanceof Fireball f) f.burst();
+        }
+        for (int i = 0; i < 30; i++) add(Pickup.droppedSoul(demon.cx(), demon.cy()));
+        add(new Trophy(demon.cx(), arenaFloorY, true));
+        Audio.get().stopMusic(2f);
+        banner("MALPHAS HAS FALLEN", "CLAIM YOUR PRIZE");
+    }
+
     public void setDebugHitboxes(boolean on) {
         debugHitboxes = on;
     }
 
     public LevelProgress progress() {
         return progress;
+    }
+
+    public Demon boss() {
+        return boss;
+    }
+
+    public boolean bossFightActive() {
+        return arenaActive && boss != null && !boss.removed;
     }
 
     // ------------------------------------------------------------------ update
@@ -374,13 +434,14 @@ public final class Level {
         double camCenterX = camera.rawX() + Display.WIDTH / 2.0;
         for (Entity e : entities) {
             if (e.removed || e instanceof Platform) continue;
-            if (e instanceof Enemy && Math.abs(e.cx() - camCenterX) > 520) continue;
+            if (e instanceof Enemy && !(e instanceof Demon) && Math.abs(e.cx() - camCenterX) > 520) continue;
             if (completeTimer >= 0 && e == player) continue;
             e.update(dt);
         }
         resolveCombat();
         checkSecrets();
         checkHints();
+        checkArena();
         entities.removeIf(e -> e.removed);
         platforms.removeIf(e -> e.removed);
         flushPending();
@@ -422,6 +483,11 @@ public final class Level {
                 }
             } else if (e instanceof FireTrap trap && trap.isBurning() && trap.overlaps(player)) {
                 player.hurt(20, trap.cx());
+            } else if (e instanceof Demon demon) {
+                double[] breath = demon.breathBox();
+                if (breath != null && player.overlaps(breath[0], breath[1], breath[2], breath[3])) {
+                    player.hurt(25, demon.cx());
+                }
             }
         }
         if (landed) {
@@ -471,6 +537,24 @@ public final class Level {
                 String text = data.hint((char) h[3]);
                 if (text != null) banner(null, text);
             }
+        }
+    }
+
+    private void checkArena() {
+        if (boss == null || arenaLeftCol < 0 || arenaActive || boss.isAwake()) return;
+        double left = arenaLeftCol * T;
+        if (player.x > left + T + 4 && player.cx() < arenaRightCol * T) {
+            arenaActive = true;
+            for (int row = arenaTopRow; row <= arenaBottomRow; row++) {
+                if (!map.solid(arenaLeftCol, row)) map.set(arenaLeftCol, row, Tile.GATE);
+                if (!map.solid(arenaRightCol, row)) map.set(arenaRightCol, row, Tile.GATE);
+            }
+            Audio.get().play("sounds/player/crouch", 1f, 0.5f);
+            // frame the whole arena: floor near the bottom of the screen, room above for the demon to fly
+            double viewBottom = arenaFloorY + 16;
+            camera.setBounds(left, viewBottom - Display.HEIGHT, (arenaRightCol + 1) * T, viewBottom);
+            boss.awaken(left + T, arenaRightCol * T, arenaFloorY, Math.max(0, arenaFloorY - Display.HEIGHT + 24));
+            Audio.get().music("music/level3-game-music-loop");
         }
     }
 
@@ -594,6 +678,10 @@ public final class Level {
         double[] sword = player.attackBox();
         g.setColor(new Color(255, 0, 0, 180));
         if (sword != null) g.drawRect((int) sword[0], (int) sword[1], (int) sword[2], (int) sword[3]);
+        if (boss != null && boss.breathBox() != null) {
+            double[] b = boss.breathBox();
+            g.drawRect((int) b[0], (int) b[1], (int) b[2], (int) b[3]);
+        }
     }
 
     private static BufferedImage vignette() {

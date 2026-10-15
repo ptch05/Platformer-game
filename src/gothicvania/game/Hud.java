@@ -3,13 +3,14 @@ package gothicvania.game;
 import gothicvania.engine.Assets;
 import gothicvania.engine.Display;
 import gothicvania.engine.PixelFont;
+import gothicvania.entity.Demon;
 import gothicvania.entity.Player;
 import gothicvania.world.Level;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-/** Health, Bloodthirst, souls and the big centred announcements. */
+/** Health, Bloodthirst, souls, the boss bar and the big centred announcements. */
 public final class Hud {
     private static final Color FRAME = new Color(14, 8, 20, 220);
     private static final Color GOLD = new Color(232, 196, 120);
@@ -20,7 +21,7 @@ public final class Hud {
 
     private String bannerTitle, bannerSub;
     private double bannerTime;
-    private double shownHp = -1;
+    private double shownHp = -1, shownBossHp = -1;
     private double time;
 
     public void banner(String title, String subtitle) {
@@ -35,6 +36,11 @@ public final class Hud {
         Player p = level.player();
         if (shownHp < 0 || shownHp < p.hp) shownHp = p.hp;
         shownHp += (p.hp - shownHp) * Math.min(1, dt * 3);
+        Demon boss = level.boss();
+        if (boss != null) {
+            if (shownBossHp < 0 || shownBossHp < boss.hp()) shownBossHp = boss.hp();
+            shownBossHp += (boss.hp() - shownBossHp) * Math.min(1, dt * 2.5);
+        }
     }
 
     public void render(Graphics2D g, Level level) {
@@ -85,7 +91,23 @@ public final class Hud {
         String clock = RunStats.clock(level.progress().time);
         PixelFont.drawOutlined(g, clock, Display.WIDTH - 10 - PixelFont.width(clock, 1), 18, 1, new Color(170, 160, 190), Color.BLACK);
 
+        renderBoss(g, level);
         renderBanner(g);
+    }
+
+    private void renderBoss(Graphics2D g, Level level) {
+        Demon boss = level.boss();
+        if (!level.bossFightActive() || boss == null || !boss.isAwake()) return;
+        int w = 170, x = (Display.WIDTH - w) / 2, y = 18;
+        PixelFont.drawCentered(g, Demon.NAME, Display.WIDTH / 2, y - 10, 1, GOLD, Color.BLACK);
+        panel(g, x - 2, y - 2, w + 4, 8);
+        g.setColor(new Color(240, 240, 240));
+        g.fillRect(x, y, (int) (w * shownBossHp / boss.maxHp()), 4);
+        g.setColor(boss.phase() == 3 ? new Color(255, 40, 64) : new Color(62, 198, 232));
+        g.fillRect(x, y, (int) (w * boss.hp() / (double) boss.maxHp()), 4);
+        g.setColor(FRAME);
+        g.fillRect(x + w / 3, y, 1, 4);
+        g.fillRect(x + 2 * w / 3, y, 1, 4);
     }
 
     private void renderBanner(Graphics2D g) {

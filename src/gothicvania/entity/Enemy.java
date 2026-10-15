@@ -133,7 +133,7 @@ public abstract class Enemy extends Entity {
 
     @Override
     public void renderOverlay(Graphics2D g) {
-        if (hp < maxHp && hp > 0 && maxHp > 1) {
+        if (hp < maxHp && hp > 0 && maxHp > 1 && !(this instanceof Demon)) {
             int bw = 16, bx = (int) (cx() - bw / 2.0), by = (int) (y - 6);
             g.setColor(new Color(10, 4, 12, 200));
             g.fillRect(bx - 1, by - 1, bw + 2, 4);
