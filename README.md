@@ -8,6 +8,16 @@ Originally built for my university Java coursework on City University's
 CityEngine. It has since been rewritten on its own small engine, with
 tile-based levels and a reworked boss.
 
+## Screenshots
+
+The Cemetery | The Sunken Crypt
+:-------------------------:|:-------------------------:
+![The Cemetery](assets/level1.png) | ![The Sunken Crypt](assets/level2.png)
+
+The Infernal Depths | The Demon's Throne
+:-------------------------:|:-------------------------:
+![The Infernal Depths](assets/level3.png) | ![The Demon's Throne](assets/level4.png)
+
 ## Running
 
 Needs Java 17 or newer.
